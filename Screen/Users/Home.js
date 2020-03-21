@@ -1,16 +1,27 @@
-import React,{Fragment} from 'react';
+import React,{Fragment, useState} from 'react';
 import Styles from '../../Styles/Styles'
 
-import {View ,ScrollView,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions} from 'react-native';
+import {
+    View ,
+    ScrollView,
+    Text,
+    StyleSheet,
+    TouchableOpacity,
+    StatusBar,Dimensions,
+    TouchableWithoutFeedback,
+    Keyboard} from 'react-native';
 
 
 import MyTextInput from '../../Component/MyTextInput'
 import MyLitleCard from '../../Component/myLitleCard';
-import MyList from '../../Component/MyList'
+import MyList from '../../Component/MyList';
+import MyTab from '../../Component/MyTab'
 
  const Home  = () => 
     {
+
         const arr= [{key:1,data:'10%'},{key:2,data:'10%'},{key:3,data:'10%'},{key:4,data:'10%'},{key:5,data:'10%'},{key:6,data:'10%'}];
+        const resArr = arr.length;
         const arr1=[
         {key:1,data:'First Notif',hint:'Person eek'},
         {key:2,data:'Secend Notif',hint :'Filling Good'},
@@ -22,10 +33,15 @@ import MyList from '../../Component/MyList'
 
         const height =Dimensions.get('window').height;
         const width =Dimensions.get('window').width;
+
+       
      return (
+       
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
-            <View style={{flex:1,backgroundColor:'#1e272e',alignItems:'center'}}>
+            <View style={{height:height/1.1,backgroundColor:'#1e272e',alignItems:'center',width:'100%'}}>
+
                <View style={{flexDirection:'row',top:40,justifyContent:'space-between',alignItems:'center',width:'100%'}}>
                  <View style={styles.thumnail} />
                     <View>
@@ -42,34 +58,51 @@ import MyList from '../../Component/MyList'
                          </Text>
                      </TouchableOpacity>
                </View>
-            
-               <View style={{top:70,left:5,height:170,justifyContent:"center"}}>
+               <View style={{top:70,height:170,justifyContent:'flex-start',width:'100%'}}>
+                   <View style={{alignItems:'flex-start'}}>
                    <Text style={styles.text}>
                        Recent
                    </Text>
-                
-                   <ScrollView horizontal={true} style={{top:5}}>
+                   </View>
+                       {resArr > 0 ?
+                        <ScrollView horizontal={true} style={{top:5}}>
                    
-                       {arr.map(result=>{
-                           return ( <MyLitleCard  key={result.key} text={result.data} title="Projext Name Organitation"/>)
-                       })}
-                   </ScrollView>
+                        {arr.map(result=>
+                           {
+
+                            return ( <MyLitleCard  key={result.key} text={result.data} title="Projext Name Organitation"/>)
+                        
+                        })}   
+                          
+                        </ScrollView> 
+                    
+                    :
+
+                    <View style={{width:'95%',height:120,alignItems:'center',justifyContent:"center",marginVertical:10,marginHorizontal:10,borderRadius:10,borderWidth:0.5,borderColor:'#34495e'}}>
+                        <Text style={{fontSize:15,color:'#2c3e50'}}>no result</Text>
+                    </View>
+                    }
+                  
                   
                </View>
-               <View style={{width:300,height:height/2.5,top:70,alignItems:'center'}}>
+               <View style={{width:'100%',height:height/2.5,top:70,}}>
                  <Text style={styles.text}>
                      Feed
                  </Text>
                     
                 <ScrollView style={{width:width}}>
-                {arr1.map(result =>{
+                    <View style={{alignItems:'center'}}>
+                    {/* {arr1.map(result =>{
                     return <MyList  key={result.key} text={result.data} text2={result.hint}/>
-                })}
+                })} */}
+                    </View>
+               
                  </ScrollView>
                </View>
-              
             </View>
         </Fragment>
+        </TouchableWithoutFeedback >
+
              )
 
     }
@@ -116,6 +149,7 @@ const styles = StyleSheet.create({
 
     },
     text:{
-        color:'white',fontWeight:'bold',fontSize:27,left:10
+        color:'white',fontWeight:'bold',fontSize:22,
+        left:10
     }
 })

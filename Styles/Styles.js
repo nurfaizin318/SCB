@@ -4,6 +4,9 @@ import {StyleSheet} from 'react-native';
         flex:1,
         alignItems:'center'
     },
+    card:{
+        
+    }
 
 });
 

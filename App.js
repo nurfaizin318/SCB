@@ -11,26 +11,33 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MyTab from './Component/MyList';
 
-// Screen ---------------------------
+//REDUX============
+import {Provider} from 'react-redux';
+import Store from './Redux/Store/Store'
+
+// Screen  =============
 
 import Home from './Screen/Users/Home';
-import NewActivity from './Screen/Users/NewActivity'
+import NewActivity from './Screen/Users/NewActivity';
+import TabUsers from './Screen/Users/TabUsers'
 
-import {Text} from 'react-native'
+import {View,TouchableOpacity,Text} from 'react-native'
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 const App = () => {
-
-  
   return (
+    <Provider store={Store} >
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={Home} 
+          
+          <Stack.Screen name="Home" component={TabUsers} 
           options={{headerShown:false}}/>
           </Stack.Navigator>
+          
       </NavigationContainer>
+      </Provider>
   );
 };
 

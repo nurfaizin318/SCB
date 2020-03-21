@@ -12,7 +12,7 @@ import {View ,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions} from 'react
      return (
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
-            <View style={{flex:1,justifyContent:'center',alignItems:"center",backgroundColor:'#1e272e'}}>
+            <View style={{height:height/1.1,justifyContent:'center',alignItems:"center",backgroundColor:'#1e272e'}}>
                 <Text style={{fontSize:30,color:'white'}}>new Acitivy Screen</Text>
             </View>
         </Fragment>

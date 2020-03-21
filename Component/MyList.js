@@ -9,7 +9,7 @@ const MyList= (props) =>
             <View style={styles.iconContainer}>
                 <Text style={{color:'#576574'}}>Icon</Text>
             </View>
-            <View style={{width:'50%',alignItems:'center',height:'100%',justifyContent:"center",}}>
+            <View style={{width:'50%',left:20,height:'100%',justifyContent:"center",}}>
             <Text style={{fontSize:20,color:"white"}}>{props.text}</Text>
             <Text style={{fontSize:12,color:"#f6b93b"}}>{props.text2}</Text>
             </View>
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
             borderRadius:7,
             marginVertical:5,
             flexDirection:'row',
-            left:10 ,
             alignItems:'center'           
         },
         iconContainer:{
@@ -48,6 +47,7 @@ const styles = StyleSheet.create({
         text:{
             fontSize:20,
             color:'white',
+            
 
         }
 })
