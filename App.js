@@ -49,7 +49,7 @@ function MyTabs() {
           return <View ><Text style={{fontSize:16,color:color}}>Home</Text></View>
       }
       else if(route.name === 'Insert') {
-        return <View style={{height:65,width:65,backgroundColor:'#16a085',justifyContent:"center",alignItems:"center",borderRadius:40,borderWidth:5,borderColor:'#1e272e',top:-15}}>
+        return <View style={{height:65,width:65,backgroundColor:'#2c3e50',justifyContent:"center",alignItems:"center",borderRadius:40,borderWidth:5,borderColor:'#1e272e',top:-15}}>
                     <Text style={{fontSize:30,color:color}}>+</Text>
                </View>
       }

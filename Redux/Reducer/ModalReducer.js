@@ -1,5 +1,5 @@
 const initialState = {
-    isVisible : true
+    isVisible : false
 }
 
 const ModalReducer = (state=initialState,action) =>

@@ -7,6 +7,7 @@ const MyTextInput = (props) =>
             <TextInput 
             style={styles.textInput}
             placeholder={props.placeholder}
+            onChangeText={props.onChangeText}
             />
           )
     }
