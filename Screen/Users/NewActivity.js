@@ -1,19 +1,20 @@
-import React,{Fragment} from 'react';
-import Styles from '../../Styles/Styles'
+import React,{Fragment,useState} from 'react';
+import Styles from '../../Styles/Styles';
 
-import {View ,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions} from 'react-native';
+import {View ,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions,Modal,Button} from 'react-native';
 
 
  const NewActivity  = () => 
     {
 
-
+        const [visib,setVisible] = useState(false)
         const height =Dimensions.get('window').height;
      return (
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
-            <View style={{height:height/1.1,justifyContent:'center',alignItems:"center",backgroundColor:'#1e272e'}}>
-                <Text style={{fontSize:30,color:'white'}}>new Acitivy Screen</Text>
+            <View style={{flex:1,justifyContent:'center',alignItems:"center",backgroundColor:'#1e272e'}}>
+           
+            <Button onPress={()=>setVisible(true)} title="Add"/>
             </View>
         </Fragment>
              )

@@ -1,6 +1,4 @@
-import React,{Fragment, useState} from 'react';
-import Styles from '../../Styles/Styles'
-
+import React,{Fragment} from 'react';
 import {
     View ,
     ScrollView,
@@ -9,13 +7,12 @@ import {
     TouchableOpacity,
     StatusBar,Dimensions,
     TouchableWithoutFeedback,
+    TextInput,
     Keyboard} from 'react-native';
 
 
-import MyTextInput from '../../Component/MyTextInput'
-import MyLitleCard from '../../Component/myLitleCard';
+import MyLitleCard from '../../Component/MyLitleCard';
 import MyList from '../../Component/MyList';
-import MyTab from '../../Component/MyTab'
 
  const Home  = () => 
     {
@@ -40,7 +37,7 @@ import MyTab from '../../Component/MyTab'
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
-            <View style={{height:height/1.1,backgroundColor:'#1e272e',alignItems:'center',width:'100%'}}>
+            <View style={{flex:1,backgroundColor:'#1e272e',alignItems:'center',width:'100%'}}>
 
                <View style={{flexDirection:'row',top:40,justifyContent:'space-between',alignItems:'center',width:'100%'}}>
                  <View style={styles.thumnail} />
@@ -51,18 +48,21 @@ import MyTab from '../../Component/MyTab'
                     <Text style={{color:'white',right:10}}>setting</Text>
                </View>
                <View style={{height:50,top:70,flexDirection:'row'}}>
-                     <MyTextInput placeholder="search" style={styles.searchInput} />
+                     <TextInput style={styles.searchInput} placeholder="search"/>
                      <TouchableOpacity style={styles.touch}>
                          <Text style={{color:'#95a5a6'}}>
-                             Search
+                             O
                          </Text>
                      </TouchableOpacity>
                </View>
                <View style={{top:70,height:170,justifyContent:'flex-start',width:'100%'}}>
-                   <View style={{alignItems:'flex-start'}}>
+                   <View style={{justifyContent:'space-between',flexDirection:"row",alignItems:'center'}}>
                    <Text style={styles.text}>
                        Recent
                    </Text>
+                   <TouchableOpacity style={{height:30,width:80,alignItems:"center",justifyContent:"center"}}>
+                         <Text style={{color:"gray",}}>View all  > </Text>
+                   </TouchableOpacity>
                    </View>
                        {resArr > 0 ?
                         <ScrollView horizontal={true} style={{top:5}}>
@@ -85,16 +85,20 @@ import MyTab from '../../Component/MyTab'
                   
                   
                </View>
-               <View style={{width:'100%',height:height/2.5,top:70,}}>
+               <View style={{width:'100%',height:height/2.39,top:70}}>
+                 <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                  <Text style={styles.text}>
                      Feed
                  </Text>
-                    
+                 <TouchableOpacity style={{height:30,width:80,alignItems:"center",justifyContent:"center"}}>
+                         <Text style={{color:"gray",}}>View all  > </Text>
+                   </TouchableOpacity>
+                 </View>
                 <ScrollView style={{width:width}}>
                     <View style={{alignItems:'center'}}>
-                    {/* {arr1.map(result =>{
+                    {arr1.map(result =>{
                     return <MyList  key={result.key} text={result.data} text2={result.hint}/>
-                })} */}
+                })}
                     </View>
                
                  </ScrollView>
@@ -131,14 +135,14 @@ const styles = StyleSheet.create({
         borderTopLeftRadius:15,
         borderBottomLeftRadius:15,
         height:40,
-        width:'65%',
+        width:'75%',
         textAlign:'center',
         color:'white'
 
 
     },
     touch:{
-        width:100,
+        width:60,
         height:40,
         backgroundColor:'rgba(47, 54, 64,1)',
         alignItems:'center',

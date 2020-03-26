@@ -1,6 +1,5 @@
 import React from 'react';
 import {View,StyleSheet,Text,TouchableOpacity,Dimensions} from 'react-native'
-import Styles from '../Styles/Styles';
 
 const MyList= (props) =>
     {
@@ -29,10 +28,10 @@ export default MyList;
 const styles = StyleSheet.create({
         list:{
             width:'95%',
-            height:80,
+            height:70,
             backgroundColor:'rgba(72, 84, 96,0.8)',
             borderRadius:7,
-            marginVertical:5,
+            marginVertical:3,
             flexDirection:'row',
             alignItems:'center'           
         },

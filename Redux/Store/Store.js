@@ -1,8 +1,12 @@
 import {combineReducers,createStore } from 'redux';
-import TabReducer from '../Reducer/TabReducer'
+import TabReducer from '../Reducer/TabReducer';
+import ModalReducer from '../Reducer/ModalReducer';
+import InsertReducer from '../Reducer/InsertReducer';
 
 const rootReducer = combineReducers({
- TabReducer
+ Tab :TabReducer,
+ Modal:  ModalReducer,
+ Insert : InsertReducer
 })
 
 const Store = createStore(rootReducer);

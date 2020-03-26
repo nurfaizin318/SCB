@@ -13,7 +13,7 @@ const MyTab = (props) =>{
                     Home
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={Styles.add}>
+            <TouchableOpacity style={Styles.add} onPress={()=>dispatch({type:"MODAL_OPEN"})}>
                 <Text style={{color:'white'}}>
                     +
                 </Text>
@@ -32,7 +32,7 @@ const MyTab = (props) =>{
 export default MyTab;
 const Styles =StyleSheet.create({
     container:{
-        width:'95%',
+        width:'97%',
         height:50,
         backgroundColor:'rgba(87, 101, 116,0.5)',
         borderBottomRightRadius:30,
@@ -43,13 +43,13 @@ const Styles =StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         alignSelf:'flex-end',
-        right:10
+        right:5,
     },
     add:{
         width:60,
         height:60,
         borderRadius:50,
-        backgroundColor:'#8395a7',
+        backgroundColor:'#16a085',
         justifyContent:'center',
         alignItems:'center',
         top:-10,
