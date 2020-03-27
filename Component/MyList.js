@@ -1,22 +1,22 @@
 import React from 'react';
-import {View,StyleSheet,Text,TouchableOpacity,Dimensions} from 'react-native'
+import {View,StyleSheet,Text,TouchableOpacity,Dimensions} from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 
 const MyList= (props) =>
     {
     return(
         <View style={{...styles.list}}>
             <View style={styles.iconContainer}>
-                <Text style={{color:'#576574'}}>Icon</Text>
+                 <FontAwesome5 name="chevron-right" size={25} color="#778ca3" />
             </View>
             <View style={{width:'50%',left:20,height:'100%',justifyContent:"center",}}>
-            <Text style={{fontSize:20,color:"white"}}>{props.text}</Text>
-            <Text style={{fontSize:12,color:"#f6b93b"}}>{props.text2}</Text>
+                <Text style={{fontSize:17,color:"white"}}>{props.text}</Text>
+                <Text style={{fontSize:12,color:"#f6b93b"}}>{props.text2}</Text>
             </View>
             <View style={{width:80,height:'100%',alignItems:'center',justifyContent:'center'}}>
                 <TouchableOpacity>
-                    <Text style={styles.text}>
-                        >
-                    </Text>
+                     <FontAwesome5 name="chevron-right" size={25} color="#778ca3" />
                 </TouchableOpacity>
             </View>
         </View>
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
         list:{
             width:'95%',
             height:70,
-            backgroundColor:'rgba(72, 84, 96,0.8)',
-            borderRadius:7,
+            backgroundColor:'#2C3A47',
+            borderRadius:3,
             marginVertical:3,
             flexDirection:'row',
             alignItems:'center'           

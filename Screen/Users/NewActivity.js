@@ -1,6 +1,5 @@
 import React,{Fragment,useState} from 'react';
 import Styles from '../../Styles/Styles';
-
 import {View ,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions,Modal,Button} from 'react-native';
 
 
@@ -13,8 +12,6 @@ import {View ,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions,Modal,Button
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
             <View style={{flex:1,justifyContent:'center',alignItems:"center",backgroundColor:'#1e272e'}}>
-           
-            <Button onPress={()=>setVisible(true)} title="Add"/>
             </View>
         </Fragment>
              )

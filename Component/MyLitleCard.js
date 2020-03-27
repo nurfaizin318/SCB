@@ -4,7 +4,7 @@ import {View,Text,StyleSheet} from 'react-native';
 
 const MyLitleCard = (props) =>
     {
-        var color= ['#1abc9c','#e74c3c','#9b59b6','#27ae60','#e67e22','#f39c12','#d35400','#eb4d4b','#eb4d4b','#be2edd','#05c46b','#0fbcf9','#00d8d6','#ffd32a','#ef5777','#575fcf'];
+        var color= ['#ff6b6b','#ff7675','#a29bfe','#fdcb6e','#fd79a8','#00cec9','#686de0','#ffbe76','#badc58','#f6e58d','#686de0','#B53471'];
         var randomColor=color[Math.floor(Math.random() * color.length)];
         var color2= 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
 

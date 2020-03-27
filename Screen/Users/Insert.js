@@ -106,7 +106,7 @@ const Insert = ()=>{
                             </Text>
                         </View>
                         <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
-                            <Text style={{fontSize:16,color:'white'}}>
+                            <Text style={{fontSize:16,color:'#576574'}}>
                             Result :  
                             </Text>
                             <Text style={{fontSize:16,color:'white',paddingLeft:10}}>
@@ -124,13 +124,13 @@ const Insert = ()=>{
             <ScrollView style={{marginTop:20}}>
                 <View style={{paddingTop:20,left:10}}>
                     <Text style={styles.text}>
-                        Organitation
+                      *  Organitation
                     </Text>
                     <MyTextInput onChangeText={(value)=>dispatch({type:"INPUT_ORGANITATION",payload:value})}/>
                 </View>
-                <View style={{paddingTop:30,left:10}}>
+                <View style={{left:10}}>
                     <Text style={styles.text}>
-                      Actions
+                      *  Actions
                     </Text>
                     <View style={{marginTop:30,left:-5}}>
                     <RadioForm
@@ -143,7 +143,7 @@ const Insert = ()=>{
                                 <RadioButton labelHorizontal={true} key={i} >
                                     <RadioButtonInput
                                     obj={obj}
-                                    inistial={0}
+                                    initial={0}
                                     index={i}
                                     isSelected={index1==i}
                                     onPress={(value,index)=>dispatch({type:"INPUT_ACTIONS",payload:value,pay:index})}
@@ -168,19 +168,19 @@ const Insert = ()=>{
                         </RadioForm>
                     </View>
               </View>
-                <View style={{paddingTop:60,left:10}}>
+                <View style={{paddingTop:20,left:10}}>
                         <Text style={styles.text}>
-                            Contact Person
+                           *  Contact Person
                         </Text>
                         <MyTextInput onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload:value})}/>
                         <MyTextInput/>
                     </View>
-                    <View style={{paddingTop:60}}>
+                    <View style={{left:10,width:"95%"}}>
                         <Text style={styles.text}>
-                            Progres
+                            *  Progres
                         </Text>
                          
-                        <ProgressSteps progressBarColor="#7f8c8d" disabledStepIconColor="#7f8c8d"  > 
+                        <ProgressSteps progressBarColor="#7f8c8d" disabledStepIconColor="#7f8c8d" > 
                         <ProgressStep label="20%" 
                         nextBtnTextStyle={styles.stepsNext}
                         previousBtnTextStyle={styles.stepsPrev}
@@ -220,7 +220,9 @@ const Insert = ()=>{
                     </ProgressSteps>
                     </View>
                     <View style={{marginTop:30,left:10}}>
-                        <Text style={styles.text }>Next  Plan</Text>
+                        <Text style={styles.text }> 
+                           * Next  Plan
+                        </Text>
                     <RadioForm
                             formHorizontal={false}
                             animation={true}
@@ -255,9 +257,9 @@ const Insert = ()=>{
                         }  
                         </RadioForm>
                     </View>
-                    <View style={{paddingTop:60}}>
+                    <View style={{paddingTop:20,left:10}}>
                         <Text style={styles.text}>
-                            Result
+                            * Result
                         </Text>
                         <MyTextInput onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload:value})}/>
                     </View>
@@ -278,7 +280,7 @@ const Insert = ()=>{
 
     const styles = StyleSheet.create({
         text:{
-            color:'white',
+            color:'#d1d8e0',
             fontSize:20,
             fontWeight:'600',
             marginLeft:5,

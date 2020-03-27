@@ -9,12 +9,14 @@ import {
     TouchableWithoutFeedback,
     TextInput,
     Keyboard} from 'react-native';
-
-
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MyLitleCard from '../../Component/MyLitleCard';
 import MyList from '../../Component/MyList';
+import HomePanel from '../../Component/HomePanel';
 
- const Home  = () => 
+
+
+ const Home  = (props) => 
     {
 
         const arr= [{key:1,data:'10%'},{key:2,data:'10%'},{key:3,data:'10%'},{key:4,data:'10%'},{key:5,data:'10%'},{key:6,data:'10%'}];
@@ -38,72 +40,70 @@ import MyList from '../../Component/MyList';
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
             <View style={{flex:1,backgroundColor:'#1e272e',alignItems:'center',width:'100%'}}>
-
-               <View style={{flexDirection:'row',top:40,justifyContent:'space-between',alignItems:'center',width:'100%'}}>
+               <View style={{flexDirection:'row',justifyContent:'space-between',paddingTop:20,width:'100%',backgroundColor:'#2C3A47',height:height/5,}}>
                  <View style={styles.thumnail} />
                     <View>
                         <Text style={styles.fontThumnail}>Jaya Saf</Text>
                         <Text style={{fontSize:15,color:'gray',left:-40}}>Grapic Designer</Text>
                     </View>
-                    <Text style={{color:'white',right:10}}>setting</Text>
-               </View>
-               <View style={{height:50,top:70,flexDirection:'row'}}>
-                     <TextInput style={styles.searchInput} placeholder="search"/>
-                     <TouchableOpacity style={styles.touch}>
-                         <Text style={{color:'#95a5a6'}}>
-                             O
-                         </Text>
-                     </TouchableOpacity>
-               </View>
-               <View style={{top:70,height:170,justifyContent:'flex-start',width:'100%'}}>
-                   <View style={{justifyContent:'space-between',flexDirection:"row",alignItems:'center'}}>
-                   <Text style={styles.text}>
-                       Recent
-                   </Text>
-                   <TouchableOpacity style={{height:30,width:80,alignItems:"center",justifyContent:"center"}}>
-                         <Text style={{color:"gray",}}>View all  > </Text>
-                   </TouchableOpacity>
-                   </View>
-                       {resArr > 0 ?
-                        <ScrollView horizontal={true} style={{top:5}}>
-                   
-                        {arr.map(result=>
-                           {
-
-                            return ( <MyLitleCard  key={result.key} text={result.data} title="Projext Name Organitation"/>)
-                        
-                        })}   
-                          
-                        </ScrollView> 
+                    <TouchableOpacity style={{height:50,width:50,alignItems:'center',justifyContent:"center"}}>
+                         <FontAwesome5 name="ellipsis-v" size={25} color="#778ca3" />
+                    </TouchableOpacity>
                     
-                    :
-
-                    <View style={{width:'95%',height:120,alignItems:'center',justifyContent:"center",marginVertical:10,marginHorizontal:10,borderRadius:10,borderWidth:0.5,borderColor:'#34495e'}}>
-                        <Text style={{fontSize:15,color:'#2c3e50'}}>no result</Text>
-                    </View>
-                    }
-                  
-                  
                </View>
-               <View style={{width:'100%',height:height/2.39,top:70}}>
-                 <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                 <Text style={styles.text}>
-                     Feed
-                 </Text>
-                 <TouchableOpacity style={{height:30,width:80,alignItems:"center",justifyContent:"center"}}>
-                         <Text style={{color:"gray",}}>View all  > </Text>
-                   </TouchableOpacity>
-                 </View>
-                <ScrollView style={{width:width}}>
-                    <View style={{alignItems:'center'}}>
-                    {arr1.map(result =>{
-                    return <MyList  key={result.key} text={result.data} text2={result.hint}/>
-                })}
-                    </View>
                
-                 </ScrollView>
-               </View>
-            </View>
+               <View style={{flex:1,width:width}}>
+                   <View style={{alignItems:"center",top:-40}}>
+                      <HomePanel navigation={props.navigation} />
+                   </View>
+                    <View style={{height:170,justifyContent:'flex-start',width:'100%',top:-20}}>
+                        <View style={{justifyContent:'space-between',flexDirection:"row",alignItems:'center'}}>
+                        <Text style={styles.text}>
+                            Recent
+                        </Text>
+                        <TouchableOpacity style={{height:30,width:80,alignItems:"center",justifyContent:"center"}}>
+                                <Text style={{color:"gray",}}>View all   </Text>
+                        </TouchableOpacity>
+                        </View>
+                        <View style={{justifyContent:'center'}}>
+                            {resArr > 0 ?
+                                <ScrollView horizontal={true} style={{top:5,width:'95%',left:10}}>
+                        
+                                {arr.map(result=>
+                                {
+
+                                    return ( <MyLitleCard  key={result.key} text={result.data} title="Projext Name Organitation"/>)
+                                
+                                })}   
+                                
+                                </ScrollView> 
+                            :
+                            <View style={{width:'95%',height:120,alignItems:'center',justifyContent:"center",marginVertical:10,marginHorizontal:10,borderRadius:10,borderWidth:0.5,borderColor:'#34495e'}}>
+                                <Text style={{fontSize:15,color:'#2c3e50'}}>no result</Text>
+                            </View>
+                            }
+                        </View>
+                    </View>
+                    <View style={{width:'100%',height:height/2.2,top:-20}}>
+                        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                        <Text style={styles.text}>
+                            Feed
+                        </Text>
+                        <TouchableOpacity style={{height:30,width:80,alignItems:"center",justifyContent:"center"}}>
+                                <Text style={{color:"gray",}}>View all </Text>
+                        </TouchableOpacity>
+                        </View>
+                        <ScrollView style={{width:width,marginTop:10}}>
+                            <View style={{alignItems:'center'}}>
+                            {arr1.map(result =>{
+                            return <MyList  key={result.key} text={result.data} text2={result.hint}/>
+                        })}
+                            </View>
+                    
+                        </ScrollView>
+                    </View>
+                    </View>
+                </View>
         </Fragment>
         </TouchableWithoutFeedback >
 
@@ -153,7 +153,9 @@ const styles = StyleSheet.create({
 
     },
     text:{
-        color:'white',fontWeight:'bold',fontSize:22,
-        left:10
+        color:'white',
+        fontWeight:'bold',
+        fontSize:20,
+        left:20
     }
 })
