@@ -15,7 +15,7 @@ const HomePanel = (props) =>
                      <FontAwesome5 name="paste" size={26} color="#778ca3" />
                      <Text style={styles.text}>Add</Text>
                </TouchableOpacity>
-               <TouchableOpacity style={styles.child}>
+               <TouchableOpacity style={styles.child} onPress={()=>props.navigation.navigate('NewActivity')}>
                     <FontAwesome5 name="archive" size={24} color="#778ca3" />
                     <Text style={styles.text}>Library</Text>
                </TouchableOpacity>

@@ -25,6 +25,8 @@ const InsertReducer = (state=initialState,action) =>
                 return {...state,nextPlan:action.payload,index2:action.pay}
             case "INPUT_RESULT" :
                 return {...state,result:action.payload}
+            case "INPUT_CLEAR"  :
+                return {...state,organitation:"",actions:"",contactPerson:"",progress:"",nextPlan:"",result:"",index1:"",index2:""}
             
         default : return state;
             

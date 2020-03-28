@@ -8,7 +8,7 @@ const MyList= (props) =>
     return(
         <View style={{...styles.list}}>
             <View style={styles.iconContainer}>
-                 <FontAwesome5 name="chevron-right" size={25} color="#778ca3" />
+                 <FontAwesome5 name="bell" size={25} color="#fd9644" />
             </View>
             <View style={{width:'50%',left:20,height:'100%',justifyContent:"center",}}>
                 <Text style={{fontSize:17,color:"white"}}>{props.text}</Text>
@@ -16,7 +16,7 @@ const MyList= (props) =>
             </View>
             <View style={{width:80,height:'100%',alignItems:'center',justifyContent:'center'}}>
                 <TouchableOpacity>
-                     <FontAwesome5 name="chevron-right" size={25} color="#778ca3" />
+                     <FontAwesome5 name="angle-double-up" size={20} color="white" />
                 </TouchableOpacity>
             </View>
         </View>

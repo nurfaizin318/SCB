@@ -43,7 +43,7 @@ const App = () => {
           <Stack.Screen name="NewActivity" component={NewActivity} 
           options={{headerShown:false}}/>
            <Stack.Screen name="Insert" component={Insert} 
-          options={{headerBackTitle:"back",headerTintColor:"#1e272e",headerStyle:{backgroundColor:"#2bcbba",}}}
+          options={{headerBackTitle:"back",headerTitle:"ADD NEW",headerTintColor:"white",headerStyle:{backgroundColor:"#2c3e50",}}}
           />
           </Stack.Navigator>
       </NavigationContainer>

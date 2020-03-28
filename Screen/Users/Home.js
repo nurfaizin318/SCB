@@ -12,7 +12,6 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MyLitleCard from '../../Component/MyLitleCard';
 import MyList from '../../Component/MyList';
-import HomePanel from '../../Component/HomePanel';
 
 
 
@@ -40,11 +39,11 @@ import HomePanel from '../../Component/HomePanel';
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
             <View style={{flex:1,backgroundColor:'#1e272e',alignItems:'center',width:'100%'}}>
-               <View style={{flexDirection:'row',justifyContent:'space-between',paddingTop:20,width:'100%',backgroundColor:'#2C3A47',height:height/5,}}>
+               <View style={{flexDirection:'row',justifyContent:'space-between',paddingTop:20,width:'100%',backgroundColor:'#2C3A47',height:height/4,}}>
                  <View style={styles.thumnail} />
                     <View>
                         <Text style={styles.fontThumnail}>Jaya Saf</Text>
-                        <Text style={{fontSize:15,color:'gray',left:-40}}>Grapic Designer</Text>
+                        <Text style={{fontSize:15,color:'gray',left:-30}}>Grapic Designer</Text>
                     </View>
                     <TouchableOpacity style={{height:50,width:50,alignItems:'center',justifyContent:"center"}}>
                          <FontAwesome5 name="ellipsis-v" size={25} color="#778ca3" />
@@ -53,9 +52,6 @@ import HomePanel from '../../Component/HomePanel';
                </View>
                
                <View style={{flex:1,width:width}}>
-                   <View style={{alignItems:"center",top:-40}}>
-                      <HomePanel navigation={props.navigation} />
-                   </View>
                     <View style={{height:170,justifyContent:'flex-start',width:'100%',top:-20}}>
                         <View style={{justifyContent:'space-between',flexDirection:"row",alignItems:'center'}}>
                         <Text style={styles.text}>
@@ -68,14 +64,14 @@ import HomePanel from '../../Component/HomePanel';
                         <View style={{justifyContent:'center'}}>
                             {resArr > 0 ?
                                 <ScrollView horizontal={true} style={{top:5,width:'95%',left:10}}>
-                        
                                 {arr.map(result=>
                                 {
-
-                                    return ( <MyLitleCard  key={result.key} text={result.data} title="Projext Name Organitation"/>)
-                                
+                                    return ( 
+                                        <TouchableOpacity key={result.key} >
+                                            <MyLitleCard  text={result.data} title="Projext Name Organitation"/>
+                                        </TouchableOpacity>
+                                    )
                                 })}   
-                                
                                 </ScrollView> 
                             :
                             <View style={{width:'95%',height:120,alignItems:'center',justifyContent:"center",marginVertical:10,marginHorizontal:10,borderRadius:10,borderWidth:0.5,borderColor:'#34495e'}}>
@@ -84,7 +80,7 @@ import HomePanel from '../../Component/HomePanel';
                             }
                         </View>
                     </View>
-                    <View style={{width:'100%',height:height/2.2,top:-20}}>
+                    <View style={{width:'100%',height:height/2.3}}>
                         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                         <Text style={styles.text}>
                             Feed
@@ -96,7 +92,8 @@ import HomePanel from '../../Component/HomePanel';
                         <ScrollView style={{width:width,marginTop:10}}>
                             <View style={{alignItems:'center'}}>
                             {arr1.map(result =>{
-                            return <MyList  key={result.key} text={result.data} text2={result.hint}/>
+                            return  <MyList  key={result.key} text={result.data} text2={result.hint}/>
+                               
                         })}
                             </View>
                     
@@ -125,7 +122,7 @@ const styles = StyleSheet.create({
     fontThumnail:{
         fontSize:27,
         color:'white',
-        left:-40,
+        left:-30,
         fontWeight:'bold',
 
     },
