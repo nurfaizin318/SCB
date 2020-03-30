@@ -38,21 +38,20 @@ import MyList from '../../Component/MyList';
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
-            <View style={{flex:1,backgroundColor:'#1e272e',alignItems:'center',width:'100%'}}>
-               <View style={{flexDirection:'row',justifyContent:'space-between',paddingTop:20,width:'100%',backgroundColor:'#2C3A47',height:height/4,}}>
-                 <View style={styles.thumnail} />
-                    <View>
+            <View style={{flex:1,backgroundColor:'#1e272e',alignItems:'center',width:width}}>
+               <View style={{height:90,flexDirection:'row',paddingTop:20,width:'100%'}}>
+                    <View style={{width:'100%',borderBottomWidth:2,borderBottomColor:'#ee5253'}}>
                         <Text style={styles.fontThumnail}>Jaya Saf</Text>
-                        <Text style={{fontSize:15,color:'gray',left:-30}}>Grapic Designer</Text>
+                        <Text style={{fontSize:15,color:'gray',left:20}}>Grapic Designer</Text>
                     </View>
-                    <TouchableOpacity style={{height:50,width:50,alignItems:'center',justifyContent:"center"}}>
+                   <TouchableOpacity style={{height:50,width:50,alignItems:'center',justifyContent:"center",right:50}}>
                          <FontAwesome5 name="ellipsis-v" size={25} color="#778ca3" />
                     </TouchableOpacity>
                     
                </View>
                
-               <View style={{flex:1,width:width}}>
-                    <View style={{height:170,justifyContent:'flex-start',width:'100%',top:-20}}>
+               <View style={{flex:1,width:width,marginTop:10}}>
+                    <View style={{height:200,justifyContent:'flex-start',width:'100%'}}>
                         <View style={{justifyContent:'space-between',flexDirection:"row",alignItems:'center'}}>
                         <Text style={styles.text}>
                             Recent
@@ -61,9 +60,9 @@ import MyList from '../../Component/MyList';
                                 <Text style={{color:"gray",}}>View all   </Text>
                         </TouchableOpacity>
                         </View>
-                        <View style={{justifyContent:'center'}}>
+                        <View style={{justifyContent:'center',height:160}}>
                             {resArr > 0 ?
-                                <ScrollView horizontal={true} style={{top:5,width:'95%',left:10}}>
+                                <ScrollView horizontal={true} style={{top:5,width:'97%',left:5}}>
                                 {arr.map(result=>
                                 {
                                     return ( 
@@ -80,7 +79,7 @@ import MyList from '../../Component/MyList';
                             }
                         </View>
                     </View>
-                    <View style={{width:'100%',height:height/2.3}}>
+                    <View style={{width:'100%',height:height/1.95,paddingTop:10}}>
                         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                         <Text style={styles.text}>
                             Feed
@@ -116,14 +115,13 @@ const styles = StyleSheet.create({
         height:70,
         borderRadius:50,
         backgroundColor:'tomato',
-        left:20
 
     },
     fontThumnail:{
         fontSize:27,
         color:'white',
-        left:-30,
         fontWeight:'bold',
+        left:20
 
     },
     searchInput:{

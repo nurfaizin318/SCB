@@ -11,11 +11,11 @@ const MyLitleCard = (props) =>
         return(
                 <View style={{...styles.card,backgroundColor:'#2C3A47'}} >
                     <Text style={styles.text}>{props.text}</Text>
-                     <Text style={{color:'white',bottom:10,left:5,top:1}}>{props.title}</Text>
+                     <Text style={{color:'white',bottom:10,left:10,top:1}}>{props.title}</Text>
                      <View style={styles.grade} >
                      <FontAwesome5 name="star" size={16} color="black" style={{paddingLeft:10,alignSelf:'center'}}/>
                         <Text style={{marginLeft:2,fontWeight:'bold',top:2}}>4.6</Text>
-                        <FontAwesome5 name="eye" size={13} color="white" style={{paddingLeft:10,alignSelf:'flex-end',marginLeft:15}}/>
+                        <FontAwesome5 name="eye" size={13} color="white" style={{paddingLeft:50,alignSelf:'flex-end'}}/>
                         
                      </View>
                 </View>
@@ -28,31 +28,32 @@ export default MyLitleCard;
 
 const styles = StyleSheet.create({
     card:{
-        width:100,
-        height:140,
+        width:120,
+        height:160,
         borderRadius:5,
         marginHorizontal:3,
         alignItems:'center',
         justifyContent:'space-between',
-        elevation:5
+        elevation:3,
 
     },
     text:{
         fontSize:25,
         fontWeight:'bold',
         color:'white',
-        top:10
+        top:20
        
     },
     grade:{
         top:10,
-        width:60,
+        width:90,
         height:20,
         top:-10,
         alignSelf:'flex-start',
         flexDirection:'row',
         backgroundColor:'#ee5253',
         borderTopRightRadius:10,
+        elevation:5
 
         
 

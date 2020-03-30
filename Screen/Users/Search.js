@@ -4,7 +4,7 @@ import {View ,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions,Modal,Button
 import AsyncStorage from '@react-native-community/async-storage';
 
 
- const NewActivity  = () => 
+ const Search = () => 
     {
 
         const [data,setData] = useState("")
@@ -27,14 +27,14 @@ import AsyncStorage from '@react-native-community/async-storage';
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
             <View style={{flex:1,justifyContent:'center',alignItems:"center",backgroundColor:'#1e272e'}}>
                     <Text>{data}</Text>
-                    <Button title="ss" onPress={()=>getDta()}/>
+                    <Button title="SEARCH PAGE" onPress={()=>getDta()}/>
             </View>
         </Fragment>
              )
 
     }
 
-export default NewActivity;
+export default Search;
 
 const styles = StyleSheet.create({
 
