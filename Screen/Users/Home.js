@@ -9,7 +9,8 @@ import {
     TouchableWithoutFeedback,
     TextInput,
     Keyboard} from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+    import {useSelector} from 'react-redux';
+    import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MyLitleCard from '../../Component/MyLitleCard';
 import MyList from '../../Component/MyList';
 
@@ -17,9 +18,8 @@ import MyList from '../../Component/MyList';
 
  const Home  = (props) => 
     {
-
-        const arr= [{key:1,data:'10%'},{key:2,data:'10%'},{key:3,data:'10%'},{key:4,data:'10%'},{key:5,data:'10%'},{key:6,data:'10%'}];
-        const resArr = arr.length;
+       
+        const  data = useSelector(state=>state.Insert.data)
         const arr1=[
         {key:1,data:'First Notif',hint:'Person eek'},
         {key:2,data:'Secend Notif',hint :'Filling Good'},
@@ -42,7 +42,7 @@ import MyList from '../../Component/MyList';
                <View style={{height:90,flexDirection:'row',paddingTop:20,width:'100%'}}>
                     <View style={{width:'100%',borderBottomWidth:2,borderBottomColor:'#ee5253'}}>
                         <Text style={styles.fontThumnail}>Jaya Saf</Text>
-                        <Text style={{fontSize:15,color:'gray',left:20}}>Grapic Designer</Text>
+     <Text style={{fontSize:15,color:'gray',left:20}}>grapic desigmer</Text>
                     </View>
                    <TouchableOpacity style={{height:50,width:50,alignItems:'center',justifyContent:"center",right:50}}>
                          <FontAwesome5 name="ellipsis-v" size={25} color="#778ca3" />
@@ -61,22 +61,22 @@ import MyList from '../../Component/MyList';
                         </TouchableOpacity>
                         </View>
                         <View style={{justifyContent:'center',height:160}}>
-                            {resArr > 0 ?
-                                <ScrollView horizontal={true} style={{top:5,width:'97%',left:5}}>
-                                {arr.map(result=>
-                                {
-                                    return ( 
-                                        <TouchableOpacity key={result.key} >
-                                            <MyLitleCard  text={result.data} title="Projext Name Organitation"/>
-                                        </TouchableOpacity>
-                                    )
-                                })}   
-                                </ScrollView> 
+                           
+                           {data.length >0 ? 
+                           
+                           <ScrollView horizontal={true} style={{top:5,width:'97%',left:5}}>
+                           {data.map((res,index)=> {
+                                       return <MyLitleCard key={index} organitation={res.organitation} progress={res.progress} />
+                           })}
+                            </ScrollView> 
+
                             :
-                            <View style={{width:'95%',height:120,alignItems:'center',justifyContent:"center",marginVertical:10,marginHorizontal:10,borderRadius:10,borderWidth:0.5,borderColor:'#34495e'}}>
-                                <Text style={{fontSize:15,color:'#2c3e50'}}>no result</Text>
-                            </View>
-                            }
+
+                            <View style={{...styles.noResult,height:height/5}}>
+                            <Text style={{fontSize:15,color:'#2c3e50'}}>no notifications</Text>
+                        </View>
+
+                        }
                         </View>
                     </View>
                     <View style={{width:'100%',height:height/1.95,paddingTop:10}}>
@@ -88,15 +88,23 @@ import MyList from '../../Component/MyList';
                                 <Text style={{color:"gray",}}>View all </Text>
                         </TouchableOpacity>
                         </View>
-                        <ScrollView style={{width:width,marginTop:10}}>
-                            <View style={{alignItems:'center'}}>
-                            {arr1.map(result =>{
-                            return  <MyList  key={result.key} text={result.data} text2={result.hint}/>
-                               
-                        })}
+
+                        {arr1 > 0 ?
+                                 <ScrollView style={{width:width,marginTop:10}}>
+                                 <View style={{alignItems:'center'}}>
+                                 {arr1.map(result =>{
+                                 return  <MyList  key={result.key} text={result.data} text2={result.hint}/>
+                                 
+                             })}
+                                 </View>
+                             </ScrollView>
+                            :
+                            <View style={{...styles.noResult,height:height/2.2}}>
+                                <Text style={{fontSize:15,color:'#2c3e50'}}>no notifications</Text>
                             </View>
-                    
-                        </ScrollView>
+                            }
+
+                        
                     </View>
                     </View>
                 </View>
@@ -152,5 +160,15 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         fontSize:20,
         left:20
+    },
+    noResult:{
+        width:'95%',
+        alignItems:'center',
+        justifyContent:"center",
+        marginVertical:10,
+        marginHorizontal:10,
+        borderRadius:10,
+        borderWidth:0.5,
+        borderColor:'#34495e'
     }
 })

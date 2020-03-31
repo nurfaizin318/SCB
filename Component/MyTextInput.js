@@ -9,6 +9,7 @@ const MyTextInput = (props) =>
             placeholder={props.placeholder}
             onChangeText={props.onChangeText}
             value={props.value}
+            editable={props.editable}
             />
           )
     }

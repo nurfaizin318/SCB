@@ -31,9 +31,9 @@ import Search from './Screen/Users/Search'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+function MyTabs(props) {
   return (
-    <Tab.Navigator tabBarOptions={{style:{backgroundColor:"#2C3A47",borderTopWidth:0},activeTintColor:"#ee5253",showLabel:false}} >
+    <Tab.Navigator tabBarOptions={{style:{backgroundColor:"#2C3A47",borderTopWidth:0},activeTintColor:"#ee5253"}} >
       <Tab.Screen name="Home" component={Home}  options={{tabBarIcon:({color})=>
       <FontAwesome5 name="home" size={20} color={color} />}}/>
       <Tab.Screen name="Search" component={Search} options={{tabBarIcon:({color})=>
@@ -41,8 +41,8 @@ function MyTabs() {
       <Tab.Screen name="Library" component={Library} options={{tabBarIcon:({color})=>
       <FontAwesome5 name="paste" size={20} color={color} />}}/>
       <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color})=>
-       <View style={{width:60,height:60,borderRadius:90,backgroundColor:"#2C3A47",top:-10,elevation:4}}>
-         <TouchableOpacity style={{alignItems:"center",justifyContent:"center",flex:1}}>
+       <View style={{width:60,height:60,borderRadius:100,backgroundColor:"#2C3A47",top:-10,elevation:1}}>
+         <TouchableOpacity style={{alignItems:"center",justifyContent:"center",flex:1}} onPress={()=>props.navigation.navigate('Insert')}>
         <FontAwesome5 name="location-arrow" size={20} color={color} />
       </TouchableOpacity>
        </View>}}/>
@@ -56,7 +56,7 @@ const App = () => {
   return (
     <Provider store={Store} >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Loader">
         <Stack.Screen name="Loader" component={Loader} 
           options={{headerShown:false}}/>
           <Stack.Screen name="Home" component={MyTabs} 

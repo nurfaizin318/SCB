@@ -6,26 +6,12 @@ import {
     StyleSheet,
     StatusBar
 } from 'react-native';
-import NetInfo from '@react-native-community/netinfo'
-
 
 const load = (props) =>{
     
-    NetInfo.fetch().then( isConnected => {
-          return  isConnected ? 
-          
-          setTimeout(()=>{props.navigation.navigate('Home')},3000) :
-           setTimeout(()=>{
-               Alert.alert('Peringatan','Tidak di temukan Koneksi',
-               [
-                 {text:'Retry',onPress: ()=> load(props)},
-                 {text:'Lanjutkan',onPress: ()=> props.navigation.navigate('Home')},
-                 {text:'quit',onPress: ()=> BackHandler.exitApp()} ,
-                 
-               ]) 
-           },3000)
-          
-     });
+    setTimeout(()=>{
+        props.navigation.navigate("Home")
+    },3000)
 }
 const Loader = (props) =>
 

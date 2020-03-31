@@ -1,8 +1,8 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 
 import {useDispatch,useSelector} from 'react-redux'
 
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import RadioGroup,{Radio} from "react-native-radio-input";
 
 import {
     View,
@@ -10,62 +10,53 @@ import {
     ScrollView,
     StyleSheet,
     Button,
+    Modal
        } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import MyTextInput from '../../Component/MyTextInput';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import Modal from 'react-native-modal'
 
-const Insert = ()=>{
+const Insert = (props)=>{
     var date = new Date().getDate(); //Current Date
     var month = new Date().getMonth() + 1; //Current Month
     var year = new Date().getFullYear(); //Current Year
     const times = date +'/'+month+'/'+year
-    var radio_actions = [
-        {label: 'Visit', value: 'visit',index:1 },
-        {label: 'Phone Call', value: 'phone Call' ,index:2 },
-        {label: 'Text', value: 'text' ,index:3 },
-
-      ];
-      var radio_plan= [
-        {label: 'Keep Contact', value: 'Keep Contact' },
-        {label: 'Survey', value: 'Survey' },
-        {label: 'Review Program', value: 'Review Program' },
-        {label: 'Others', value: 'Others' },
-
-      ];
+   
       const dispatch =useDispatch();
       const organitation =useSelector(state=>state.Insert.organitation);
       const actions =useSelector(state=>state.Insert.actions);
-      const index1 = useSelector(state =>state.Insert.index1);
-      const index2 = useSelector(state =>state.Insert.index2);
       const contact= useSelector(state =>state.Insert.contactPerson);
       progress = useSelector(state=>state.Insert.progress)
       nextPlan = useSelector(state=>state.Insert.nextPlan)
-      result = useSelector(state=>state.Insert.result)
+      result2 = useSelector(state=>state.Insert.result)
       isVisible= useSelector(state=>state.Modal.isVisible)
+      isEditable= useSelector(state=>state.Insert.isEditable)
+      data = useSelector(state=>state.Insert.data)
       
       const push =  async () =>{
         const ItemsToSaved ={'time':times,'organitation' : organitation,'actions': actions,'contact':contact,'progres':progress,'nextPlan':nextPlan,'result':result};
         const existingItems = await AsyncStorage.getItem('Items');
-          let newItems =  await JSON.parse(existingItems);
-                  if( !newItems ){
-                  newItems = []
-                  }
-         await  newItems.push(ItemsToSaved)
+         
+      }  
+      
+      const onEdit = (nextPlan) =>{
+          if(nextPlan === 'others'){
+            dispatch({type:"ON_OTHERS"})
+        }
+        else{
+            dispatch({type:"ON_OTHERS"})
 
-            // try{
-            //     await AsyncStorage.setItem('Items',JSON.stringify(newItems))
-            // }catch(error){
-            //     alert(error);
-                
-            // }
-            return console.log(JSON.stringify(newItems))
-      }   
-   
+        }
+      }
 
+      const onInsert = async () =>{
+          await dispatch({type:"INPUT_INSERT"});
+          await dispatch({type:"MODAL_CLOSE"});
+          await props.navigation.navigate("Home")
+          
+      }
        
     return(
         <View style={{flex:1,backgroundColor:'#1e272e'}}>
@@ -73,11 +64,12 @@ const Insert = ()=>{
                  <Text style={styles.text} >{times}</Text>
             </View>
             <Modal 
-            isVisible={isVisible}
-            animationIn="zoomInUp"
+            visible={isVisible}
+            animationType="slide"
+            transparent={true}
             >
-                <View style={{ flex:1,backgroundColor:"#1e272e",alignItems:'center' }}>
-                    <View style={{alignSelf:'center',alignItems:'center',justifyContent:'center',width:100,height:100,backgroundColor:'white',borderRadius:60,marginTop:20,elevation:5}}>
+                <View style={styles.modal}>
+                    <View style={styles.headModal}>
                          <FontAwesome5 name="thumbs-up" size={30} color="#1e272e" />
                          <Text style={{color:'#1e272e',fontSize:25}}>Great</Text>
                     </View>
@@ -93,13 +85,16 @@ const Insert = ()=>{
                                     {times}
                             </Text>
                         </View>
-                        <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
+                        <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30,}}>
                             <Text style={{fontSize:16,color:'white'}}>
                             Organitation        :  
                             </Text>
-                            <Text style={{fontSize:16,color:'white',paddingLeft:10}}>
-                                    {organitation}
-                            </Text>
+                            <View style={{flexDirection:'row',flexWrap:"wrap",width:200,}}>
+                                <Text style={{fontSize:16,color:'white',paddingLeft:10,}}>
+                                        {organitation}
+                                </Text>
+                            </View>
+                           
                         </View>
                         <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
                             <Text style={{fontSize:16,color:'white'}}>
@@ -138,12 +133,12 @@ const Insert = ()=>{
                             Result                  :  
                             </Text>
                             <Text style={{fontSize:16,color:'white',paddingLeft:10}}>
-                                    {result}
+                                    {result2}
                             </Text>
                         </View>
-                        <View style={{justifyContent:'space-between',flexDirection:'row',paddingTop:100,paddingHorizontal:20}}>
+                        <View style={{justifyContent:'space-between',flexDirection:'row',paddingTop:100,paddingHorizontal:20,top:-20}}>
                             <Button title="cancel"  color="#c0392b" onPress={()=>dispatch({type:"MODAL_CLOSE"})}/>
-                            <Button title="    Done    "  color="#1abc9c" onPress={()=>push()}/>
+                            <Button title="    Done    "  color="#1abc9c" onPress={()=>onInsert()}/>
                         </View>
                     </View>
 
@@ -154,60 +149,35 @@ const Insert = ()=>{
                     <Text style={styles.text}>
                       *  Organitation
                     </Text>
-                    <MyTextInput  value={organitation} onChangeText={(value)=>dispatch({type:"INPUT_ORGANITATION",payload:value})}/>
+                    <MyTextInput  value={organitation} onChangeText={(value)=>dispatch({type:"INPUT_ORGANITATION",payload1:value})}/>
                 </View>
                 <View style={{left:10}}>
                     <Text style={styles.text}>
                       *  Actions
                     </Text>
                     <View style={{marginTop:30,left:-5}}>
-                    <RadioForm
-                            formHorizontal={true}
-                            animation={true}
-                            
-                            >
-                            {
-                                radio_actions.map((obj, i) => (
-                                <RadioButton labelHorizontal={true} key={i} >
-                                    <RadioButtonInput
-                                    obj={obj}
-                                    initial={0}
-                                    index={i}
-                                    isSelected={index1==i}
-                                    onPress={(value,index)=>dispatch({type:"INPUT_ACTIONS",payload:value,pay:index})}
-                                    borderWidth={1}
-                                    buttonInnerColor={'#16a085'}
-                                    buttonOuterColor={obj === i ? 'white' : 'white'}
-                                    buttonSize={12}
-                                    buttonOuterSize={20}
-                                    buttonStyle={{color:'red'}}
-                                    buttonWrapStyle={{marginLeft: 10}}
-                                    />
-                                    <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    labelHorizontal={true}
-                                    onPress={(value)=>value}
-                                    labelStyle={{fontSize: 15, color: 'white'}}
-                                    />
-                            </RadioButton>
-                            ))
-                        }  
-                        </RadioForm>
+                        <RadioGroup getChecked={(value)=>dispatch({type:"INPUT_ACTIONS",payload2:value})} 
+                        IconStyle={{fontSize:30,backgroundColor:"white",}}
+                        coreStyle={{fontSize:21,color:'#1abc9c'}}
+                        RadioGroupStyle={{flexDirection:"row"}}
+                        labelStyle={{fontSize:16,color:"white"}}>
+                            <Radio iconName={"lens"} label={"Visit "} value={"Visit"} />
+                            <Radio iconName={"lens"} label={"Phone Call"} value={"Phone Call"}/>
+                            <Radio iconName={"lens"} label={"Interview"} value={"InterView"}/>
+                        </RadioGroup>   
                     </View>
               </View>
                 <View style={{paddingTop:20,left:10}}>
                         <Text style={styles.text}>
                            *  Contact Person
                         </Text>
-                        <MyTextInput  value={contact} onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload:value})}/>
+                        <MyTextInput  value={contact} onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload3:value})}/>
                         <MyTextInput  />
                     </View>
                     <View style={{left:10,width:"95%"}}>
                         <Text style={styles.text}>
                             *  Progres
                         </Text>
-                         
                         <ProgressSteps progressBarColor="#7f8c8d" 
                         disabledStepIconColor="#7f8c8d" 
                         borderWidth={2}
@@ -217,99 +187,65 @@ const Insert = ()=>{
                         completedStepIconColor="#1abc9c"
                         activeLabelColor="#1abc9c"                   > 
                         <ProgressStep label="20%" 
-                        
-                        
                         nextBtnTextStyle={styles.stepsNext}
                         previousBtnTextStyle={styles.stepsPrev}
                          onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'20 %'})}
-
                          />
                         <ProgressStep label="40%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
                          onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'40 %'})}
                          onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'belum ada progress'})}
-
                          />
                         <ProgressStep label="60%"
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
                          onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'60 %'})}
                          onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'20 %'})}
-                         
                          />
                         <ProgressStep label="80%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
                          onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'80 %'})}
                          onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'40 %'})}
-                        
                          />
                         <ProgressStep label="100%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
                          onSubmit={()=>dispatch({type:"INPUT_PROGRESS",payload:'100 %'})}
                          onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'60 %'})}
-
                          />
-                            
                     </ProgressSteps>
                     </View>
                     <View style={{left:10}}>
-                        <Text style={styles.text }> 
+                        <Text style={{...styles.text,paddingBottom:20 }}> 
                            * Next  Plan
                         </Text>
-                    <RadioForm
-                            formHorizontal={false}
-                            animation={true}
-                            initial={2}
-                            >
-                            {
-                                radio_plan.map((obj, i) => (
-                                <RadioButton labelHorizontal={true} key={i}  style={{paddingTop:20,paddingLeft:10}} >
-                                    <RadioButtonInput
-                                   obj={obj}
-                                   index={i}
-                                   isSelected={index2==i}
-                                   onPress={(value,index)=>dispatch({type:"INPUT_NEXTPLAN",payload:value,pay:index})}
-                                   borderWidth={1}
-                                   buttonInnerColor={'#16a085'}
-                                   buttonOuterColor={obj === i ? 'white' : 'white'}
-                                   buttonSize={12}
-                                   buttonOuterSize={20}
-                                   buttonStyle={{}}
-                                   buttonWrapStyle={{marginLeft: 10}}
-                                    />
-                                     <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    labelHorizontal={true}
-                                    onPress={(value,index)=>dispatch({type:"INPUT_NEXTPLAN",payload:value,pay:index})}
-                                    labelStyle={{fontSize: 15, color: 'white'}}
-                                    labelWrapStyle={{}}
-                                    />
-                                   
-                            </RadioButton>
-                            ))
-                        }  
-                        </RadioForm>
+                        <RadioGroup getChecked={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value},onEdit())}
+                        IconStyle={{fontSize:30,backgroundColor:"white",}}
+                        coreStyle={{fontSize:20}}
+                        labelStyle={{fontSize:16,color:"white"}}
+                        >
+                            <Radio iconName={"lens"} label={"Keep Contact"} value={"Keep Contact"} />
+                            <Radio iconName={"lens"} label={"Survey"} value={"Survey"}/>
+                            <Radio iconName={"lens"} label={"Preview Program"} value={"Preview Program"}/>
+                            <Radio iconName={"lens"} label={"Others"} value={'others'} />
+                        </RadioGroup>  
+                        <MyTextInput  editable={isEditable} onChangeText={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value})}/>
                     </View>
                     <View style={{paddingTop:20,left:10}}>
                         <Text style={styles.text}>
                             * Result
                         </Text>
-                        <MyTextInput  value={result} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload:value})}/>
+                    <MyTextInput  value={result2} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
                     </View>
-
             </ScrollView>
             <View style={styles.buttomButton}>
-        
                 <View style={{width:"100%",flexDirection:'row',justifyContent:'space-between'}}>
                 <Button title="Clear"  color="#ee5253" onPress={()=>dispatch({type:"INPUT_CLEAR"})}/>
                 <Button title="Submit"  color="#1abc9c" onPress={()=>dispatch({type:"MODAL_OPEN"})}/>
                 </View>
             </View>
-
         </View>
             )
     }
@@ -338,6 +274,28 @@ const Insert = ()=>{
             justifyContent:'flex-end',
             paddingHorizontal:40,
             top:-10
+        },
+        modal:{
+            width:'95%',
+            height:"95%",
+            top:15,
+            backgroundColor:"#2c3e50",
+            elevation:5,
+            alignItems:'center' ,
+            borderRadius:5,
+            alignSelf:"center",
+            justifyContent:'center'
+        },
+        headModal:{
+            alignSelf:'center',
+            alignItems:'center',
+            justifyContent:'center',
+            width:100,
+            height:100,
+            backgroundColor:'white',
+            borderRadius:60,
+            marginTop:20,
+            elevation:5
         }
        
 

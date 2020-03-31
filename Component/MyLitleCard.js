@@ -9,14 +9,15 @@ const MyLitleCard = (props) =>
         var color2= 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
 
         return(
-                <View style={{...styles.card,backgroundColor:'#2C3A47'}} >
-                    <Text style={styles.text}>{props.text}</Text>
-                     <Text style={{color:'white',bottom:10,left:10,top:1}}>{props.title}</Text>
+                <View style={{...styles.card,backgroundColor:'#2C3A47',flexWrap:'wrap'}} >
+                    <Text style={styles.text}>{props.progress}</Text>
+                    <View style={{width:"100%",backgroundColor:"#34495e",flexWrap:'wrap',flexDirection:"row"}}>
+                      <Text style={{color:'white',marginHorizontal:'12%'}}>{props.organitation}</Text>
+                    </View>
                      <View style={styles.grade} >
                      <FontAwesome5 name="star" size={16} color="black" style={{paddingLeft:10,alignSelf:'center'}}/>
-                        <Text style={{marginLeft:2,fontWeight:'bold',top:2}}>4.6</Text>
-                        <FontAwesome5 name="eye" size={13} color="white" style={{paddingLeft:50,alignSelf:'flex-end'}}/>
-                        
+                        <Text style={{marginLeft:2,fontWeight:'bold',top:2}}>0.0</Text>
+                        <FontAwesome5 name="eye" size={13} color="gray" style={{paddingLeft:50,alignSelf:'flex-end'}}/>
                      </View>
                 </View>
         )
@@ -35,6 +36,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between',
         elevation:3,
+        borderTopWidth:3,
+        borderTopColor:'#ee5253'
 
     },
     text:{
