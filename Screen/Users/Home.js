@@ -39,25 +39,25 @@ import MyList from '../../Component/MyList';
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
             <View style={{flex:1,backgroundColor:'#1e272e',alignItems:'center',width:width}}>
-               <View style={{height:90,flexDirection:'row',paddingTop:20,width:'100%'}}>
-                    <View style={{width:'100%',borderBottomWidth:2,borderBottomColor:'#ee5253'}}>
+               <View style={{height:70,flexDirection:'row',marginTop:10,paddingTop:10,width:'96%',elevation:20,backgroundColor:"#1e272e"}}>
+                    <View style={{width:'100%'}}>
                         <Text style={styles.fontThumnail}>Jaya Saf</Text>
      <Text style={{fontSize:15,color:'gray',left:20}}>grapic desigmer</Text>
                     </View>
-                   <TouchableOpacity style={{height:50,width:50,alignItems:'center',justifyContent:"center",right:50}}>
-                         <FontAwesome5 name="ellipsis-v" size={25} color="#778ca3" />
+                   <TouchableOpacity style={{height:50,width:50,alignItems:'center',justifyContent:"center",right:50,elevation:10}}>
+                   <FontAwesome5 name="ellipsis-v" size={25} color="#778ca3" />
                     </TouchableOpacity>
                     
                </View>
                
-               <View style={{flex:1,width:width,marginTop:10}}>
-                    <View style={{height:200,justifyContent:'flex-start',width:'100%'}}>
-                        <View style={{justifyContent:'space-between',flexDirection:"row",alignItems:'center'}}>
+               <View style={{flex:1,width:width}}>
+                    <View style={{height:215,justifyContent:'flex-start',width:'98%',borderRadius:5,alignSelf:"center",}}>
+                        <View style={{justifyContent:'space-between',flexDirection:"row",alignItems:'center',paddingTop:10}}>
                         <Text style={styles.text}>
                             Recent
                         </Text>
                         <TouchableOpacity style={{height:30,width:80,alignItems:"center",justifyContent:"center"}}>
-                                <Text style={{color:"gray",}}>View all   </Text>
+                                <Text style={{color:"gray",paddingTop:10}}>View all   </Text>
                         </TouchableOpacity>
                         </View>
                         <View style={{justifyContent:'center',height:160}}>
@@ -66,7 +66,7 @@ import MyList from '../../Component/MyList';
                            
                            <ScrollView horizontal={true} style={{top:5,width:'97%',left:5}}>
                            {data.map((res,index)=> {
-                                       return <MyLitleCard key={index} organitation={res.organitation} progress={res.progress} />
+                                       return <MyLitleCard key={index} organitation={res.organitation} progress={res.progress} style={{}}/>
                            })}
                             </ScrollView> 
 
@@ -79,18 +79,18 @@ import MyList from '../../Component/MyList';
                         }
                         </View>
                     </View>
-                    <View style={{width:'100%',height:height/1.95,paddingTop:10}}>
-                        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <View style={{flex:1,alignSelf:"center",height:height/2.15,paddingTop:10,marginTop:20,backgroundColor:"#1e272e",elevation:20}}>
+                        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                         <Text style={styles.text}>
                             Feed
                         </Text>
-                        <TouchableOpacity style={{height:30,width:80,alignItems:"center",justifyContent:"center"}}>
-                                <Text style={{color:"gray",}}>View all </Text>
+                        <TouchableOpacity style={{height:20,width:80,alignItems:"center",justifyContent:"center"}}>
+                                <Text style={{color:"gray"}}>View all </Text>
                         </TouchableOpacity>
                         </View>
 
-                        {arr1 > 0 ?
-                                 <ScrollView style={{width:width,marginTop:10}}>
+                        {arr1  ?
+                                 <ScrollView style={{width:width,marginTop:10,elevation:10,marginBottom:10}}>
                                  <View style={{alignItems:'center'}}>
                                  {arr1.map(result =>{
                                  return  <MyList  key={result.key} text={result.data} text2={result.hint}/>
@@ -99,7 +99,7 @@ import MyList from '../../Component/MyList';
                                  </View>
                              </ScrollView>
                             :
-                            <View style={{...styles.noResult,height:height/2.2}}>
+                            <View style={{...styles.noResult,height:height/2.4}}>
                                 <Text style={{fontSize:15,color:'#2c3e50'}}>no notifications</Text>
                             </View>
                             }
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
 
     },
     fontThumnail:{
-        fontSize:27,
+        fontSize:22,
         color:'white',
         fontWeight:'bold',
         left:20
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius:15,
         borderBottomLeftRadius:15,
         height:40,
-        width:'75%',
+        width:'72%',
         textAlign:'center',
         color:'white'
 
@@ -159,16 +159,16 @@ const styles = StyleSheet.create({
         color:'white',
         fontWeight:'bold',
         fontSize:20,
-        left:20
+        left:20,
+       
     },
     noResult:{
-        width:'95%',
+        width:'94%',
         alignItems:'center',
         justifyContent:"center",
         marginVertical:10,
         marginHorizontal:10,
-        borderRadius:10,
-        borderWidth:0.5,
-        borderColor:'#34495e'
+        borderRadius:5,
+       
     }
 })

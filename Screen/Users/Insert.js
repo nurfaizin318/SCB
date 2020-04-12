@@ -28,6 +28,7 @@ const Insert = (props)=>{
       const organitation =useSelector(state=>state.Insert.organitation);
       const actions =useSelector(state=>state.Insert.actions);
       const contact= useSelector(state =>state.Insert.contactPerson);
+      const contact2= useSelector(state =>state.Insert.contactPerson2);
       progress = useSelector(state=>state.Insert.progress)
       nextPlan = useSelector(state=>state.Insert.nextPlan)
       result2 = useSelector(state=>state.Insert.result)
@@ -61,23 +62,23 @@ const Insert = (props)=>{
     return(
         <View style={{flex:1,backgroundColor:'#1e272e'}}>
             <View style={{alignItems:"center",top:20}}>
-                 <Text style={styles.text} >{times}</Text>
+                 <Text style={styles.body.title} >{times}</Text>
             </View>
             <Modal 
             visible={isVisible}
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             >
-                <View style={styles.modal}>
-                    <View style={styles.headModal}>
+                <View style={styles.modal.body}>
+                    <View style={styles.modal.head}>
                          <FontAwesome5 name="thumbs-up" size={30} color="#1e272e" />
-                         <Text style={{color:'#1e272e',fontSize:25}}>Great</Text>
+                         <Text style={styles.modal.textIcon}>Great</Text>
                     </View>
-                    <Text style={{fontSize:35,alignSelf:"center",color:'white',top:10}}>
+                    <Text style={styles.modal.textName}>
                            Jaya
                        </Text>
-                    <View style={{width:'100%',height:'70%',borderTopWidth:0.3,borderTopColor:'white',marginTop:20}}>
-                    <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
+                    <View style={styles.modal.line}>
+                         <View style={styles.modal.valueContainer}>
                             <Text style={{fontSize:16,color:'white'}}>
                             Time                     :  
                             </Text>
@@ -85,7 +86,7 @@ const Insert = (props)=>{
                                     {times}
                             </Text>
                         </View>
-                        <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30,}}>
+                        <View style={styles.modal.valueContainer}>
                             <Text style={{fontSize:16,color:'white'}}>
                             Organitation        :  
                             </Text>
@@ -96,7 +97,7 @@ const Insert = (props)=>{
                             </View>
                            
                         </View>
-                        <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
+                        <View style={styles.modal.valueContainer}>
                             <Text style={{fontSize:16,color:'white'}}>
                             Actions                :  
                             </Text>
@@ -104,15 +105,15 @@ const Insert = (props)=>{
                                     {actions}
                             </Text>
                         </View>
-                        <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
+                        <View style={styles.modal.valueContainer}>
                             <Text style={{fontSize:16,color:'white'}}>
                             Contact Person  :  
                             </Text>
                             <Text style={{fontSize:16,color:'white',paddingLeft:10}}>
-                                    {contact}
+                                    {contact +`(${contact2})`}
                             </Text>
                         </View>
-                        <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
+                        <View style={styles.modal.valueContainer}>
                             <Text style={{fontSize:16,color:'white'}}>
                             Progres               :  
                             </Text>
@@ -120,7 +121,7 @@ const Insert = (props)=>{
                                     {progress}
                             </Text>
                         </View>
-                        <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
+                        <View style={styles.modal.valueContainer}>
                             <Text style={{fontSize:16,color:'white'}}>
                             Next Plan            :  
                             </Text>
@@ -128,34 +129,36 @@ const Insert = (props)=>{
                                     {nextPlan}
                             </Text>
                         </View>
-                        <View style={{flexDirection:"row",marginHorizontal:10,marginTop:30}}>
+                        <View style={styles.modal.valueContainer}>
                             <Text style={{fontSize:16,color:'white'}}>
                             Result                  :  
                             </Text>
                             <Text style={{fontSize:16,color:'white',paddingLeft:10}}>
                                     {result2}
                             </Text>
+                            
                         </View>
-                        <View style={{justifyContent:'space-between',flexDirection:'row',paddingTop:100,paddingHorizontal:20,top:-20}}>
-                            <Button title="cancel"  color="#c0392b" onPress={()=>dispatch({type:"MODAL_CLOSE"})}/>
-                            <Button title="    Done    "  color="#1abc9c" onPress={()=>onInsert()}/>
-                        </View>
+                        <View style={{flexDirection:'row',paddingTop:90,paddingHorizontal:20,alignItems:"center",marginVertical:-50,width:'100%',justifyContent:"space-between"}}>
+                                <Button title="cancel"  color="#c0392b" onPress={()=>dispatch({type:"MODAL_CLOSE"})}/>
+                                <Button title="    Done    "  color="#1abc9c" onPress={()=>onInsert()}/>
+                             </View>
+                       
                     </View>
 
                 </View>
             </Modal>
             <ScrollView style={{marginTop:20}}>
                 <View style={{paddingTop:20,left:10}}>
-                    <Text style={styles.text}>
+                    <Text style={styles.body.title}>
                       *  Organitation
                     </Text>
                     <MyTextInput  value={organitation} onChangeText={(value)=>dispatch({type:"INPUT_ORGANITATION",payload1:value})}/>
                 </View>
-                <View style={{left:10}}>
-                    <Text style={styles.text}>
-                      *  Actions
+                <View style={{left:10,paddingTop:25}}>
+                    <Text style={styles.body.title}>
+                        Actions
                     </Text>
-                    <View style={{marginTop:30,left:-5}}>
+                    <View style={{marginTop:20,left:-5}}>
                         <RadioGroup getChecked={(value)=>dispatch({type:"INPUT_ACTIONS",payload2:value})} 
                         IconStyle={{fontSize:30,backgroundColor:"white",}}
                         coreStyle={{fontSize:21,color:'#1abc9c'}}
@@ -167,15 +170,16 @@ const Insert = (props)=>{
                         </RadioGroup>   
                     </View>
               </View>
-                <View style={{paddingTop:20,left:10}}>
-                        <Text style={styles.text}>
+                <View style={{paddingTop:30,left:10}}>
+                        <Text style={styles.body.title}>
                            *  Contact Person
                         </Text>
                         <MyTextInput  value={contact} onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload3:value})}/>
-                        <MyTextInput  />
+                        <MyTextInput  value={contact2} onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON2",payload6:value})}/>
+                        
                     </View>
-                    <View style={{left:10,width:"95%"}}>
-                        <Text style={styles.text}>
+                    <View style={{left:10,width:"95%",paddingTop:30}}>
+                        <Text style={styles.body.title}>
                             *  Progres
                         </Text>
                         <ProgressSteps progressBarColor="#7f8c8d" 
@@ -195,7 +199,7 @@ const Insert = (props)=>{
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
                          onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'40 %'})}
-                         onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'belum ada progress'})}
+                         onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'0%'})}
                          />
                         <ProgressStep label="60%"
                          nextBtnTextStyle={styles.stepsNext}
@@ -218,23 +222,13 @@ const Insert = (props)=>{
                     </ProgressSteps>
                     </View>
                     <View style={{left:10}}>
-                        <Text style={{...styles.text,paddingBottom:20 }}> 
+                        <Text style={{...styles.body.title,paddingBottom:20 }}> 
                            * Next  Plan
                         </Text>
-                        <RadioGroup getChecked={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value},onEdit())}
-                        IconStyle={{fontSize:30,backgroundColor:"white",}}
-                        coreStyle={{fontSize:20}}
-                        labelStyle={{fontSize:16,color:"white"}}
-                        >
-                            <Radio iconName={"lens"} label={"Keep Contact"} value={"Keep Contact"} />
-                            <Radio iconName={"lens"} label={"Survey"} value={"Survey"}/>
-                            <Radio iconName={"lens"} label={"Preview Program"} value={"Preview Program"}/>
-                            <Radio iconName={"lens"} label={"Others"} value={'others'} />
-                        </RadioGroup>  
                         <MyTextInput  editable={isEditable} onChangeText={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value})}/>
                     </View>
                     <View style={{paddingTop:20,left:10}}>
-                        <Text style={styles.text}>
+                        <Text style={styles.body.title}>
                             * Result
                         </Text>
                     <MyTextInput  value={result2} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
@@ -251,13 +245,8 @@ const Insert = (props)=>{
     }
     export  default Insert;
 
-    const styles = StyleSheet.create({
-        text:{
-            color:'#bdc3c7',
-            fontSize:20,
-            fontWeight:'600',
-            marginLeft:5,
-        },
+    const styles = {
+        
         stepsNext:{
             color:"#1abc9c"
             
@@ -273,30 +262,60 @@ const Insert = (props)=>{
             flexDirection:'row',
             justifyContent:'flex-end',
             paddingHorizontal:40,
-            top:-10
+        },
+        body:{
+            title:{
+                fontSize:19,
+                color:'white'
+            }
         },
         modal:{
-            width:'95%',
-            height:"95%",
-            top:15,
-            backgroundColor:"#2c3e50",
-            elevation:5,
-            alignItems:'center' ,
-            borderRadius:5,
-            alignSelf:"center",
-            justifyContent:'center'
-        },
-        headModal:{
-            alignSelf:'center',
-            alignItems:'center',
-            justifyContent:'center',
-            width:100,
-            height:100,
-            backgroundColor:'white',
-            borderRadius:60,
-            marginTop:20,
-            elevation:5
+            body:{
+                width:'95%',
+                height:"89%",
+                top:15,
+                backgroundColor:"#2c3e50",
+                elevation:5,
+                alignItems:'center' ,
+                borderRadius:10,
+                alignSelf:"center",
+                justifyContent:'center',
+                marginTop:10,
+                elevation:8,
+            },
+            head:{
+                alignSelf:'center',
+                alignItems:'center',
+                justifyContent:'center',
+                width:100,
+                height:100,
+                backgroundColor:'white',
+                borderRadius:60,
+                marginTop:70,
+                elevation:5
+            },
+            textName:{
+                fontSize:35,
+                alignSelf:"center",
+                color:'white'
+            },
+            textIcon:{
+                color:'gray',
+                fontSize:20,
+                fontWeight:'600',
+            },
+            line:{
+                width:'100%',
+                height:'80%',
+                borderTopWidth:0.3,
+                borderTopColor:'white',
+                marginTop:20
+            },
+            valueContainer:{
+                flexDirection:"row",
+                marginHorizontal:10,
+                marginTop:30
+            }
         }
        
-
-    })
+    }

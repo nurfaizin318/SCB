@@ -9,7 +9,6 @@ const MyTextInput = (props) =>
             placeholder={props.placeholder}
             onChangeText={props.onChangeText}
             value={props.value}
-            editable={props.editable}
             />
           )
     }
@@ -18,13 +17,14 @@ export default MyTextInput;
 const styles =StyleSheet.create({
   textInput:{
     width:'95%',
-    height:40,
-    borderBottomWidth:0.5,
-    borderColor:'#7f8c8d',
+    height:50,
     alignSelf:'center',
     color:'#95a5a6',
     marginVertical:10,
-    right:10
+    right:10,
+    borderColor:'#7f8c8d',
+    borderWidth:1,
+    borderRadius:5
 
   }
 })

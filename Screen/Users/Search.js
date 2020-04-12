@@ -7,27 +7,24 @@ import AsyncStorage from '@react-native-community/async-storage';
  const Search = () => 
     {
 
-        const [data,setData] = useState("")
-        const height =Dimensions.get('window').height;
+    const getData = () =>{
+        let date = new Date();
+            let id = date.getTime();
+            let dates = date.getDate();
+            let month = date.getMonth() + 1; //Current Month
+            let year = date.getFullYear(); //Current Year
+            let times= date.toLocaleTimeString();
 
-        const getDta = async () =>{
-            const  findData =  await AsyncStorage.getItem('Items',(err,result)=>{console.log(result)})
-            const newData = await JSON.stringify(findData)
+            var TimeNow = dates +'/'+month+'/'+year +' '+times;
 
-            
-        
-            return console.log(data);
-        }
-
-
-
+        alert(dates+id)
+    }
 
      return (
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
             <View style={{flex:1,justifyContent:'center',alignItems:"center",backgroundColor:'#1e272e'}}>
-                    <Text>{data}</Text>
-                    <Button title="SEARCH PAGE" onPress={()=>getDta()}/>
+                    <Button title="SEARCH PAGE" onPress={()=>getData()}/>
             </View>
         </Fragment>
              )

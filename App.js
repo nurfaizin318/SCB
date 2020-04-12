@@ -41,7 +41,7 @@ function MyTabs(props) {
       <Tab.Screen name="Library" component={Library} options={{tabBarIcon:({color})=>
       <FontAwesome5 name="paste" size={20} color={color} />}}/>
       <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color})=>
-       <View style={{width:60,height:60,borderRadius:100,backgroundColor:"#2C3A47",top:-10,elevation:1}}>
+       <View style={{width:55,height:55,borderRadius:100,backgroundColor:"#2C3A47",top:-10,elevation:1}}>
          <TouchableOpacity style={{alignItems:"center",justifyContent:"center",flex:1}} onPress={()=>props.navigation.navigate('Insert')}>
         <FontAwesome5 name="location-arrow" size={20} color={color} />
       </TouchableOpacity>
@@ -56,7 +56,7 @@ const App = () => {
   return (
     <Provider store={Store} >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Loader">
+        <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Loader" component={Loader} 
           options={{headerShown:false}}/>
           <Stack.Screen name="Home" component={MyTabs} 
@@ -65,7 +65,7 @@ const App = () => {
           </Stack.Navigator>
       </NavigationContainer>
       </Provider>
-
+     
   );
 };
 

@@ -10,10 +10,13 @@ const MyLitleCard = (props) =>
 
         return(
                 <View style={{...styles.card,backgroundColor:'#2C3A47',flexWrap:'wrap'}} >
-                    <Text style={styles.text}>{props.progress}</Text>
-                    <View style={{width:"100%",backgroundColor:"#34495e",flexWrap:'wrap',flexDirection:"row"}}>
-                      <Text style={{color:'white',marginHorizontal:'12%'}}>{props.organitation}</Text>
+                    <View style={{width:"100%",alignItems:"center",justifyContent:"space-between",height:100}}>
+                        <Text style={styles.text}>{props.progress}</Text>
+                        <View style={{width:"100%",flexWrap:'wrap',flexDirection:"row",justifyContent:"center"}}>
+                        <Text style={{color:'white',}}>{props.organitation}</Text>
+                        </View>
                     </View>
+                   
                      <View style={styles.grade} >
                      <FontAwesome5 name="star" size={16} color="black" style={{paddingLeft:10,alignSelf:'center'}}/>
                         <Text style={{marginLeft:2,fontWeight:'bold',top:2}}>0.0</Text>
@@ -31,13 +34,15 @@ const styles = StyleSheet.create({
     card:{
         width:120,
         height:160,
-        borderRadius:5,
+        borderRadius:3,
         marginHorizontal:3,
         alignItems:'center',
         justifyContent:'space-between',
         elevation:3,
         borderTopWidth:3,
-        borderTopColor:'#ee5253'
+        borderTopColor:'#ee5253',
+        marginLeft:5,
+        elevation:10,
 
     },
     text:{

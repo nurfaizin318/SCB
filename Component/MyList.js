@@ -27,13 +27,13 @@ export default MyList;
 
 const styles = StyleSheet.create({
         list:{
-            width:'95%',
+            width:'97%',
             height:70,
             backgroundColor:'#2C3A47',
             borderRadius:3,
             marginVertical:3,
             flexDirection:'row',
-            alignItems:'center'           
+            alignItems:'center'    ,
         },
         iconContainer:{
             height:'80%',
