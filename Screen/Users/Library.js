@@ -14,26 +14,28 @@ import {View ,
 import AsyncStorage from '@react-native-community/async-storage';
 import {useSelector,useDispatch} from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MyListLibrary from '../../Component/MyListLibrary';
 
 
 
  const Library = () => 
     {
-
         const height =Dimensions.get('window').height;
-        const  data = useSelector(state=>state.Insert.data)
+        var dataFromState = useSelector(state=>state.Data.data)
         const dispatch = useDispatch();
         isVisible2= useSelector(state=>state.Modal.isVisible2)
 
        
        const  writeToClipboard = async () => {
-           const a = await data.map((res) => { return (
-               "Organitation : "+res.organitation+
+           const a = await dataFromState.map((res) => { return (
+               "id         : " + res.id+       
+               "\n"+"Organitation : "+res.organitation+
                "\n"+"Contact : "+res.contact+
-               "\n" +"Actions : "+res.actions +
+               "\n"+"Actions : "+res.actions +
                "\n"+"Progress : "+ res.progress +
                "\n"+"Next Plan : "+ res.nextPlan +
-               "\n"+"Result : " + res.result+"\n ==========")})
+               "\n"+"Result : " + res.result+"\n ==========")
+               })
                 const  b = await a.join(" \n");
              await  Clipboard.setString(b);
             if(b == ""){
@@ -51,35 +53,51 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
                     0,0
                   );
             }
+
           };
 
+          const onDelete = async(id)=>{
+
+          try{
+              await  dispatch({type:"ON_DELETE",payload:id})
+              await AsyncStorage.setItem('Data',JSON.stringify(dataFromState.filter(res=>res.id !== id)))
+          }catch(e){
+              alert(e)
+          }
+        
+             
+          }
      return (
          
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
             <View style={{flex:1,backgroundColor:'#1e272e'}}>
+            <View style={{alignItems:'flex-end',marginTop:20,marginHorizontal:20}}>
+                <TouchableOpacity style={{height:40,width:100,borderColor:"tomato",borderWidth:1,alignItems:"center",justifyContent:"center",borderRadius:10}}
+                onPress={()=>dispatch({type:"MODAL2_OPEN"})}>
+                    <Text style={{color:"#ff6b81",fontSize:20}}>
+                        Report
+                    </Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView>
 
-            {data.map((res,index)=>{
+            {dataFromState.map((res,index)=>{
                 return  (
-                        <TouchableOpacity key={index}>
-                            <View style={{width:'100%',height:70,backgroundColor:'#ff6b6b',marginVertical:10,alignItems:"center",justifyContent:'space-between',top:20,borderRadius:5,flexDirection:'row',paddingHorizontal:10}} 
-                             >
-                            <Text>
-                                {index+1}
-                            </Text>
-                           <Text>
-                               {res.organitation}
-                           </Text>
-                           <TouchableOpacity>
-                               <Text>
-                                   delete
-                               </Text>
-                           </TouchableOpacity>
-                           
-                        </View>
-
-                    </TouchableOpacity>
+                        <View key={index}>
+                          <MyListLibrary 
+                          index={index}
+                          id={res.id}
+                          organitation={res.organitation} 
+                          actions={res.actions}
+                          progress={res.progress}
+                          contact={res.contact}
+                          nextPlan={res.nextPlan}
+                          result={res.result}
+                          time={res.time} 
+                          onDelete={()=>{onDelete(res.id,index)}}
+                          />
+                    </View>
                    
                 )
             })}
@@ -96,7 +114,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
                 
                     <View style={{height:"80%",width:'95%',paddingLeft:10}}>
                      <ScrollView style={{height:100}}>
-                        {data.map((res,index)=>{
+                        {dataFromState.map((res,index)=>{
                             return (
 
                                 <View key={index} style={{borderBottomWidth:1,borderBottomColor:'gray',marginTop:10}}>
@@ -120,14 +138,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
                  </View>
                  
                 </Modal>
-            <View style={{marginTop:200,alignItems:"center",}}>
-                <TouchableOpacity style={{height:40,width:100,borderColor:"tomato",borderWidth:1,alignItems:"center",justifyContent:"center",borderRadius:10}}
-                onPress={()=>dispatch({type:"MODAL2_OPEN"})}>
-                    <Text style={{color:"#ff6b81",fontSize:20}}>
-                        Report
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            
             </ScrollView>
 
             </View>

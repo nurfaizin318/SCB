@@ -14,7 +14,7 @@ import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {TouchableOpacity,View, LayoutAnimation} from 'react-native'
+import {TouchableOpacity,View, SafeAreaView} from 'react-native'
 
 
 //REDUX============
@@ -42,11 +42,13 @@ function MyTabs(props) {
       <FontAwesome5 name="paste" size={20} color={color} />}}/>
       <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color})=>
        <View style={{width:55,height:55,borderRadius:100,backgroundColor:"#2C3A47",top:-10,elevation:1}}>
-         <TouchableOpacity style={{alignItems:"center",justifyContent:"center",flex:1}} onPress={()=>props.navigation.navigate('Insert')}>
+         <TouchableOpacity style={{alignItems:"center",justifyContent:"center",flex:1}} 
+         onPress={()=>props.navigation.navigate('Insert')}
+
+         >
         <FontAwesome5 name="location-arrow" size={20} color={color} />
       </TouchableOpacity>
        </View>}}/>
-    
     </Tab.Navigator>
   );
 }
@@ -55,8 +57,11 @@ function MyTabs(props) {
 const App = () => {
   return (
     <Provider store={Store} >
+     <SafeAreaView
+      style={{ flex: 1}}
+      >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Loader">
         <Stack.Screen name="Loader" component={Loader} 
           options={{headerShown:false}}/>
           <Stack.Screen name="Home" component={MyTabs} 
@@ -64,6 +69,7 @@ const App = () => {
         
           </Stack.Navigator>
       </NavigationContainer>
+      </SafeAreaView>
       </Provider>
      
   );

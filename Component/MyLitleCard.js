@@ -4,9 +4,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const MyLitleCard = (props) =>
     {
-        var color= ['#ff6b6b','#ff7675','#a29bfe','#fdcb6e','#fd79a8','#00cec9','#686de0','#ffbe76','#badc58','#f6e58d','#686de0','#B53471'];
-        var randomColor=color[Math.floor(Math.random() * color.length)];
-        var color2= 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
 
         return(
                 <View style={{...styles.card,backgroundColor:'#2C3A47',flexWrap:'wrap'}} >
@@ -16,11 +13,9 @@ const MyLitleCard = (props) =>
                         <Text style={{color:'white',}}>{props.organitation}</Text>
                         </View>
                     </View>
-                   
                      <View style={styles.grade} >
-                     <FontAwesome5 name="star" size={16} color="black" style={{paddingLeft:10,alignSelf:'center'}}/>
+                        <FontAwesome5 name="star" size={16} color="black" style={{paddingLeft:10,alignSelf:'center'}}/>
                         <Text style={{marginLeft:2,fontWeight:'bold',top:2}}>0.0</Text>
-                        <FontAwesome5 name="eye" size={13} color="gray" style={{paddingLeft:50,alignSelf:'flex-end'}}/>
                      </View>
                 </View>
         )

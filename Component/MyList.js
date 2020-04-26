@@ -16,7 +16,7 @@ const MyList= (props) =>
             </View>
             <View style={{width:80,height:'100%',alignItems:'center',justifyContent:'center'}}>
                 <TouchableOpacity>
-                     <FontAwesome5 name="angle-double-up" size={20} color="white" />
+                <FontAwesome5 name="angle-double-up" size={20} color="white" />
                 </TouchableOpacity>
             </View>
         </View>

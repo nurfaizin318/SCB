@@ -1,7 +1,7 @@
-import React,{useEffect} from 'react'
+import React,{useState} from 'react'
 
 import {useDispatch,useSelector} from 'react-redux'
-
+import AsyncStorage from '@react-native-community/async-storage';
 import RadioGroup,{Radio} from "react-native-radio-input";
 
 import {
@@ -10,57 +10,62 @@ import {
     ScrollView,
     StyleSheet,
     Button,
-    Modal
+    Modal,
+    KeyboardAvoidingView
        } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+       import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import MyTextInput from '../../Component/MyTextInput';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 
 const Insert = (props)=>{
-    var date = new Date().getDate(); //Current Date
-    var month = new Date().getMonth() + 1; //Current Month
-    var year = new Date().getFullYear(); //Current Year
-    const times = date +'/'+month+'/'+year
-   
-      const dispatch =useDispatch();
-      const organitation =useSelector(state=>state.Insert.organitation);
-      const actions =useSelector(state=>state.Insert.actions);
-      const contact= useSelector(state =>state.Insert.contactPerson);
-      const contact2= useSelector(state =>state.Insert.contactPerson2);
-      progress = useSelector(state=>state.Insert.progress)
-      nextPlan = useSelector(state=>state.Insert.nextPlan)
-      result2 = useSelector(state=>state.Insert.result)
-      isVisible= useSelector(state=>state.Modal.isVisible)
-      isEditable= useSelector(state=>state.Insert.isEditable)
-      data = useSelector(state=>state.Insert.data)
+        var date = new Date().getDate(); //Current Date
+        var month = new Date().getMonth() + 1; //Current Month
+        var year = new Date().getFullYear(); //Current Year
+        const times = date +'/'+month+'/'+year
+        const [borderColor,setBorderColor] = useState("#7f8c8d")
+        const dispatch =useDispatch();
+        const organitation =useSelector(state=>state.Data.organitation);
+        const actions =useSelector(state=>state.Data.actions);
+        const contact= useSelector(state =>state.Data.contactPerson);
+        const contact2= useSelector(state =>state.Data.contactPerson2);
+        progress = useSelector(state=>state.Data.progress);
+        nextPlan = useSelector(state=>state.Data.nextPlan);
+        result2 = useSelector(state=>state.Data.result);
+        isVisible= useSelector(state=>state.Modal.isVisible);
+        isEditable= useSelector(state=>state.Data.isEditable);
+        data = useSelector(state=>state.Data.data);
       
-      const push =  async () =>{
-        const ItemsToSaved ={'time':times,'organitation' : organitation,'actions': actions,'contact':contact,'progres':progress,'nextPlan':nextPlan,'result':result};
-        const existingItems = await AsyncStorage.getItem('Items');
-         
-      }  
-      
-      const onEdit = (nextPlan) =>{
-          if(nextPlan === 'others'){
-            dispatch({type:"ON_OTHERS"})
-        }
-        else{
-            dispatch({type:"ON_OTHERS"})
-
-        }
-      }
 
       const onInsert = async () =>{
-          await dispatch({type:"INPUT_INSERT"});
-          await dispatch({type:"MODAL_CLOSE"});
-          await props.navigation.navigate("Home")
-          
+
+           let date = new Date();
+            let id =  await date.getTime();
+            let dates = await date.getDate();
+            var month = await  date.getMonth() + 1; //Current Month
+            let year = await date.getFullYear(); //Current Year
+            let times= await date.toLocaleTimeString();
+            let TimeNow = dates +'/'+month+'/'+year +' '+times;
+            dispatch({type:"INPUT_INSERT",timeNow:TimeNow,id:id});
+
+                try{
+            let dataToStorage = await JSON.stringify(data)
+
+                    await AsyncStorage.setItem('Data',dataToStorage)
+
+                }catch(e){
+                    console.log(e)
+                }
+
       }
+
+
+
        
     return(
+        
         <View style={{flex:1,backgroundColor:'#1e272e'}}>
+            <KeyboardAvoidingView behavior="padding">
             <View style={{alignItems:"center",top:20}}>
                  <Text style={styles.body.title} >{times}</Text>
             </View>
@@ -109,9 +114,12 @@ const Insert = (props)=>{
                             <Text style={{fontSize:16,color:'white'}}>
                             Contact Person  :  
                             </Text>
-                            <Text style={{fontSize:16,color:'white',paddingLeft:10}}>
-                                    {contact +`(${contact2})`}
-                            </Text>
+                                <View style={{flexDirection:'row',flexWrap:"wrap",width:200,}}>
+                                    <Text style={{fontSize:16,color:'white',paddingLeft:10}}>
+                                        {contact +`(${contact2})`}
+                                    </Text>
+                                </View>
+                           
                         </View>
                         <View style={styles.modal.valueContainer}>
                             <Text style={{fontSize:16,color:'white'}}>
@@ -152,7 +160,10 @@ const Insert = (props)=>{
                     <Text style={styles.body.title}>
                       *  Organitation
                     </Text>
-                    <MyTextInput  value={organitation} onChangeText={(value)=>dispatch({type:"INPUT_ORGANITATION",payload1:value})}/>
+                    <MyTextInput  
+                     onChangeText={(value)=>{dispatch({type:"INPUT_ORGANITATION",payload1:value})}}
+                     value={organitation}
+                        />
                 </View>
                 <View style={{left:10,paddingTop:25}}>
                     <Text style={styles.body.title}>
@@ -163,7 +174,7 @@ const Insert = (props)=>{
                         IconStyle={{fontSize:30,backgroundColor:"white",}}
                         coreStyle={{fontSize:21,color:'#1abc9c'}}
                         RadioGroupStyle={{flexDirection:"row"}}
-                        labelStyle={{fontSize:16,color:"white"}}>
+                        labelStyle={{fontSize:16,color:"#7f8c8d"}}>
                             <Radio iconName={"lens"} label={"Visit "} value={"Visit"} />
                             <Radio iconName={"lens"} label={"Phone Call"} value={"Phone Call"}/>
                             <Radio iconName={"lens"} label={"Interview"} value={"InterView"}/>
@@ -174,7 +185,7 @@ const Insert = (props)=>{
                         <Text style={styles.body.title}>
                            *  Contact Person
                         </Text>
-                        <MyTextInput  value={contact} onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload3:value})}/>
+                        <MyTextInput value={contact} onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload3:value})}/>
                         <MyTextInput  value={contact2} onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON2",payload6:value})}/>
                         
                     </View>
@@ -225,21 +236,23 @@ const Insert = (props)=>{
                         <Text style={{...styles.body.title,paddingBottom:20 }}> 
                            * Next  Plan
                         </Text>
-                        <MyTextInput  editable={isEditable} onChangeText={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value})}/>
+                        <MyTextInput  value={nextPlan} onChangeText={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value})}/>
                     </View>
                     <View style={{paddingTop:20,left:10}}>
                         <Text style={styles.body.title}>
                             * Result
                         </Text>
-                    <MyTextInput  value={result2} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
+                    <MyTextInput value={result2} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
                     </View>
+                    <View style={styles.buttomButton}>
+                        <View style={{width:"100%",flexDirection:'row',justifyContent:'space-between',top:-10}}>
+                            <Button title="Clear"  color="#ee5253" onPress={()=>dispatch({type:"INPUT_CLEAR"})}/>
+                            <Button title="Submit"  color="#1abc9c" onPress={()=>dispatch({type:"MODAL_OPEN"})}/>
+                        </View>
+                     </View>
             </ScrollView>
-            <View style={styles.buttomButton}>
-                <View style={{width:"100%",flexDirection:'row',justifyContent:'space-between'}}>
-                <Button title="Clear"  color="#ee5253" onPress={()=>dispatch({type:"INPUT_CLEAR"})}/>
-                <Button title="Submit"  color="#1abc9c" onPress={()=>dispatch({type:"MODAL_OPEN"})}/>
-                </View>
-            </View>
+            
+            </KeyboardAvoidingView>
         </View>
             )
     }
@@ -256,7 +269,7 @@ const Insert = (props)=>{
            
         },
         buttomButton:{
-            height:70,
+            height:120,
             width:'100%',
             alignItems:"center",
             flexDirection:'row',
@@ -266,7 +279,7 @@ const Insert = (props)=>{
         body:{
             title:{
                 fontSize:19,
-                color:'white'
+                color:'#7f8c8d'
             }
         },
         modal:{

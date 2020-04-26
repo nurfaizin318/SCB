@@ -1,4 +1,7 @@
 import React,{Fragment,useEffect} from 'react';
+import {useDispatch} from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {
     View,
     Text,
@@ -7,18 +10,26 @@ import {
     StatusBar
 } from 'react-native';
 
-const load = (props) =>{
+
     
-    setTimeout(()=>{
-        props.navigation.navigate("Home")
-    },3000)
-}
+   
+
 const Loader = (props) =>
 
     {
+        const dispatch = useDispatch();
      useEffect(()=>{
-         load(props);
-     })
+        getData = async()=>{
+            const fetch = await AsyncStorage.getItem('Data');
+            const fetchData = await JSON.parse(fetch);
+            dispatch({type:"FETCH_DATA",payload:fetchData})
+             await props.navigation.navigate("Home");
+
+            
+        }
+        getData();
+    },[])
+     
        return ( 
         <Fragment >         
            <StatusBar backgroundColor="#1e272e" />

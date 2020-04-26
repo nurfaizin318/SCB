@@ -9,7 +9,7 @@ const initialState ={
     nextPlan:"",
     result:"",
     time:"",
-    data:[]
+    data:[{}]
 
 }
 
@@ -34,30 +34,25 @@ const InsertReducer = (state=initialState,action) =>
             case "INPUT_RESULT" :
                 return {...state,result:action.payload5}
             case "INPUT_CLEAR"  :
-                return {...state,organitation:"",actions:"",contactPerson:"",progress:"",nextPlan:"",result:"",}
-            case "ON_OTHERS" :
-                return {...state,isEditable:!isEditable,nextPlan:""}
+                return {...state,organitation:"",actions:"",contactPerson:"",contactPerson2:"",progress:"",nextPlan:"",result:"",}
+            case "ON_DELETE" :
+                return {...state,data:state.data.filter(res=>res.id !== action.payload)}            
             case "INPUT_INSERT" :
-            var date = new Date();
-            var id = date.getTime();
-            var dates = date.getDate();
-            var month = date.getMonth() + 1; //Current Month
-            var year = date.getFullYear(); //Current Year
-            var times= date.toLocaleTimeString();
-
-            var TimeNow = dates +'/'+month+'/'+year +' '+times;
-            
+                        
                 let newData = { 
-                    id : dates+id,
+                    id : action.id,
                     organitation  :state.organitation,
                     actions: state.actions ,
                     contact: state.contactPerson,
                     progress:state.progress, 
                     nextPlan : state.nextPlan,
                     result:state.result,
-                    time:TimeNow}
-                    console.log(state.data)
-                return {...state,data: data.concat(newData)}
+                    time:action.timeNow}
+                return {...state,data:state.data.concat([newData])};
+
+                case "FETCH_DATA" :{
+                    return {...state,data:action.payload}
+                }
             
         default : return state;
             

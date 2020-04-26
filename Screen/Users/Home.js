@@ -1,4 +1,4 @@
-import React,{Fragment} from 'react';
+import React,{Fragment,useState} from 'react';
 import {
     View ,
     ScrollView,
@@ -9,8 +9,8 @@ import {
     TouchableWithoutFeedback,
     TextInput,
     Keyboard} from 'react-native';
-    import {useSelector} from 'react-redux';
-    import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {useSelector} from 'react-redux';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MyLitleCard from '../../Component/MyLitleCard';
 import MyList from '../../Component/MyList';
 
@@ -18,8 +18,8 @@ import MyList from '../../Component/MyList';
 
  const Home  = (props) => 
     {
+        const HomeData = useSelector(state=>state.Data.data)
        
-        const  data = useSelector(state=>state.Insert.data)
         const arr1=[
         {key:1,data:'First Notif',hint:'Person eek'},
         {key:2,data:'Secend Notif',hint :'Filling Good'},
@@ -28,7 +28,7 @@ import MyList from '../../Component/MyList';
         {key:5,data:'Fife Notif', hint :'Filling Gerah Body'},
         {key:6,data:'Six Notif',hint :'Filing Stress'}]
 
-
+        
         const height =Dimensions.get('window').height;
         const width =Dimensions.get('window').width;
 
@@ -39,10 +39,10 @@ import MyList from '../../Component/MyList';
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
             <View style={{flex:1,backgroundColor:'#1e272e',alignItems:'center',width:width}}>
-               <View style={{height:70,flexDirection:'row',marginTop:10,paddingTop:10,width:'96%',elevation:20,backgroundColor:"#1e272e"}}>
+               <View style={{height:70,flexDirection:'row',marginTop:10,paddingTop:10,width:'96%',elevation:10,backgroundColor:"#1e272e"}}>
                     <View style={{width:'100%'}}>
                         <Text style={styles.fontThumnail}>Jaya Saf</Text>
-     <Text style={{fontSize:15,color:'gray',left:20}}>grapic desigmer</Text>
+                        <Text style={{fontSize:15,color:'gray',left:20}}>grapic desigmer</Text>
                     </View>
                    <TouchableOpacity style={{height:50,width:50,alignItems:'center',justifyContent:"center",right:50,elevation:10}}>
                    <FontAwesome5 name="ellipsis-v" size={25} color="#778ca3" />
@@ -62,10 +62,10 @@ import MyList from '../../Component/MyList';
                         </View>
                         <View style={{justifyContent:'center',height:160}}>
                            
-                           {data.length >0 ? 
+                           {HomeData.length >0 ? 
                            
                            <ScrollView horizontal={true} style={{top:5,width:'97%',left:5}}>
-                           {data.map((res,index)=> {
+                           {HomeData.map((res,index)=> {
                                        return <MyLitleCard key={index} organitation={res.organitation} progress={res.progress} style={{}}/>
                            })}
                             </ScrollView> 
