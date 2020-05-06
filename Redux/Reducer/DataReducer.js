@@ -9,11 +9,10 @@ const initialState ={
     nextPlan:"",
     result:"",
     time:"",
-    data:[{}]
+    data:[]
 
 }
 
-var date = new Date()
 
 const InsertReducer = (state=initialState,action) =>
     {
@@ -38,7 +37,6 @@ const InsertReducer = (state=initialState,action) =>
             case "ON_DELETE" :
                 return {...state,data:state.data.filter(res=>res.id !== action.payload)}            
             case "INPUT_INSERT" :
-                        
                 let newData = { 
                     id : action.id,
                     organitation  :state.organitation,
@@ -48,12 +46,9 @@ const InsertReducer = (state=initialState,action) =>
                     nextPlan : state.nextPlan,
                     result:state.result,
                     time:action.timeNow}
-                return {...state,data:state.data.concat([newData])};
-
-                case "FETCH_DATA" :{
-                    return {...state,data:action.payload}
-                }
-            
+                return { data:[...state.data,newData]}
+            case "FETCH_DATA" :
+                return {...state,data:action.payload}
         default : return state;
             
         }

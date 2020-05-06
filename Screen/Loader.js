@@ -1,4 +1,4 @@
-import React,{Fragment,useEffect} from 'react';
+import React,{Fragment,useEffect,useState} from 'react';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -10,25 +10,27 @@ import {
     StatusBar
 } from 'react-native';
 
-
-    
-   
-
 const Loader = (props) =>
-
     {
+
+       
+
         const dispatch = useDispatch();
-     useEffect(()=>{
+     useEffect(()=>{    
         getData = async()=>{
             const fetch = await AsyncStorage.getItem('Data');
             const fetchData = await JSON.parse(fetch);
-            dispatch({type:"FETCH_DATA",payload:fetchData})
-             await props.navigation.navigate("Home");
+            await checkData(fetchData);
+            await props.navigation.navigate("Home");
 
             
         }
         getData();
     },[])
+
+    const checkData = async (value) =>{
+       value != null ? dispatch({type:"FETCH_DATA",payload:value}) : null;
+    }
      
        return ( 
         <Fragment >         
@@ -47,7 +49,6 @@ const Loader = (props) =>
             )
 
     }
-
 export default Loader;
 
 const styles = StyleSheet.create({

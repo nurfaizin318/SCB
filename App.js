@@ -24,7 +24,7 @@ import Store from './Redux/Store/Store'
 // Screen  =============
 import Insert from './Screen/Users/Insert'
 import Home from './Screen/Users/Home';
-import Library from './Screen/Users/Library';
+import Library   from './Screen/Users/Library';
 import Loader from './Screen/Loader'
 import Search from './Screen/Users/Search'
 
@@ -33,22 +33,20 @@ const Tab = createBottomTabNavigator();
 
 function MyTabs(props) {
   return (
-    <Tab.Navigator tabBarOptions={{style:{backgroundColor:"#2C3A47",borderTopWidth:0},activeTintColor:"#ee5253"}} >
+    <Tab.Navigator  tabBarOptions={{style:{backgroundColor:"#2C3A47",borderTopWidth:0},activeTintColor:"#ee5253"}} >
       <Tab.Screen name="Home" component={Home}  options={{tabBarIcon:({color})=>
-      <FontAwesome5 name="home" size={20} color={color} />}}/>
+        <FontAwesome5 name="home" size={20} color={color} />}}
+      />
       <Tab.Screen name="Search" component={Search} options={{tabBarIcon:({color})=>
-      <FontAwesome5 name="search" size={20} color={color} />}}/>
+        <FontAwesome5 name="search" size={20} color={color} />}}
+      />
       <Tab.Screen name="Library" component={Library} options={{tabBarIcon:({color})=>
-      <FontAwesome5 name="paste" size={20} color={color} />}}/>
+       <FontAwesome5 name="paste" size={20} color={color} />}}
+       />
       <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color})=>
-       <View style={{width:55,height:55,borderRadius:100,backgroundColor:"#2C3A47",top:-10,elevation:1}}>
-         <TouchableOpacity style={{alignItems:"center",justifyContent:"center",flex:1}} 
-         onPress={()=>props.navigation.navigate('Insert')}
-
-         >
+        
         <FontAwesome5 name="location-arrow" size={20} color={color} />
-      </TouchableOpacity>
-       </View>}}/>
+      }}/>
     </Tab.Navigator>
   );
 }
