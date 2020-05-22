@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { CardRecents, CardNotifications } from '../../Component'
+import {ListNotification,CardRecent} from '../../Component'
 
 
 
@@ -62,7 +62,7 @@ const Home = (props) => {
                         showsHorizontalScrollIndicator={false}
                         renderItem={ ({item}) =>
 
-                                <CardRecents
+                                <CardRecent
                                 id={item.id}
                                 organitation={item.organitation} 
                                 progress={item.progress}                               
@@ -93,7 +93,7 @@ const Home = (props) => {
                                 <ScrollView style={styles.feed.scrollBody(width)}>
                                     <View style={{ alignItems: 'center' }}>
                                         {arr1.map(result => {
-                                            return <CardNotifications
+                                            return <ListNotification
                                                 key={result.key}
                                                 text={result.data}
                                                 text2={result.hint} />
@@ -121,6 +121,7 @@ export default Home;
 const styles = {
 
     container: (width) => {
+
         return {
             flex: 1,
             backgroundColor: '#1e272e',

@@ -20,18 +20,13 @@ const Loader = (props) =>
         getData = async()=>{
             const fetch = await AsyncStorage.getItem('Data');
             const fetchData = await JSON.parse(fetch);
-            await checkData(fetchData);
+            await fetchData != null ? dispatch({type:"FETCH_DATA",payload:fetchData}) : null;
             await props.navigation.navigate("Home");
 
             
         }
         getData();
     },[])
-
-    const checkData = async (value) =>{
-       value != null ? dispatch({type:"FETCH_DATA",payload:value}) : null;
-    }
-     
        return ( 
         <Fragment >         
            <StatusBar backgroundColor="#1e272e" />

@@ -11,7 +11,7 @@ import {
     KeyboardAvoidingView
        } from 'react-native';
 
-import {TextInputs,Modals} from '../../Component';
+// import {TextInputs,Modals} from '../../Component';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -24,10 +24,10 @@ const Insert = (props)=>{
         const actions =useSelector(state=>state.DataReducer.actions);
         const contact= useSelector(state =>state.DataReducer.contactPerson);
         const contact2= useSelector(state =>state.DataReducer.contactPerson2);
-        progress = useSelector(state=>state.DataReducer.progress);
-        nextPlan = useSelector(state=>state.DataReducer.nextPlan);
-        result2 = useSelector(state=>state.DataReducer.result);
-        Data = useSelector(state=>state.DataReducer.data);
+        const progress = useSelector(state=>state.DataReducer.progress);
+        const nextPlan = useSelector(state=>state.DataReducer.nextPlan);
+        const result2 = useSelector(state=>state.DataReducer.result);
+        const Data = useSelector(state=>state.DataReducer.data);
 
              const date = new Date();
              const id =   date.getTime();
@@ -44,7 +44,7 @@ const Insert = (props)=>{
                    await setVisible(!visible);
                    await props.navigation.navigate('Home'); 
                  console.log(Data)
-                 }catch(e){
+                 }catch(e){con
                      console.log(e)
                  }
 
