@@ -13,6 +13,7 @@ import {
 import { useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {ListNotification,CardRecent} from '../../Component'
+import { Dark } from '../../Utils';
 
 
 
@@ -36,12 +37,15 @@ const Home = (props) => {
                 <StatusBar backgroundColor="#1e272e" tintColor="light" />
                 <View style={styles.container(width)}>
                     <View style={styles.userPanel}>
-                        <View style={{ width: '100%' }}>
+                        {/* <View style={styles.userPanel.icon}>
+                            <Text>J</Text>
+                        </View> */}
+                        <View style={styles.thumnail.name}>
                             <Text style={styles.thumnail.fontThumnail1}>Jaya Saf</Text>
-                            <Text style={styles.thumnail.fontThumnail2}>grapic desigmer</Text>
+                            <Text style={styles.thumnail.fontThumnail2}>Supervisor</Text>
                         </View>
                         <TouchableOpacity style={styles.settingIcon}>
-                            <FontAwesome5 name="ellipsis-v" size={25} color="gray" />
+                             <FontAwesome5 name="ellipsis-v" size={25} color="gray" />
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex: 1, width: width }}>
@@ -133,22 +137,30 @@ const styles = {
         height: 70,
         flexDirection: 'row',
         marginTop: 10,
-        paddingTop: 10,
-        width: '96%',
-        elevation: 10,
-        backgroundColor: "#1e272e"
+        padding: 10,
+        width: '100%',
+        borderBottomWidth:1,
+        borderBottomColor:'rgba(0,0,0,0.3)',
+
+        icon:{
+            width:50,
+            height:50,
+            borderRadius:90,
+            justifyContent:"center",
+            alignItems:"center",
+            backgroundColor:Dark.black10,
+            elevation:7
+        }
     },
     thumnail: {
-        width: 70,
-        height: 70,
-        borderRadius: 50,
-        backgroundColor: 'tomato',
+        name:{
+        width:'100%',
 
+        },
         fontThumnail1: {
             fontSize: 22,
             color: 'white',
-            fontWeight: 'bold',
-            left: 10
+            left: 10,
         },
         fontThumnail2: {
             fontSize: 15,
@@ -158,10 +170,12 @@ const styles = {
     },
     recent: {
         box: {
-            height: 215,
+            height: 230,
             justifyContent: 'flex-start',
-            width: '98%', borderRadius: 5,
-            alignSelf: "center"
+            width: '100%', 
+            borderRadius: 5,
+            alignSelf: "center",
+            borderBottomWidth:0.5
         },
         boxheader: {
             justifyContent: 'space-between',
@@ -179,23 +193,13 @@ const styles = {
             left: 5
         }
     },
-    searchInput: {
-        fontSize: 15,
-        backgroundColor: 'rgba(47, 54, 64,1)',
-        borderTopLeftRadius: 15,
-        borderBottomLeftRadius: 15,
-        height: 40,
-        width: '72%',
-        textAlign: 'center',
-        color: 'white'
-    },
+  
     settingIcon: {
         height: 50,
         width: 50,
         alignItems: 'center',
         justifyContent: "center",
         right: 50,
-        elevation: 10
     },
     touch: {
         width: 60,
@@ -232,9 +236,7 @@ const styles = {
                 alignSelf: "center",
                 height: height / 2.15,
                 paddingTop: 10,
-                marginTop: 20,
                 backgroundColor: "#1e272e",
-                elevation: 20,
             }
         },
         header: {

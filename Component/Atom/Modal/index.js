@@ -3,12 +3,13 @@ import {View,
     Text,
     Dimensions,
     Modal,
-    Button
+    Button,
+    Alert
     }
 
 from 'react-native'
 
-const CardRecent = ({
+const Modals = ({
             isVisible,
             organitation,
             actions,
@@ -27,8 +28,11 @@ const CardRecent = ({
     const height = Dimensions.get('window').height;
 
     return (
-        <View tyle={styles.container(width,height)}>
-            <Modal visible={isVisible}>
+            <Modal 
+            visible={false} 
+            animationType={"fade"}
+            style={styles.container(height,width)}
+            >
                 <Text>organitation : {organitation}</Text>
                 <Text>actions      : {actions} </Text>
                 <Text>Next Plan    : {nextPlan} </Text>
@@ -36,26 +40,25 @@ const CardRecent = ({
                 <Text>progress     : {progress} </Text>
                 <Text>contact      : {contact,contact2} </Text>
                 <Text>result2      : {result2} </Text>
-
-            </Modal>
-            <View>
-                <Button title="close" onPress={()=>{}}/>
+                <View>
+                <Button title="close" onPress={onCloseModal}/>
             </View>
-        </View>
+            </Modal>
+            
     )
 }
 
-export default CardRecent;
+export default Modals;
 
 const styles ={
     container :(width,height)=>{
         return {
-        width: width/3.5,
-        height: height/4.5,
+        width:width/1.2,
+        height:height/1.1,
         backgroundColor:"red",
-        marginTop:10,
-        marginLeft:10,
         borderRadius:5,
+        
         }
-    }
+    },
+  
 }

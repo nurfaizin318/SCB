@@ -22,8 +22,6 @@ const Loader = (props) =>
             const fetchData = await JSON.parse(fetch);
             await fetchData != null ? dispatch({type:"FETCH_DATA",payload:fetchData}) : null;
             await props.navigation.navigate("Home");
-
-            
         }
         getData();
     },[])

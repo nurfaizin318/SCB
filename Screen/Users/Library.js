@@ -13,8 +13,8 @@ import {View ,
     FlatList } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useSelector,useDispatch} from 'react-redux';
-// import {CardLibrary} from '../../Component';
-// import ModalLibrary from '../../Component/Atoms/ModalLibrary';
+import {CardLibrary,Modals} from '../../Component';
+
 
 
 
@@ -41,21 +41,23 @@ import {useSelector,useDispatch} from 'react-redux';
          
         <Fragment>
             <StatusBar backgroundColor="#1e272e" tintColor="light"  />
-            <View style={{flex:1,backgroundColor:'#1e272e'}}>
-            <View style={{alignItems:'flex-end',marginTop:20,marginHorizontal:20}}>
-                <TouchableOpacity style={{height:40,width:100,alignItems:"center",justifyContent:"center",borderRadius:10}}
+                 <View style={{flex:1,backgroundColor:'#1e272e',}}>
+            <View style={{marginTop:20,marginHorizontal:20}}>
+                <TouchableOpacity style={{height:40,width:100,alignItems:"center",justifyContent:"center",borderRadius:10,alignSelf:"flex-end"}}
                 onPitems={()=>setIsVisible(!isVisible)}>
                     <Text style={{color:"#ff6b81",fontSize:20}}>
                         Report
                     </Text>
                 </TouchableOpacity>
             </View>
-           <ModalLibrary 
+           <Modals
            isVisible={isVisible}
            onClose={()=>setIsVisible(!isVisible)}
            dataFromState={dataFromState}
            />
-                    <FlatList
+           <FlatList
+           style={{alignSelf:"center"}}
+                    showsVerticalScrollIndicator={false}
                         data={dataFromState}
                         renderItem={ ({item}) =>
 
@@ -74,7 +76,8 @@ import {useSelector,useDispatch} from 'react-redux';
                                 /> }
                         keyExtractor={item => item.id.toString()}
                     />
-                </View>
+           </View>
+                   
         </Fragment>
              )
 

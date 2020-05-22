@@ -9,7 +9,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -19,21 +19,22 @@ import {TouchableOpacity,View, SafeAreaView} from 'react-native'
 
 //REDUX============
 import {Provider} from 'react-redux';
-import Store from './Redux/Store/Store'
+import Store from './Redux/Store/Store';
 
 // Screen  =============
-import Insert from './Screen/Users/Insert'
+import Insert from './Screen/Users/Insert';
 import Home from './Screen/Users/Home';
 import Library   from './Screen/Users/Library';
-import Loader from './Screen/Loader'
-import Search from './Screen/Users/Search'
+import Loader from './Screen/Loader';
+import Search from './Screen/Users/Search';
+import {Dark} from './Utils/'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MyTabs(props) {
   return (
-    <Tab.Navigator  tabBarOptions={{style:{backgroundColor:"#2C3A47",borderTopWidth:0},activeTintColor:"#ee5253"}} >
+    <Tab.Navigator  tabBarOptions={{style:{backgroundColor:Dark.black10,borderTopWidth:0,elevation:10},activeTintColor:"#ee5253"}} >
       <Tab.Screen name="Home" component={Home}  options={{tabBarIcon:({color})=>
         <FontAwesome5 name="home" size={20} color={color} />}}
       />
@@ -43,7 +44,7 @@ function MyTabs(props) {
       <Tab.Screen name="Library" component={Library} options={{tabBarIcon:({color})=>
        <FontAwesome5 name="paste" size={20} color={color} />}}
        />
-      <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color})=>
+      <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color}) =>
         
         <FontAwesome5 name="location-arrow" size={20} color={color} />
       }}/>

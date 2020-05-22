@@ -1,11 +1,13 @@
 import CardLibrary from './CardLibrary/index';
 import CardRecent from './CardRecents/index';
 import ListNotification from './ListNotifications/index';
-import Modal from './Modal/index'
+import Modals from './Modal/index';
+import TextInputs from './TextInput/index'
 
 export {
     CardLibrary,
     CardRecent,
     ListNotification,
-    Modal,
+    Modals,
+    TextInputs
 };

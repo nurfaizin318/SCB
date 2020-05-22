@@ -8,16 +8,20 @@ import {
     Text,
     ScrollView,
     Button,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Alert
        } from 'react-native';
 
-// import {TextInputs,Modals} from '../../Component';
+import {TextInputs,Modals} from '../../Component';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import AsyncStorage from '@react-native-community/async-storage';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import {Dark} from '../../Utils'
 
 const Insert = (props)=>{
 
-         const [visible ,setVisible ]= useState(false);
+        const [visible ,setVisible ]= useState(false);
 
         const dispatch =useDispatch();
         const organitation =useSelector(state=>state.DataReducer.organitation);
@@ -29,13 +33,13 @@ const Insert = (props)=>{
         const result2 = useSelector(state=>state.DataReducer.result);
         const Data = useSelector(state=>state.DataReducer.data);
 
-             const date = new Date();
-             const id =   date.getTime();
-             const dates =  date.getDate();
-             const month =  date.getMonth() + 1; //Current Month
-             const year = date.getFullYear(); //Current Year
-             const times=  date.toLocaleTimeString();
-             const TimeNow = dates +'/'+month+'/'+year +' '+times;
+        const date = new Date();
+        const id =   date.getTime();
+        const dates =  date.getDate();
+        const month =  date.getMonth() + 1; //Current Month
+        const year = date.getFullYear(); //Current Year
+        const times=  date.toLocaleTimeString();
+        const TimeNow = dates +'/'+month+'/'+year +' '+times;
 
         const onSave = async () =>{
               await dispatch({type:"INPUT_INSERT",timeNow:TimeNow,id:id});
@@ -50,58 +54,76 @@ const Insert = (props)=>{
 
        }
 
-      
+      const Alerts = () =>{
+          Alert.alert(
+              "",
+              "Are you sure  ?",
+              [
+                {text:"No",
+                    onPress:()=>{console.log("no")}
+                },
+                {
+                    text:"Yes",
+                    onPress:()=>{onSave()}
+                }
+             ]
+          )
+      }
     return(
-        <View style={{flex:1,backgroundColor:'#1e272e'}}>
+        <View style={styles.container}>
             <KeyboardAvoidingView behavior="padding">
-            <View style={{alignItems:"center",top:20}}>
-                 <Text style={styles.body.title} >{times}</Text>
+            <View style={styles.header.container}>
+                <TouchableOpacity style={styles.header.back}
+                onPress={()=>{props.navigation.goBack(null)}}
+                >
+                   <FontAwesome5Icon name="arrow-left" size={20} color="white" />
+                </TouchableOpacity>
+                <View style={styles.header.center}>
+                       <Text style={styles.header.text}>Insert</Text>
+                </View>
             </View>
-            <Modals 
-            isVisible={visible}
-            organitation={organitation}
-            actions={actions}
-            nextPlan={nextPlan}
-            times={times}
-            progress={progress}
-            contact={contact}
-            contact2={contact2}
-            result2={result2}
-            navigation={props.navigation}
-            onSave = {()=>onSave()}
-            onCloseModal={()=>setVisible(!visible)}
-            />
+            
             <ScrollView style={{marginTop:20}}>
-                <View style={{paddingTop:20,left:10}}>
-                    <Text style={styles.body.title}>
-                      *  Organitation
-                    </Text>
+                <View style={styles.organitation.container}>
+                     <View style={styles.title.container}>
+                         <Text style={styles.title.important}>
+                             *
+                         </Text>
+                         <Text style={styles.title.text}>organitation</Text>
+                     </View>
                     <TextInputs  
                      onChangeText={(value)=>{dispatch({type:"INPUT_ORGANITATION",payload1:value})}}
                      value={organitation}
                         />
                 </View>
-                <View style={{left:10,paddingTop:25}}>
-                    <Text style={styles.body.title}>
-                        Actions
-                    </Text>
-                    <View style={{marginTop:20,left:-5}}>
-                        <RadioGroup getChecked={(value)=>dispatch({type:"INPUT_ACTIONS",payload2:value})} 
-                        
+                <View style={styles.actions.container}>
+                <View style={styles.title.container}>
+                         <Text style={styles.title.important}>
+                             *
+                         </Text>
+                         <Text style={styles.title.text}>action</Text>
+                     </View>
+                    <View style={styles.actions.containerRadio}>
+                        <RadioGroup 
+                        getChecked={(value)=>dispatch({type:"INPUT_ACTIONS",payload2:value})} 
                         IconStyle={{fontSize:30,backgroundColor:"white",}}
                         coreStyle={{fontSize:21,color:'#1abc9c'}}
                         RadioGroupStyle={{flexDirection:"row"}}
-                        labelStyle={{fontSize:16,color:"#7f8c8d"}}>
+                        labelStyle={{fontSize:16,color:"#7f8c8d"}}
+                        >
                             <Radio iconName={"lens"} label={"Visit "} value={"Visit"} />
                             <Radio iconName={"lens"} label={"Phone Call"} value={"Phone Call"}/>
                             <Radio iconName={"lens"} label={"Interview"} value={"InterView"}/>
                         </RadioGroup>   
                     </View>
               </View>
-                <View style={{paddingTop:30,left:10}}>
-                        <Text style={styles.body.title}>
-                           *  Contact Person
-                        </Text>
+                <View style={styles.contact.container}>
+                <View style={styles.title.container}>
+                         <Text style={styles.title.important}>
+                             *
+                         </Text>
+                         <Text style={styles.title.text}>contact</Text>
+                     </View>
                         <TextInputs 
                             value={contact} 
                             onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload3:value})}
@@ -114,10 +136,13 @@ const Insert = (props)=>{
                             />
                         
                     </View>
-                    <View style={{left:10,width:"95%",paddingTop:30}}>
-                        <Text style={styles.body.title}>
-                            *  Progres
-                        </Text>
+                    <View style={styles.progress.container}>
+                    <View style={styles.title.container}>
+                         <Text style={styles.title.important}>
+                             *
+                         </Text>
+                         <Text style={styles.title.text}>progress</Text>
+                     </View>
                         <ProgressSteps progressBarColor="#7f8c8d" 
                         disabledStepIconColor="#7f8c8d" 
                         borderWidth={2}
@@ -157,23 +182,29 @@ const Insert = (props)=>{
                          />
                     </ProgressSteps>
                     </View>
-                    <View style={{left:10}}>
-                        <Text style={{...styles.body.title}}> 
-                           * Next  Plan
-                        </Text>
+                    <View style={styles.nextPlan.container}>
+                    <View style={styles.title.container}>
+                         <Text style={styles.title.important}>
+                             *
+                         </Text>
+                         <Text style={styles.title.text}>Next Plan</Text>
+                     </View>
                         <TextInputs  value={nextPlan} onChangeText={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value})}/>
                     </View>
-                    <View style={{paddingTop:20,left:10}}>
-                        <Text style={styles.body.title}>
-                            * Result
-                        </Text>
+                    <View style={styles.result.container}>
+                    <View style={styles.title.container}>
+                         <Text style={styles.title.important}>
+                             *
+                         </Text>
+                         <Text style={styles.title.text}>Result</Text>
+                     </View>
                     <TextInputs 
                     value={result2} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
                     </View>
                     <View style={styles.buttomButton}>
-                        <View style={{width:"100%",flexDirection:'row',justifyContent:'space-between',top:-10}}>
-                            <Button title="Clear"  color="#ee5253" onPress={()=>dispatch({type:"INPUT_CLEAR"})}/>
-                            <Button title="Submit"  color="#1abc9c" onPress={()=>setVisible(!visible)}/>
+                        <View style={styles.buttomButton.container}>
+                            <Button title="Clear"  color={Dark.lightOrange} onPress={()=>alert(organitation)}/>
+                            <Button title="Submit"  color={Dark.lightGreen} onPress={()=>{Alerts()}}/>
                         </View>
                      </View>
             </ScrollView>
@@ -185,7 +216,100 @@ const Insert = (props)=>{
     export  default Insert;
 
     const styles = {
-        
+
+        container:{
+            flex:1,
+            backgroundColor:Dark.black10
+        },
+        header:{
+            container:{
+                alignItems:"center",
+                flexDirection:"row",
+                borderBottomWidth:1,
+                borderBottomColor:'black',
+                height:50
+            },back:{
+                width:40,
+                height:40,
+                justifyContent:"center",
+                alignItems:"center",
+            },
+            center:{
+                width:'80%',
+                height:40,
+                alignItems:"center",
+                justifyContent:"center",
+            },
+            text:{
+                fontSize:20,
+                color:"white",
+
+            }
+        },
+        organitation:{
+            container:{
+                padding:15,
+                height:130,
+                borderBottomWidth:1,
+                borderBottomColor:'black'
+            }
+        },
+        actions:{
+            container:{
+                padding:10,
+                width:'100%',
+                height:150,
+                borderBottomWidth:1,
+                borderBottomColor:'black',
+                marginTop:10
+               
+            },
+            containerRadio:{
+                marginTop:40,
+            }
+        },
+        contact:{
+            container:{
+                padding:15,
+                width:"100%",
+                height:190,
+                borderBottomWidth:1,
+                borderBottomColor:'black',
+                marginTop:10
+
+            }
+        },
+        progress:{
+            container:{
+                width:"100%",
+                borderBottomWidth:1,
+                borderBottomColor:'black',
+                height:230,
+                marginTop:10,
+                padding:10
+            }
+        },
+        nextPlan:{
+            container:{
+                width:"100%",
+                borderBottomColor:'black',
+                height:120,
+                padding:10,
+                borderBottomWidth:0.5,
+                borderBottomColor:'black',
+                marginTop:10,
+                
+            }
+        },
+        result:{
+            container:{
+                borderBottomWidth:1,
+                borderBottomColor:'black',
+                height:120,
+                padding:15,
+                marginTop:10,
+            }
+        },
         stepsNext:{
             color:"#1abc9c"
             
@@ -199,17 +323,29 @@ const Insert = (props)=>{
             width:'100%',
             alignItems:"center",
             flexDirection:'row',
-            justifyContent:'flex-end',
             paddingHorizontal:40,
-        },
-        body:{
-            title:{
-                fontSize:19,
-                color:'#7f8c8d',
-                
-                
+
+            container:{
+                width:"100%",
+                flexDirection:'row',
+                justifyContent:'space-between',
+                top:-25
             }
         },
+        title:{
+            container:{
+            flexDirection:"row"
+            },
+            important:{
+            color:"red",
+            fontSize:15
+            },
+            text:{
+            fontSize:16,
+            marginLeft:10,
+            color:"white"
+            }
+        }
         
        
     }
