@@ -2,6 +2,7 @@ import React,{Fragment,useState, useEffect} from 'react';
 import Styles from '../../Styles/Styles';
 import {View ,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions,Modal,Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Dark} from '../../Utils'
 
 
  const Search = () => 
@@ -22,8 +23,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 
      return (
         <Fragment>
-            <StatusBar backgroundColor="#1e272e" tintColor="light"  />
-            <View style={{flex:1,justifyContent:'center',alignItems:"center",backgroundColor:'#1e272e'}}>
+            <StatusBar backgroundColor={Dark.black20} tintColor="light"  />
+            <View style={{flex:1,justifyContent:'center',alignItems:"center",backgroundColor:Dark.black20}}>
                     <Button title="SEARCH PAGE" onPress={()=>getData()}/>
             </View>
         </Fragment>

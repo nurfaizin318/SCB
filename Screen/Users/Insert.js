@@ -21,36 +21,34 @@ import {Dark} from '../../Utils'
 
 const Insert = (props)=>{
 
-        const [visible ,setVisible ]= useState(false);
-
         const dispatch =useDispatch();
-        const organitation =useSelector(state=>state.DataReducer.organitation);
-        const actions =useSelector(state=>state.DataReducer.actions);
-        const contact= useSelector(state =>state.DataReducer.contactPerson);
-        const contact2= useSelector(state =>state.DataReducer.contactPerson2);
-        const progress = useSelector(state=>state.DataReducer.progress);
-        const nextPlan = useSelector(state=>state.DataReducer.nextPlan);
-        const result2 = useSelector(state=>state.DataReducer.result);
-        const Data = useSelector(state=>state.DataReducer.data);
+         organitation =useSelector(state=>state.DataReducer.organitation);
+         actions =useSelector(state=>state.DataReducer.actions);
+         contact1= useSelector(state =>state.DataReducer.contact1);
+         contact2= useSelector(state =>state.DataReducer.contact2);
+         progress = useSelector(state=>state.DataReducer.progress);
+         nextPlan = useSelector(state=>state.DataReducer.nextPlan);
+         result = useSelector(state=>state.DataReducer.result)
+         Data = useSelector(state=>state.DataReducer.data);
 
-        const date = new Date();
-        const id =   date.getTime();
-        const dates =  date.getDate();
-        const month =  date.getMonth() + 1; //Current Month
-        const year = date.getFullYear(); //Current Year
-        const times=  date.toLocaleTimeString();
-        const TimeNow = dates +'/'+month+'/'+year +' '+times;
+        let date = new Date();
+        let  id =   date.getTime();
+        let  dates =  date.getDate();
+        let  month =  date.getMonth() + 1; //Current Month
+        let  year = date.getFullYear(); //Current Year
+        let  times=  date.toLocaleTimeString();
+        let  TimeNow = dates +'/'+month+'/'+year +' '+times;
 
         const onSave = async () =>{
-              await dispatch({type:"INPUT_INSERT",timeNow:TimeNow,id:id});
                  try{
-                   await AsyncStorage.setItem('Data',JSON.stringify(Data));
-                   await setVisible(!visible);
+                   await dispatch({type:"INPUT_INSERT",timeNow:TimeNow,id:id});
+                   await AsyncStorage.setItem('Data', JSON.stringify(Data));
+                   console.log(Data)
                    await props.navigation.navigate('Home'); 
-                 console.log(Data)
-                 }catch(e){con
-                     console.log(e)
+                 }catch(e){
+                     alert(e)
                  }
+                 
 
        }
 
@@ -60,7 +58,7 @@ const Insert = (props)=>{
               "Are you sure  ?",
               [
                 {text:"No",
-                    onPress:()=>{console.log("no")}
+                    onPress:()=>{}
                 },
                 {
                     text:"Yes",
@@ -125,7 +123,7 @@ const Insert = (props)=>{
                          <Text style={styles.title.text}>contact</Text>
                      </View>
                         <TextInputs 
-                            value={contact} 
+                            value={contact1} 
                             onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload3:value})}
                             placeholder="Nama"
                             />
@@ -199,7 +197,7 @@ const Insert = (props)=>{
                          <Text style={styles.title.text}>Result</Text>
                      </View>
                     <TextInputs 
-                    value={result2} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
+                    value={result} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
                     </View>
                     <View style={styles.buttomButton}>
                         <View style={styles.buttomButton.container}>
@@ -219,13 +217,13 @@ const Insert = (props)=>{
 
         container:{
             flex:1,
-            backgroundColor:Dark.black10
+            backgroundColor:Dark.black20
         },
         header:{
             container:{
                 alignItems:"center",
                 flexDirection:"row",
-                borderBottomWidth:1,
+               borderBottomWidth:0.5,
                 borderBottomColor:'black',
                 height:50
             },back:{
@@ -250,7 +248,7 @@ const Insert = (props)=>{
             container:{
                 padding:15,
                 height:130,
-                borderBottomWidth:1,
+               borderBottomWidth:0.5,
                 borderBottomColor:'black'
             }
         },
@@ -259,7 +257,7 @@ const Insert = (props)=>{
                 padding:10,
                 width:'100%',
                 height:150,
-                borderBottomWidth:1,
+               borderBottomWidth:0.5,
                 borderBottomColor:'black',
                 marginTop:10
                
@@ -273,7 +271,7 @@ const Insert = (props)=>{
                 padding:15,
                 width:"100%",
                 height:190,
-                borderBottomWidth:1,
+               borderBottomWidth:0.5,
                 borderBottomColor:'black',
                 marginTop:10
 
@@ -282,7 +280,7 @@ const Insert = (props)=>{
         progress:{
             container:{
                 width:"100%",
-                borderBottomWidth:1,
+               borderBottomWidth:0.5,
                 borderBottomColor:'black',
                 height:230,
                 marginTop:10,
@@ -303,7 +301,7 @@ const Insert = (props)=>{
         },
         result:{
             container:{
-                borderBottomWidth:1,
+               borderBottomWidth:0.5,
                 borderBottomColor:'black',
                 height:120,
                 padding:15,

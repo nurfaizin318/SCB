@@ -41,8 +41,8 @@ const styles ={
         height:height/9,
         borderRadius:5,
         margin:5,
-        backgroundColor:Dark.black10,
-        elevation:5,
+        backgroundColor:Dark.black20,
+        elevation:3,
         justifyContent:"center",
         flexDirection:"row",
         }

@@ -34,10 +34,9 @@ const styles ={
     },
     input:{
         borderBottomWidth:1,
-        borderBottomColor:Dark.black10,
+        borderBottomColor:Dark.black30,
         width:"100%",
         color:'white',
-        borderBottomColor:"#37474F"
     }
     
      

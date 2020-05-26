@@ -34,7 +34,7 @@ const Home = (props) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
-                <StatusBar backgroundColor="#1e272e" tintColor="light" />
+                <StatusBar backgroundColor={Dark.black20} tintColor="light" />
                 <View style={styles.container(width)}>
                     <View style={styles.userPanel}>
                         {/* <View style={styles.userPanel.icon}>
@@ -128,7 +128,7 @@ const styles = {
 
         return {
             flex: 1,
-            backgroundColor: '#1e272e',
+            backgroundColor:Dark.black20,
             alignItems: 'center',
             width: width
         }
@@ -236,7 +236,7 @@ const styles = {
                 alignSelf: "center",
                 height: height / 2.15,
                 paddingTop: 10,
-                backgroundColor: "#1e272e",
+                backgroundColor:Dark.black20,
             }
         },
         header: {

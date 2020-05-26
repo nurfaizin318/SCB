@@ -1,6 +1,7 @@
 import React,{Fragment,useEffect,useState} from 'react';
 import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Dark} from '../Utils'
 
 import {
     View,
@@ -27,7 +28,7 @@ const Loader = (props) =>
     },[])
        return ( 
         <Fragment >         
-           <StatusBar backgroundColor="#1e272e" />
+           <StatusBar backgroundColor={Dark.black20} />
             <View style={styles.container}>
                 <Image source={require('../Assets/Image/loader.gif')} 
                     style={styles.image}/>
@@ -47,7 +48,7 @@ export default Loader;
 const styles = StyleSheet.create({
     container :{
         flex:1,
-        backgroundColor:'#1e272e',
+        backgroundColor:Dark.black20,
         justifyContent:'center',
         alignItems:"center"
     },

@@ -34,7 +34,7 @@ const Tab = createBottomTabNavigator();
 
 function MyTabs(props) {
   return (
-    <Tab.Navigator  tabBarOptions={{style:{backgroundColor:Dark.black10,borderTopWidth:0,elevation:10},activeTintColor:"#ee5253"}} >
+    <Tab.Navigator  tabBarOptions={{style:{backgroundColor:Dark.black20,borderTopWidth:0,elevation:10},activeTintColor:"#ee5253"}} >
       <Tab.Screen name="Home" component={Home}  options={{tabBarIcon:({color})=>
         <FontAwesome5 name="home" size={20} color={color} />}}
       />

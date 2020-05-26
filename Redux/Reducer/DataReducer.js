@@ -3,8 +3,8 @@ const initialState ={
     id:"",
     organitation : "",
     actions : "",
-    contactPerson :"",
-    contactPerson2:"",
+    contact1 :"",
+    contact2:"",
     progress:"",
     nextPlan:"",
     result:"",
@@ -23,9 +23,9 @@ const InsertReducer = (state=initialState,action) =>
             case "INPUT_ACTIONS" :
                 return {...state,actions:action.payload2}
             case "INPUT_CONTACTPERSON" :
-                return {...state,contactPerson:action.payload3}
+                return {...state,contact1:action.payload3}
             case "INPUT_CONTACTPERSON2" :
-                return {...state,contactPerson2:action.payload6}
+                return {...state,contact2:action.payload6}
             case "INPUT_PROGRESS" :
                 return {...state,progress:action.payload}
             case "INPUT_NEXTPLAN" :
@@ -33,7 +33,7 @@ const InsertReducer = (state=initialState,action) =>
             case "INPUT_RESULT" :
                 return {...state,result:action.payload5}
             case "INPUT_CLEAR"  :
-                return {...state,organitation:"",actions:"",contactPerson:"",contactPerson2:"",progress:"",nextPlan:"",result:"",}
+                return {...state,organitation:"",actions:"",contact1:"",contact2:"",progress:"",nextPlan:"",result:"",}
             case "ON_DELETE" :
                 return {...state,data:state.data.filter(res=>res.id !== action.payload)}            
             case "INPUT_INSERT" :
@@ -41,7 +41,8 @@ const InsertReducer = (state=initialState,action) =>
                     id : action.id,
                     organitation  :state.organitation,
                     actions: state.actions ,
-                    contact: state.contactPerson,
+                    contact1: state.contact1,
+                    contact2:state.contact2,
                     progress:state.progress, 
                     nextPlan : state.nextPlan,
                     result:state.result,
