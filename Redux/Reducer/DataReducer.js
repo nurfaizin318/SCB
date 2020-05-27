@@ -50,6 +50,9 @@ const InsertReducer = (state=initialState,action) =>
                 return { data:[...state.data,newData]}
             case "FETCH_DATA" :
                 return {...state,data:action.payload}
+            case "EDIT":
+                return {...state,data:action.payload}
+                
         default : return state;
             
         }

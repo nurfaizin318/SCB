@@ -33,7 +33,9 @@ const CardLibrary = (props)=>{
                         contact1:props.contact1,
                         contact2:props.contact2,
                         nextPlan:props.nextPlan,
-                        result:props.result
+                        result:props.result,
+                        id:props.id,
+                        time:props.time
                     })}}>
                          <FontAwesome5 name="pen" size={14} color="white" /> 
                     </TouchableOpacity>
@@ -44,7 +46,7 @@ const CardLibrary = (props)=>{
             <View style={{width:'100%',height:'80%',marginTop:10,padding:20}}>
                     <Text style={styles.body.text}>organitation :  {props.organitation} </Text>
                     <Text style={styles.body.text}>actions         :  {props.actions}</Text>
-                    <Text style={styles.body.text}>contact         :  {props.contact}</Text>
+                    <Text style={styles.body.text}>contact         :  {props.contact1}</Text>
                     <Text style={styles.body.text}>progress       :  {props.progress}</Text>
                     <Text style={styles.body.text}>next plan      :  {props.nextPlan}</Text>
                     <Text style={styles.body.text}>result             :  {props.result}</Text>

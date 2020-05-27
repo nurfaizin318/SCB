@@ -36,12 +36,12 @@ const styles ={
 
     container : (width,height)=>{
         return {
-        width: width/1.1,
+        width: width/1.05,
         backgroundColor:"red",
         height:height/9,
         borderRadius:5,
-        margin:5,
-        backgroundColor:Dark.black20,
+        margin:3,
+        backgroundColor:Dark.black30,
         elevation:3,
         justifyContent:"center",
         flexDirection:"row",

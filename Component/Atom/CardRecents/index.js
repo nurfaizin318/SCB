@@ -18,11 +18,16 @@ const CardRecent = (props)=>{
                  <Text style={styles.progress.text}>{props.progress}</Text>
             </View>
             <View style={styles.organitation.container}>
-                {props.organitation.trim().length < 10 ? 
-                 <Text style={styles.organitation.text}>{props.organitation}</Text>
+                {props.organitation != null ?
+                 props.organitation.trim().length < 10 ? 
+                    <Text style={styles.organitation.text}>{props.organitation}</Text>
+                   :
+                   <Text style={styles.organitation.text}>{props.organitation.slice(0,10)}...</Text>
+               
                 :
-                <Text style={styles.organitation.text}>{props.organitation.slice(0,10)}...</Text>
-            }
+                null
+                }
+               
             </View>
         </View>
     )

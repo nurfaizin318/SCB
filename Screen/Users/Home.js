@@ -36,6 +36,7 @@ const Home = (props) => {
             <Fragment>
                 <StatusBar backgroundColor={Dark.black20} tintColor="light" />
                 <View style={styles.container(width)}>
+                    <ScrollView>
                     <View style={styles.userPanel}>
                         {/* <View style={styles.userPanel.icon}>
                             <Text>J</Text>
@@ -111,6 +112,7 @@ const Home = (props) => {
                             }
                         </View>
                     </View>
+                    </ScrollView>
                 </View>
             </Fragment>
         </TouchableWithoutFeedback >
@@ -127,10 +129,9 @@ const styles = {
     container: (width) => {
 
         return {
-            flex: 1,
+            flex:1,
             backgroundColor:Dark.black20,
             alignItems: 'center',
-            width: width
         }
     },
     userPanel: {

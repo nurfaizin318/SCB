@@ -21,9 +21,11 @@ import {Dark} from '../../Utils'
 
 
  const Library = (props) => 
+
     {
         const dataFromState = useSelector(state=>state.DataReducer.data);
         const [isVisible ,setIsVisible] = useState(false);
+        const [refresh,setRefresh] = useState(true)
         const dispatch = useDispatch();
        
       
@@ -55,7 +57,7 @@ import {Dark} from '../../Utils'
           Clipboard.setString(finalCopy)
    }
 
-          
+  
      return (
          
         <Fragment>
@@ -66,11 +68,7 @@ import {Dark} from '../../Utils'
                              <Button title="print" onPress={()=>{copyToClipboard()}} color={Dark.black30} />
                         </View>
                     </View>
-           <Modals
-           isVisible={isVisible}
-           onCloseModal={()=>setIsVisible(!isVisible)}
-           data={dataFromState}
-           />
+         
            <FlatList
            style={{alignSelf:"center"}}
                     showsVerticalScrollIndicator={false}

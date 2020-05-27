@@ -43,7 +43,6 @@ const Insert = (props)=>{
                  try{
                    await dispatch({type:"INPUT_INSERT",timeNow:TimeNow,id:id});
                    await AsyncStorage.setItem('Data', JSON.stringify(Data));
-                   console.log(Data)
                    await props.navigation.navigate('Home'); 
                  }catch(e){
                      alert(e)
@@ -141,9 +140,10 @@ const Insert = (props)=>{
                          </Text>
                          <Text style={styles.title.text}>progress</Text>
                      </View>
-                        <ProgressSteps progressBarColor="#7f8c8d" 
+                     <View style={styles.progress.body}>
+                     <ProgressSteps progressBarColor="#7f8c8d" 
                         disabledStepIconColor="#7f8c8d" 
-                        borderWidth={2}
+                        borderWidth={1}
                         activeStepIconBorderColor="#1abc9c"
                         completedProgressBarColor="#1abc9c"
                         activeStepIconColor="gray"
@@ -179,6 +179,7 @@ const Insert = (props)=>{
                          onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'60 %'})}
                          />
                     </ProgressSteps>
+                    </View>
                     </View>
                     <View style={styles.nextPlan.container}>
                     <View style={styles.title.container}>
@@ -216,7 +217,8 @@ const Insert = (props)=>{
     const styles = {
 
         container:{
-            flex:1,
+            width:"100%",
+            height:"100%",
             backgroundColor:Dark.black20
         },
         header:{
@@ -285,7 +287,12 @@ const Insert = (props)=>{
                 height:230,
                 marginTop:10,
                 padding:10
-            }
+            }, 
+            body:{
+                width:'80%',
+                height:'100%',
+                alignSelf:"center"
+              }
         },
         nextPlan:{
             container:{

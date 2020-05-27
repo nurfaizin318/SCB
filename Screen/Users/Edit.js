@@ -10,56 +10,63 @@ import {
     Button,
     KeyboardAvoidingView,
     Alert,
-    ProgressBarAndroidComponent
        } from 'react-native';
 
 import {TextInputs,} from '../../Component';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import AsyncStorage from '@react-native-community/async-storage';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Dark} from '../../Utils'
 
 const Edit = (props)=>{
 
-        // const dispatch =useDispatch();
-        //  organitation =useSelector(state=>state.DataReducer.organitation);
-        //  actions =useSelector(state=>state.DataReducer.actions);
-        //  contact1= useSelector(state =>state.DataReducer.contact1);
-        //  contact2= useSelector(state =>state.DataReducer.contact2);
-        //  progress = useSelector(state=>state.DataReducer.progress);
-        //  nextPlan = useSelector(state=>state.DataReducer.nextPlan);
-        //  result = useSelector(state=>state.DataReducer.result)
-        //  Data = useSelector(state=>state.DataReducer.data);
+        const dispatch =useDispatch();
+         dataFromState = useSelector(state=>state.DataReducer.data);
 
-        // let date = new Date();
-        // let  id =   date.getTime();
-        // let  dates =  date.getDate();
-        // let  month =  date.getMonth() + 1; //Current Month
-        // let  year = date.getFullYear(); //Current Year
-        // let  times=  date.toLocaleTimeString();
-        // let  TimeNow = dates +'/'+month+'/'+year +' '+times;
-
-        [data,setData]=useState({organitation:"",actions:"",contact1:"",contact2:"",progress:"",nextPlan:"",result:""})
+       
+                [organitation,setOrganitation]= useState("");
+                const [actions,setActions] =useState("");
+                const [contact1,setContact1]= useState("");
+                const [contact2,setContact2] = useState("");
+                const [progress,setProgress] = useState("");
+                const [nextPlan,setNextPlan] = useState("");
+                const [result,setResult] = useState("");
+                const [id,setId]= useState("");
+                const [time,setTime] = useState("");
+          [data,setData] = useState([])
 
 
         const onSave = async () =>{
+         
+                    let newData={
+                                organitation:organitation,
+                                actions:actions,
+                                contact1:contact1,
+                                contact2:contact2,
+                                progress:progress,
+                                nextPlan:nextPlan,
+                                result:result,
+                                id:id,
+                                time:time
+                               }
+        
  
-            console.log(data)
-       }
+              await  data.splice(props.route.params.index,1,newData)
+                dispatch({type:"EDIT",payload:data})
+                props.navigation.navigate('Library',{refresh:true});       }
 
 
     useEffect(()=>{
-        setData({organitation:props.route.params.organitation,
-                actions:props.route.params.actions,
-                progress:props.route.params.progress,
-                contact1:props.route.params.contact1,
-                contact2:props.route.params.contact2,
-                nextPlan:props.route.params.nextPlan,
-                result:props.route.params.result
-            })
+            setOrganitation(props.route.params.organitation);
+            setActions(props.route.params.actions);
+            setContact1(props.route.params.contact1);
+            setContact2(props.route.params.contact2);
+            setProgress(props.route.params.progress);
+            setNextPlan(props.route.params.nextPlan);
+            setResult(props.route.params.result);
+            setId(props.route.params.id);
+            setTime(props.route.params.time)
+            setData(dataFromState)
+        
     },[])
-
 
       const Alerts = () =>{
           Alert.alert(
@@ -88,8 +95,8 @@ const Edit = (props)=>{
                          <Text style={styles.title.text}>organitation</Text>
                      </View>
                     <TextInputs  
-                    value={data.organitation}
-                     onChangeText={(value)=>{dispatch({type:"INPUT_ORGANITATION",payload1:value})}}
+                    value={organitation}
+                     onChangeText={(text)=>{setOrganitation(text)}}
                         />
                 </View>
                 <View style={styles.actions.container}>
@@ -101,7 +108,7 @@ const Edit = (props)=>{
                      </View>
                     <View style={styles.actions.containerRadio}>
                         <RadioGroup 
-                        getChecked={(value)=>{setData({actions:value})}} 
+                        getChecked={(value)=>{setActions(value)}} 
                         IconStyle={{fontSize:30,backgroundColor:"white",}}
                         coreStyle={{fontSize:21,color:'#1abc9c'}}
                         RadioGroupStyle={{flexDirection:"row"}}
@@ -121,13 +128,13 @@ const Edit = (props)=>{
                          <Text style={styles.title.text}>contact</Text>
                      </View>
                         <TextInputs 
-                            value={data.contact1}
-                            onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload3:value})}
+                            value={contact1}
+                            onChangeText={(value)=>setContact1(value)}
                             placeholder="Nama"
                             />
                         <TextInputs  
-                            value={data.contact2}
-                            onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON2",payload6:value})}
+                            value={contact2}
+                            onChangeText={(value)=>{setContact2(value)}}
                             placeholder="Jabatan" 
                             />
                         
@@ -139,44 +146,48 @@ const Edit = (props)=>{
                          </Text>
                          <Text style={styles.title.text}>progress</Text>
                      </View>
-                        <ProgressSteps progressBarColor="#7f8c8d" 
+                     <View style={styles.progress.body}>
+                        <ProgressSteps 
+                        progressBarColor="#7f8c8d" 
                         disabledStepIconColor="#7f8c8d" 
-                        borderWidth={2}
+                        borderWidth={1}
                         activeStepIconBorderColor="#1abc9c"
                         completedProgressBarColor="#1abc9c"
                         activeStepIconColor="gray"
                         completedStepIconColor="#1abc9c"
-                        activeLabelColor="#1abc9c"                   > 
+                        activeLabelColor="#1abc9c"               
+                        > 
                         <ProgressStep label="20%" 
                         nextBtnTextStyle={styles.stepsNext}
                         previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setData({progress:'0%'})}
+                         onNext={()=>setProgress('20 %')}
                          />
                         <ProgressStep label="40%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setData({progress:'40%'})}
-                         onPrevious={()=>setData({progress:'0%'})}
+                         onNext={()=>setProgress('40%')}
+                         onPrevious={()=>setProgress('0%')}
                          />
                         <ProgressStep label="60%"
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setData({progress:'60%'})}
-                         onPrevious={()=>setData({progress:'20%'})}
+                         onNext={()=>setProgress('60%')}
+                         onPrevious={()=>setProgress('20%')}
                          />
                         <ProgressStep label="80%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setData({progress:'80%'})}
-                         onPrevious={()=>setData({progress:'40%'})}
+                         onNext={()=>setProgress('80%')}
+                         onPrevious={()=>setProgress('40%')}
                          />
                         <ProgressStep label="100%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onSubmit={()=>setData({progress:'100%'})}
-                         onPrevious={()=>setData({progress:'60%'})}
+                         onSubmit={()=>setProgress('100%')}
+                         onPrevious={()=>setProgress('60%')}
                          />
                     </ProgressSteps>
+                    </View>
                     </View>
                     <View style={styles.nextPlan.container}>
                     <View style={styles.title.container}>
@@ -186,8 +197,8 @@ const Edit = (props)=>{
                          <Text style={styles.title.text}>Next Plan</Text>
                      </View>
                         <TextInputs  
-                        value={data.nextPlan}
-                         onChangeText={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value})}
+                        value={nextPlan}
+                         onChangeText={(value)=>{setNextPlan(value)}}
                          />
                     </View>
                     <View style={styles.result.container}>
@@ -198,8 +209,8 @@ const Edit = (props)=>{
                          <Text style={styles.title.text}>Result</Text>
                      </View>
                     <TextInputs 
-                    value={data.result}
-                   onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
+                    value={result}
+                   onChangeText={(value)=>{setResult(value)}}/>
                     </View>
                     <View style={styles.buttomButton}>
                         <View style={styles.buttomButton.container}>
@@ -286,7 +297,12 @@ const Edit = (props)=>{
                 borderBottomColor:'black',
                 height:230,
                 marginTop:10,
-                padding:10
+                padding:10,
+            },
+            body:{
+              width:'80%',
+              height:'100%',
+              alignSelf:"center"
             }
         },
         nextPlan:{
