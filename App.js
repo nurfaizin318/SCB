@@ -27,6 +27,7 @@ import Home from './Screen/Users/Home';
 import Library   from './Screen/Users/Library';
 import Loader from './Screen/Loader';
 import Search from './Screen/Users/Search';
+import Edit from './Screen/Users/Edit'
 import {Dark} from './Utils/'
 
 const Stack = createStackNavigator();
@@ -65,6 +66,9 @@ const App = () => {
           options={{headerShown:false}}/>
           <Stack.Screen name="Home" component={MyTabs} 
           options={{headerShown:false}}/>
+           <Stack.Screen name="Edit" component={Edit} 
+          options={{headerShown:true,headerTitleAlign:"center",headerStyle:{backgroundColor:Dark.black30,},headerTintColor:"white"}} />
+        
         
           </Stack.Navigator>
       </NavigationContainer>

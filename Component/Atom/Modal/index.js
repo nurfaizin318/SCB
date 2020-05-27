@@ -62,7 +62,7 @@ const Modals = ({
                     <View style={styles.body.container(width,height)}>
                         <View style={styles.body.inner}>
                             <View style={{width:"100%",alignItems:'flex-end'}}>
-                                <Button title="copy" onPress={()=>{copyToClipboard()}} color={Dark.black20} />
+                                <Button title="copy" onPress={()=>{}} color={Dark.black20} />
                             </View>
                         <ScrollView style={{height:400,marginTop:40}} showsVerticalScrollIndicator={false} >
                         {data.map(items=>{

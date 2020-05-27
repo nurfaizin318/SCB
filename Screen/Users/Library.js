@@ -20,7 +20,7 @@ import {Dark} from '../../Utils'
 
 
 
- const Library = () => 
+ const Library = (props) => 
     {
         const dataFromState = useSelector(state=>state.DataReducer.data);
         const [isVisible ,setIsVisible] = useState(false);
@@ -75,20 +75,23 @@ import {Dark} from '../../Utils'
            style={{alignSelf:"center"}}
                     showsVerticalScrollIndicator={false}
                         data={dataFromState}
-                        renderItem={ ({item}) =>
+                        renderItem={ ({item,index}) =>
 
                                 <CardLibrary
+                                navigation={props.navigation}
                                 id={item.id}
                                 organitation={item.organitation} 
                                 actions={item.actions}
                                 progitems={item.progitems}
-                                contact={item.contact1}
+                                contact1={item.contact1}
+                                contact2={item.contact2}
                                 nextPlan={item.nextPlan}
                                 progress={item.progress}
                                 time={item.time} 
                                 result={item.result}
                                 onDelete={()=>{onDelete(item.id)}}
                                 onEdit={()=>{onEdit(item.id)}}
+                                index={index}
                                 /> }
                         keyExtractor={item => item.id.toString()}
                     />

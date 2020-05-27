@@ -25,7 +25,16 @@ const CardLibrary = (props)=>{
                     <TouchableOpacity style={styles.header.icon} onPress={props.onDelete}>
                          <FontAwesome5 name="trash" size={14} color="white" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.header.icon}>
+                    <TouchableOpacity style={styles.header.icon} onPress={()=>{props.navigation.navigate('Edit',{
+                        index:props.index,
+                        organitation:props.organitation,
+                        actions:props.actions,
+                        progress:props.progress,
+                        contact1:props.contact1,
+                        contact2:props.contact2,
+                        nextPlan:props.nextPlan,
+                        result:props.result
+                    })}}>
                          <FontAwesome5 name="pen" size={14} color="white" /> 
                     </TouchableOpacity>
                     
@@ -36,9 +45,9 @@ const CardLibrary = (props)=>{
                     <Text style={styles.body.text}>organitation :  {props.organitation} </Text>
                     <Text style={styles.body.text}>actions         :  {props.actions}</Text>
                     <Text style={styles.body.text}>contact         :  {props.contact}</Text>
-                    <Text style={styles.body.text}>progress      :  {props.progress}</Text>
-                    <Text style={styles.body.text}>next plan     :  {props.nextPlan}</Text>
-                    <Text style={styles.body.text}>result           : {props.result}</Text>
+                    <Text style={styles.body.text}>progress       :  {props.progress}</Text>
+                    <Text style={styles.body.text}>next plan      :  {props.nextPlan}</Text>
+                    <Text style={styles.body.text}>result             :  {props.result}</Text>
                 </View>
         </View>
     )

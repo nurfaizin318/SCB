@@ -34,7 +34,7 @@ const styles ={
     },
     input:{
         borderBottomWidth:1,
-        borderBottomColor:Dark.black30,
+        borderBottomColor:Dark.black40,
         width:"100%",
         color:'white',
     }

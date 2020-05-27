@@ -8,8 +8,10 @@ import {
     Text,
     Image,
     StyleSheet,
-    StatusBar
+    StatusBar,
+    ActivityIndicator
 } from 'react-native';
+
 
 const Loader = (props) =>
     {
@@ -22,7 +24,7 @@ const Loader = (props) =>
             const fetch = await AsyncStorage.getItem('Data');
             const fetchData = await JSON.parse(fetch);
             await fetchData != null ? dispatch({type:"FETCH_DATA",payload:fetchData}) : null;
-            await props.navigation.navigate("Home");
+            await props.navigation.replace("Home");
         }
         getData();
     },[])
@@ -30,8 +32,7 @@ const Loader = (props) =>
         <Fragment >         
            <StatusBar backgroundColor={Dark.black20} />
             <View style={styles.container}>
-                <Image source={require('../Assets/Image/loader.gif')} 
-                    style={styles.image}/>
+                <ActivityIndicator  color={Dark.lightGreen} size={60}/>
                  <View style={styles.text}>
                 <Text style={{color:'gray'}}>from :</Text>
                 <Text style={{fontSize:20,color:'#eb4d4b',letterSpacing:10}}>SCB</Text>
