@@ -8,12 +8,14 @@ import {
     StatusBar, Dimensions,
     TouchableWithoutFeedback,
     Keyboard,
+    ActivityIndicator,
     FlatList
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {ListNotification,CardRecent} from '../../Component'
 import { Dark } from '../../Utils';
+import {useIsFocused} from '@react-navigation/native'
 
 
 
@@ -29,13 +31,13 @@ const Home = (props) => {
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
-
+    const isFocused = useIsFocused();
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
                 <StatusBar backgroundColor={Dark.black20} tintColor="light" />
-                <View style={styles.container(width)}>
+                <View style={styles.container}>
                     <ScrollView>
                     <View style={styles.userPanel}>
                         {/* <View style={styles.userPanel.icon}>
@@ -60,6 +62,9 @@ const Home = (props) => {
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.recent.body}>
+                        {isFocused ?
+
+                        HomeData.length >0 ?
 
                             <FlatList
                         data={HomeData}
@@ -74,6 +79,14 @@ const Home = (props) => {
                                 /> }
                         keyExtractor={item => item.id.toString()}
                     />
+                    :
+                        <Text style={{color:"white",alignSelf:"center"}}>
+                            Empty
+                        </Text>
+                    : 
+                         <ActivityIndicator style={{alignSelf:"center"}} size={40}/>
+
+                    }
                     {/* <ScrollView 
                     horizontal={true}>
                         {HomeData.map(data=>{
@@ -126,32 +139,21 @@ export default Home;
 
 const styles = {
 
-    container: (width) => {
+    container: {
 
-        return {
+        
             flex:1,
             backgroundColor:Dark.black20,
             alignItems: 'center',
-        }
     },
     userPanel: {
         height: 70,
         flexDirection: 'row',
         marginTop: 10,
         padding: 10,
-        width: '100%',
         borderBottomWidth:1,
         borderBottomColor:'rgba(0,0,0,0.3)',
 
-        icon:{
-            width:50,
-            height:50,
-            borderRadius:90,
-            justifyContent:"center",
-            alignItems:"center",
-            backgroundColor:Dark.black10,
-            elevation:7
-        }
     },
     thumnail: {
         name:{
@@ -200,7 +202,7 @@ const styles = {
         width: 50,
         alignItems: 'center',
         justifyContent: "center",
-        right: 50,
+        right:100,
     },
     touch: {
         width: 60,
@@ -235,7 +237,7 @@ const styles = {
             return {
                 flex: 1,
                 alignSelf: "center",
-                height: height / 2.15,
+                height: height / 2,
                 paddingTop: 10,
                 backgroundColor:Dark.black20,
             }

@@ -20,9 +20,9 @@ const CardRecent = (props)=>{
             <View style={styles.organitation.container}>
                 {props.organitation != null ?
                  props.organitation.trim().length < 10 ? 
-                    <Text style={styles.organitation.text}>{props.organitation}</Text>
+                    <Text style={styles.organitation.text}>{props.organitation.toUpperCase()}</Text>
                    :
-                   <Text style={styles.organitation.text}>{props.organitation.slice(0,10)}...</Text>
+                   <Text style={styles.organitation.text}>{props.organitation.slice(0,10).toUpperCase()}...</Text>
                
                 :
                 null
@@ -52,16 +52,20 @@ const styles ={
         progress:{
             container:{
                 width:'70%',
-                height:"40%",
+                height:"30%",
                 justifyContent:"center",
                 alignSelf:"center",
                 alignItems:'center',
-                marginTop:10
+                marginTop:40,
+                backgroundColor:"red",
+                elevation:4,
+                borderRadius:5,
+        
             },
             text:{
-                fontSize:37,
+                fontSize:30,
                 fontWeight:'bold',
-                color:"white",
+                color:Dark.black10,
 
 
             }
@@ -73,12 +77,11 @@ const styles ={
                 width:"80%",
                 height:"40%",
                 alignSelf:"center",
-                marginTop:10,
                 justifyContent:"center",
                 alignItems:"center",
             },
             text:{
-                fontSize:13,
+                fontSize:15,
                 color:"white"
 
             }
