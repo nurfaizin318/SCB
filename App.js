@@ -27,15 +27,17 @@ import Home from './Screen/Users/Home';
 import Library   from './Screen/Users/Library';
 import Loader from './Screen/Loader';
 import Search from './Screen/Users/Search';
-import Edit from './Screen/Users/Edit'
-import {Dark} from './Utils/'
+import Login from './Screen/Users/Login';
+import Edit from './Screen/Users/Edit';
+import {Dark} from './Utils/';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MyTabs(props) {
   return (
-    <Tab.Navigator  tabBarOptions={{style:{backgroundColor:Dark.black20,borderTopWidth:0,elevation:10},activeTintColor:"#ee5253"}} >
+    <Tab.Navigator  tabBarOptions={{style:{backgroundColor:Dark.black20,borderTopWidth:0,elevation:10},activeTintColor:"#ee5253"}}
+    >
       <Tab.Screen name="Home" component={Home}  options={{tabBarIcon:({color})=>
         <FontAwesome5 name="home" size={20} color={color} />}}
       />
@@ -61,15 +63,26 @@ const App = () => {
       style={{ flex: 1}}
       >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Loader">
+        <Stack.Navigator initialRouteName="Login">
+
         <Stack.Screen name="Loader" component={Loader} 
-          options={{headerShown:false}}/>
+          options={{headerShown:false}}
+          />
+
           <Stack.Screen name="Home" component={MyTabs} 
-          options={{headerShown:false}}/>
+          options={{headerShown:false}}
+          />
+
            <Stack.Screen name="Edit" component={Edit} 
-          options={{headerShown:true,headerTitleAlign:"center",headerStyle:{backgroundColor:Dark.black30,},headerTintColor:"white"}} />
-        
-        
+          options={{headerShown:true,headerTitleAlign:"center",
+          headerStyle:{backgroundColor:Dark.black30,},
+          headerTintColor:"white"}}
+           />
+
+        <Stack.Screen name="Login" component={Login} 
+          options={{headerShown:false}}
+          />
+
           </Stack.Navigator>
       </NavigationContainer>
       </SafeAreaView>
