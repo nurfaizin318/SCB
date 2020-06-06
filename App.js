@@ -63,7 +63,7 @@ const App = () => {
       style={{ flex: 1}}
       >
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Loader">
 
         <Stack.Screen name="Loader" component={Loader} 
           options={{headerShown:false}}

@@ -9,13 +9,15 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     ActivityIndicator,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {ListNotification,CardRecent} from '../../Component'
 import { Dark } from '../../Utils';
 import {useIsFocused} from '@react-navigation/native'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -33,6 +35,26 @@ const Home = (props) => {
     const width = Dimensions.get('window').width;
     const isFocused = useIsFocused();
 
+    const Alerts = () =>{
+        Alert.alert(
+            "",
+            "Are you sure logout ?",
+            [
+              {text:"No",
+                  onPress:()=>{}
+              },
+              {
+                  text:"Yes",
+                  onPress:()=>{onLogOut()}
+              }
+           ]
+        )
+    }
+    const onLogOut= async ()=>{
+
+       await AsyncStorage.setItem('token','isLogOut');
+       await props.navigation.navigate('Login');
+    }
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
@@ -40,15 +62,12 @@ const Home = (props) => {
                 <View style={styles.container}>
                     <ScrollView>
                     <View style={styles.userPanel}>
-                        {/* <View style={styles.userPanel.icon}>
-                            <Text>J</Text>
-                        </View> */}
                         <View style={styles.thumnail.name}>
                             <Text style={styles.thumnail.fontThumnail1}>Jaya Saf</Text>
                             <Text style={styles.thumnail.fontThumnail2}>Supervisor</Text>
                         </View>
-                        <TouchableOpacity style={styles.settingIcon}>
-                             <FontAwesome5 name="ellipsis-v" size={25} color="gray" />
+                        <TouchableOpacity style={styles.settingIcon} onPress={()=>{Alerts()}}>
+                             <FontAwesome5 name="sign-out-alt" size={25} color="gray" />
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex: 1, width: width }}>

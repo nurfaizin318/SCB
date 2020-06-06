@@ -1,34 +1,28 @@
-import React ,{Fragment,useState}from 'react';
+import React ,{Fragment,useState,useEffect}from 'react';
 import { View, Text, Button ,StatusBar} from 'react-native';
-import { TextInputs } from '../../Component/'
-import { Dark } from "../../Utils/Color"
+import { TextInputs } from '../../Component/';
+import { Dark } from "../../Utils/Color";
+import AsyncStorage from '@react-native-community/async-storage';
 
-const Login = (props) => {
-    
-
-    const [username,setUsername] = useState("");
-    const [password,setPassword] = useState("");
-    const [token,setToken] = useState(String);
-
+class Login extends React.Component {
+    constructor(props){
+        super(props);
+        this.state={
+           
+            username:'',
+            password:'',
+        }
+    }
+render(){
+    const {username,password} = this.state;
 
     const onLogin = async ()=>{
-
-        // if(username == 'admin' && password == 'admin'){
-        //     setToken('08986865890')
-        // console.log(token)
-            
-        // }else{
-        //     alert('username and password not match')
-        // }
-
-        setToken('08986865890');
-        console.log(token)
-
+     if(username=='Admin' && password=='Admin'){
+       await  AsyncStorage.setItem('token','isLogin')
+       await this.props.navigation.navigate('Home');
+     }
+      
     }
-
-
-
-  
     return (
         <Fragment >
             <StatusBar backgroundColor={Dark.black20} barStyle="light-content" />
@@ -38,7 +32,7 @@ const Login = (props) => {
                 <View>
                     <Text style={styles.box.text}>username</Text>
                     <View  style={styles.box.input}>
-                        <TextInputs onChangeText={(value)=>{setUsername(value)}}/>
+                        <TextInputs onChangeText={(value)=>{this.setState({username:value})}}/>
                     </View>
 
                 </View>
@@ -46,7 +40,7 @@ const Login = (props) => {
                 <View>
                     <Text style={styles.box.text}>passowrd</Text>
                     <View style={styles.box.input} >
-                        <TextInputs onChangeText={(value)=>{setPassword(value)}} />
+                        <TextInputs onChangeText={(value)=>{this.setState({password:value})}} />
                     </View>
                 </View>
                 <View style={styles.box.button}>
@@ -56,6 +50,7 @@ const Login = (props) => {
         </View>
         </Fragment>
     )
+}
 }
 export default Login;
 

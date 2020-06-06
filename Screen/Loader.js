@@ -22,9 +22,16 @@ const Loader = (props) =>
      useEffect(()=>{    
         getData = async()=>{
             const fetch = await AsyncStorage.getItem('Data');
+            const status = await AsyncStorage.getItem('token')
             const fetchData = await JSON.parse(fetch);
-            await fetchData != null ? dispatch({type:"FETCH_DATA",payload:fetchData}) : null;
-            await props.navigation.replace("Home");
+            if(status == 'isLogin'){
+               await fetchData != null ? dispatch({type:"FETCH_DATA",payload:fetchData}) : null;
+                props.navigation.navigate('Home');
+            }
+            else{
+            props.navigation.navigate('Login')
+
+            }
         }
         getData();
     },[])

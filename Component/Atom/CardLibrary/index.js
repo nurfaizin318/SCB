@@ -19,7 +19,7 @@ const CardLibrary = (props)=>{
         <View style={styles.container(width,height)}>
             <View style={styles.header.container}>
                  <View style={styles.header.time}>
-                        <Text>{props.time}</Text>
+                        <Text>{'created at : ' +props.time}</Text>
                  </View>
                 <View style={styles.header.options}>
                     <TouchableOpacity style={styles.header.icon} onPress={props.onDelete}>
@@ -49,7 +49,7 @@ const CardLibrary = (props)=>{
                     <Text style={styles.body.text}>contact         :  {props.contact1}</Text>
                     <Text style={styles.body.text}>progress       :  {props.progress}</Text>
                     <Text style={styles.body.text}>next plan      :  {props.nextPlan}</Text>
-                    <Text style={styles.body.text}>result             :  {props.result}</Text>
+                    <Text style={styles.body.text}>result            :  {props.result}</Text>
                 </View>
         </View>
     )
@@ -83,7 +83,7 @@ const styles ={
             backgroundColor:Dark.lightOrange,
             borderBottomRightRadius:30,
             justifyContent:"center",
-            paddingLeft:25
+            paddingLeft:10
         },
         options:{
             width:'35%',
