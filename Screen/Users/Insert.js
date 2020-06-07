@@ -20,18 +20,18 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Dark} from '../../Utils'
 
 const Insert = (props)=>{
+        
 
-        const dispatch =useDispatch();
-         organitation =useSelector(state=>state.DataReducer.organitation);
-         actions =useSelector(state=>state.DataReducer.actions);
-         contact1= useSelector(state =>state.DataReducer.contact1);
-         contact2= useSelector(state =>state.DataReducer.contact2);
-         progress = useSelector(state=>state.DataReducer.progress);
-         nextPlan = useSelector(state=>state.DataReducer.nextPlan);
-         result = useSelector(state=>state.DataReducer.result)
-         Data = useSelector(state=>state.DataReducer.data);
+    const dispatch= useDispatch();
+         const [organitation,setOrganitation]= useState("");
+         const [actions,setActions] =useState("");
+         const [contact1,setContact1]= useState("");
+         const [contact2,setContact2] = useState("");
+         const [progress,setProgress] = useState("");
+         const [nextPlan,setNextPlan] = useState("");
+         const [result,setResult] = useState("");
 
-        let date = new Date();
+        let  date = new Date();
         let  id =   date.getTime();
         let  dates =  date.getDate();
         let  month =  date.getMonth() + 1; //Current Month
@@ -40,15 +40,27 @@ const Insert = (props)=>{
         let  TimeNow = dates +'/'+month+'/'+year +' '+times;
 
         const onSave = async () =>{
+
+
+            let newData={
+                organitation:organitation,
+                actions:actions,
+                contact1:contact1,
+                contact2:contact2,
+                progress:progress,
+                nextPlan:nextPlan,
+                result:result,
+                id:id,
+                time:TimeNow
+               }
                  try{
-                   await dispatch({type:"INPUT_INSERT",timeNow:TimeNow,id:id});
-                   await AsyncStorage.setItem('Data', JSON.stringify(Data));
+                   await dispatch({type:"INPUT_INSERT",payload:newData});
                    await props.navigation.navigate('Home'); 
                  }catch(e){
                      alert(e)
                  }
-                 
 
+                console.log(newData)
        }
 
       const Alerts = () =>{
@@ -89,7 +101,7 @@ const Insert = (props)=>{
                          <Text style={styles.title.text}>organitation</Text>
                      </View>
                     <TextInputs  
-                     onChangeText={(value)=>{dispatch({type:"INPUT_ORGANITATION",payload1:value})}}
+                     onChangeText={(value)=>{setOrganitation(value)}}
                      value={organitation}
                         />
                 </View>
@@ -102,7 +114,7 @@ const Insert = (props)=>{
                      </View>
                     <View style={styles.actions.containerRadio}>
                         <RadioGroup 
-                        getChecked={(value)=>dispatch({type:"INPUT_ACTIONS",payload2:value})} 
+                        getChecked={(value)=>{setActions(value)}} 
                         IconStyle={{fontSize:30,backgroundColor:"white",}}
                         coreStyle={{fontSize:21,color:'#1abc9c'}}
                         RadioGroupStyle={{flexDirection:"row"}}
@@ -123,12 +135,12 @@ const Insert = (props)=>{
                      </View>
                         <TextInputs 
                             value={contact1} 
-                            onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON",payload3:value})}
+                            onChangeText={(value)=>{setContact1(value)}}
                             placeholder="Nama"
                             />
                         <TextInputs  
                             value={contact2}
-                            onChangeText={(value)=>dispatch({type:"INPUT_CONTACTPERSON2",payload6:value})}
+                            onChangeText={(value)=>{setContact2(value)}}
                             placeholder="Jabatan" 
                             />
                         
@@ -152,31 +164,31 @@ const Insert = (props)=>{
                         <ProgressStep label="20%" 
                         nextBtnTextStyle={styles.stepsNext}
                         previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'20 %'})}
+                         onNext={()=>{setProgress('20%')}}
                          />
                         <ProgressStep label="40%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'40 %'})}
-                         onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'0%'})}
+                         onNext={()=>{setProgress('40%')}}
+                         onPrevious={()=>{setProgress('0%')}}
                          />
                         <ProgressStep label="60%"
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'60 %'})}
-                         onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'20 %'})}
+                         onNext={()=>{setProgress('60%')}}
+                         onPrevious={()=>{setProgress('20%')}}
                          />
                         <ProgressStep label="80%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>dispatch({type:"INPUT_PROGRESS",payload:'80 %'})}
-                         onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'40 %'})}
+                         onNext={()=>{setProgress('80%')}}
+                         onPrevious={()=>{setProgress('40%')}}
                          />
                         <ProgressStep label="100%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onSubmit={()=>dispatch({type:"INPUT_PROGRESS",payload:'100 %'})}
-                         onPrevious={()=>dispatch({type:"INPUT_PROGRESS",payload:'60 %'})}
+                         onSubmit={()=>{setProgress('100%')}}
+                         onPrevious={()=>{setProgress('60%')}}
                          />
                     </ProgressSteps>
                     </View>
@@ -188,7 +200,7 @@ const Insert = (props)=>{
                          </Text>
                          <Text style={styles.title.text}>Next Plan</Text>
                      </View>
-                        <TextInputs  value={nextPlan} onChangeText={(value)=>dispatch({type:"INPUT_NEXTPLAN",payload4:value})}/>
+                        <TextInputs  value={nextPlan} onChangeText={(value)=>{setNextPlan(value)}}/>
                     </View>
                     <View style={styles.result.container}>
                     <View style={styles.title.container}>
@@ -198,7 +210,7 @@ const Insert = (props)=>{
                          <Text style={styles.title.text}>Result</Text>
                      </View>
                     <TextInputs 
-                    value={result} onChangeText={(value)=>dispatch({type:"INPUT_RESULT",payload5:value})}/>
+                    value={result} onChangeText={(value)=>{setResult(value)}}/>
                     </View>
                     <View style={styles.buttomButton}>
                         <View style={styles.buttomButton.container}>

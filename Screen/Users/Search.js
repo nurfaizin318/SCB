@@ -1,5 +1,4 @@
 import React,{Fragment,useState, useEffect} from 'react';
-import Styles from '../../Styles/Styles';
 import {View ,Text,StyleSheet,TouchableOpacity,StatusBar,Dimensions,Modal,Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Dark} from '../../Utils'

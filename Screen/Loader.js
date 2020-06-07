@@ -16,22 +16,17 @@ import {
 const Loader = (props) =>
     {
 
-       
-
         const dispatch = useDispatch();
      useEffect(()=>{    
         getData = async()=>{
-            const fetch = await AsyncStorage.getItem('Data');
-            const status = await AsyncStorage.getItem('token')
-            const fetchData = await JSON.parse(fetch);
-            if(status == 'isLogin'){
-               await fetchData != null ? dispatch({type:"FETCH_DATA",payload:fetchData}) : null;
+        //     if(status == 'isLogin'){
+              
                 props.navigation.navigate('Home');
-            }
-            else{
-            props.navigation.navigate('Login')
+        //     }
+        //     else{
+        //     props.navigation.navigate('Login')
 
-            }
+        //     }
         }
         getData();
     },[])

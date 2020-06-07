@@ -16,15 +16,16 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {TouchableOpacity,View, SafeAreaView} from 'react-native'
 
+// REDUX ============
 
-//REDUX============
 import {Provider} from 'react-redux';
-import Store from './Redux/Store/Store';
+import { store , persisStore } from './Redux/Store/Store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 // Screen  =============
 import Insert from './Screen/Users/Insert';
 import Home from './Screen/Users/Home';
-import Library   from './Screen/Users/Library';
+import Library from './Screen/Users/Library';
 import Loader from './Screen/Loader';
 import Search from './Screen/Users/Search';
 import Login from './Screen/Users/Login';
@@ -39,7 +40,9 @@ function MyTabs(props) {
     <Tab.Navigator  tabBarOptions={{style:{backgroundColor:Dark.black20,borderTopWidth:0,elevation:10},activeTintColor:"#ee5253"}}
     >
       <Tab.Screen name="Home" component={Home}  options={{tabBarIcon:({color})=>
-        <FontAwesome5 name="home" size={20} color={color} />}}
+        <FontAwesome5 name="home" size={20} color={color} 
+        />
+      }}
       />
       <Tab.Screen name="Search" component={Search} options={{tabBarIcon:({color})=>
         <FontAwesome5 name="search" size={20} color={color} />}}
@@ -50,7 +53,8 @@ function MyTabs(props) {
       <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color}) =>
         
         <FontAwesome5 name="location-arrow" size={20} color={color} />
-      }}/>
+      }}
+      />
     </Tab.Navigator>
   );
 }
@@ -58,34 +62,36 @@ function MyTabs(props) {
 
 const App = () => {
   return (
-    <Provider store={Store} >
-     <SafeAreaView
-      style={{ flex: 1}}
-      >
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Loader">
+    <Provider store={store} >
+         <PersistGate loading={null} persistor={persisStore}>
+              <SafeAreaView
+                style={{ flex: 1}}
+                >
+              <NavigationContainer>
+                <Stack.Navigator initialRouteName="Loader">
 
-        <Stack.Screen name="Loader" component={Loader} 
-          options={{headerShown:false}}
-          />
+                <Stack.Screen name="Loader" component={Loader} 
+                  options={{headerShown:false}}
+                  />
 
-          <Stack.Screen name="Home" component={MyTabs} 
-          options={{headerShown:false}}
-          />
+                  <Stack.Screen name="Home" component={MyTabs} 
+                  options={{headerShown:false}}
+                  />
 
-           <Stack.Screen name="Edit" component={Edit} 
-          options={{headerShown:true,headerTitleAlign:"center",
-          headerStyle:{backgroundColor:Dark.black30,},
-          headerTintColor:"white"}}
-           />
+                  <Stack.Screen name="Edit" component={Edit} 
+                  options={{headerShown:true,headerTitleAlign:"center",
+                  headerStyle:{backgroundColor:Dark.black30,},
+                  headerTintColor:"white"}}
+                  />
 
-        <Stack.Screen name="Login" component={Login} 
-          options={{headerShown:false}}
-          />
+                <Stack.Screen name="Login" component={Login} 
+                  options={{headerShown:false}}
+                  />
 
-          </Stack.Navigator>
-      </NavigationContainer>
-      </SafeAreaView>
+                  </Stack.Navigator>
+              </NavigationContainer>
+              </SafeAreaView>
+         </PersistGate>
       </Provider>
      
   );

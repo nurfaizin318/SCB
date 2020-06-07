@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import {
     View,
     ScrollView,
@@ -12,7 +12,7 @@ import {
     FlatList,
     Alert
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {ListNotification,CardRecent} from '../../Component'
 import { Dark } from '../../Utils';
@@ -22,14 +22,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 
 const Home = (props) => {
-    const HomeData = useSelector(state => state.DataReducer.data)
+    const dispatch = useDispatch();
+    const recentData = useSelector(state => state.DataReducer.data)
     const arr1 = [
         { key: 1, data: 'First Notif', hint: 'Person eek' },
         { key: 2, data: 'Secend Notif', hint: 'Filling Good' },
-        { key: 3, data: 'Third Notif', hint: 'Filling Not Good' },
-        { key: 4, data: 'Fourth Notif', hint: 'Filling Good Nyut ' },
-        { key: 5, data: 'Fife Notif', hint: 'Filling Gerah Body' },
-        { key: 6, data: 'Six Notif', hint: 'Filing Stress' }]
+        ]
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
@@ -55,6 +53,8 @@ const Home = (props) => {
        await AsyncStorage.setItem('token','isLogOut');
        await props.navigation.navigate('Login');
     }
+
+   
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
@@ -67,7 +67,7 @@ const Home = (props) => {
                             <Text style={styles.thumnail.fontThumnail2}>Supervisor</Text>
                         </View>
                         <TouchableOpacity style={styles.settingIcon} onPress={()=>{Alerts()}}>
-                             <FontAwesome5 name="sign-out-alt" size={25} color="gray" />
+                             <FontAwesome5 name="sign-out-alt" size={18} color="gray" />
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex: 1, width: width }}>
@@ -83,10 +83,10 @@ const Home = (props) => {
                             <View style={styles.recent.body}>
                         {isFocused ?
 
-                        HomeData.length >0 ?
+                        recentData.length >0 ?
 
                             <FlatList
-                        data={HomeData}
+                        data={recentData}
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         renderItem={ ({item}) =>
@@ -221,7 +221,7 @@ const styles = {
         width: 50,
         alignItems: 'center',
         justifyContent: "center",
-        right:100,
+        right:90,
     },
     touch: {
         width: 60,
