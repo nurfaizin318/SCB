@@ -57,7 +57,7 @@ const styles ={
                 alignSelf:"center",
                 alignItems:'center',
                 marginTop:40,
-                backgroundColor:"red",
+                backgroundColor:Dark.lightOrange,
                 elevation:4,
                 borderRadius:5,
         
