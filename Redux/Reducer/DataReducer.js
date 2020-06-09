@@ -1,6 +1,6 @@
 const initialState ={
   
-    data:[]
+    data:[{subData:[]}]
 
 }
 
@@ -13,9 +13,10 @@ const InsertReducer = (state=initialState,action) =>
             case "ON_DELETE" :
                 return {...state,data:state.data.filter(res=>res.id !== action.payload)} 
 
-            case "INPUT_INSERT" :
+            case "INSERT_SUBDATA" :
                 return { data:[...state.data,action.payload]}
-
+            case "INSERT_DATA" :
+                return { data:[...state.data,action.payload]}
             case "FETCH_DATA" :
                 return {...state,data:action.payload}
 

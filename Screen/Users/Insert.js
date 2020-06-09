@@ -1,5 +1,4 @@
 import React,{useState} from 'react'
-
 import {useDispatch,useSelector} from 'react-redux'
 import RadioGroup,{Radio} from "react-native-radio-input";
 
@@ -14,14 +13,15 @@ import {
 
 import {TextInputs,Modals} from '../../Component';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import AsyncStorage from '@react-native-community/async-storage';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {Dark} from '../../Utils'
+import {Dark} from '../../Utils';
+import {useIsFocused} from '@react-navigation/native';
+
 
 const Insert = (props)=>{
         
-
+    const isFocus = useIsFocused();
     const dispatch= useDispatch();
          const [organitation,setOrganitation]= useState("");
          const [actions,setActions] =useState("");
@@ -54,7 +54,7 @@ const Insert = (props)=>{
                 time:TimeNow
                }
                  try{
-                   await dispatch({type:"INPUT_INSERT",payload:newData});
+                   await dispatch({type:"INSERT_SUBDATA",payload:newData});
                    await props.navigation.navigate('Home'); 
                  }catch(e){
                      alert(e)
@@ -79,6 +79,7 @@ const Insert = (props)=>{
           )
       }
     return(
+        
         <View style={styles.container}>
             <KeyboardAvoidingView behavior="padding">
             <View style={styles.header.container}>
@@ -91,7 +92,7 @@ const Insert = (props)=>{
                        <Text style={styles.header.text}>Insert</Text>
                 </View>
             </View>
-            
+            {/* {isFocus ?  */}
             <ScrollView style={{marginTop:20}}>
                 <View style={styles.organitation.container}>
                      <View style={styles.title.container}>
@@ -102,7 +103,6 @@ const Insert = (props)=>{
                      </View>
                     <TextInputs  
                      onChangeText={(value)=>{setOrganitation(value)}}
-                     value={organitation}
                         />
                 </View>
                 <View style={styles.actions.container}>
@@ -134,12 +134,10 @@ const Insert = (props)=>{
                          <Text style={styles.title.text}>contact</Text>
                      </View>
                         <TextInputs 
-                            value={contact1} 
                             onChangeText={(value)=>{setContact1(value)}}
                             placeholder="Nama"
                             />
                         <TextInputs  
-                            value={contact2}
                             onChangeText={(value)=>{setContact2(value)}}
                             placeholder="Jabatan" 
                             />
@@ -200,7 +198,7 @@ const Insert = (props)=>{
                          </Text>
                          <Text style={styles.title.text}>Next Plan</Text>
                      </View>
-                        <TextInputs  value={nextPlan} onChangeText={(value)=>{setNextPlan(value)}}/>
+                        <TextInputs  onChangeText={(value)=>{setNextPlan(value)}}/>
                     </View>
                     <View style={styles.result.container}>
                     <View style={styles.title.container}>
@@ -210,18 +208,18 @@ const Insert = (props)=>{
                          <Text style={styles.title.text}>Result</Text>
                      </View>
                     <TextInputs 
-                    value={result} onChangeText={(value)=>{setResult(value)}}/>
+                     onChangeText={(value)=>{setResult(value)}}/>
                     </View>
                     <View style={styles.buttomButton}>
                         <View style={styles.buttomButton.container}>
-                            <Button title="Clear"  color={Dark.lightOrange} onPress={()=>alert(organitation)}/>
                             <Button title="Submit"  color={Dark.lightGreen} onPress={()=>{Alerts()}}/>
                         </View>
                      </View>
             </ScrollView>
-            
+            {/* : null } */}
             </KeyboardAvoidingView>
         </View>
+        
             )
     }
     export  default Insert;
@@ -345,7 +343,7 @@ const Insert = (props)=>{
             container:{
                 width:"100%",
                 flexDirection:'row',
-                justifyContent:'space-between',
+                justifyContent:'flex-end',
                 top:-25
             }
         },

@@ -89,7 +89,7 @@ const App = () => {
                   />
 
                   </Stack.Navigator>
-              </NavigationContainer>
+                </NavigationContainer>
               </SafeAreaView>
          </PersistGate>
       </Provider>

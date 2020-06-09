@@ -53,7 +53,6 @@ const Library = (props) => {
     const onDelete = async (id) => {
         try {
             await dispatch({ type: "ON_DELETE", payload: id })
-            await AsyncStorage.setItem('Data', JSON.stringify(dataFromState.filter(item => item.id !== id)))
         } catch (e) {
             alert(e)
         }
@@ -82,7 +81,7 @@ const Library = (props) => {
     return (
 
         <Fragment>
-            <StatusBar backgroundColor={Dark.lightOrange}  />
+            <StatusBar backgroundColor={Dark.lightOrange} barStyle='default'/>
             <View style={styles.container}>
                 <Animated.View style={{ width: width / 1.15, height: 40, alignSelf: "center", transform: [{ translateY: inputOffsetX }], zIndex: 300 }}>
                     <TextInput style={{ borderBottomColor: Dark.black30, borderBottomWidth: 1, textAlign: "center" }}

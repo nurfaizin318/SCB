@@ -21,7 +21,7 @@ import {useDispatch,useSelector} from 'react-redux'
     
      return (
         <Fragment>
-            <StatusBar backgroundColor={Dark.black20} tintColor="light"  />
+            <StatusBar backgroundColor={Dark.black20} translucent={false} tintColor="light"  />
             <View style={{flex:1,justifyContent:'center',alignItems:"center",backgroundColor:Dark.black20}}>
                <FlatList
                   
