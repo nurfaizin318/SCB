@@ -54,7 +54,7 @@ const Insert = (props)=>{
                 time:TimeNow
                }
                  try{
-                   await dispatch({type:"INSERT_SUBDATA",payload:newData});
+                   await dispatch({type:"INSERT_DATA",payload:newData});
                    await props.navigation.navigate('Home'); 
                  }catch(e){
                      alert(e)

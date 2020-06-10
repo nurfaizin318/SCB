@@ -27,7 +27,7 @@ import Insert from './Screen/Users/Insert';
 import Home from './Screen/Users/Home';
 import Library from './Screen/Users/Library';
 import Loader from './Screen/Loader';
-import Search from './Screen/Users/Search';
+import List from './Screen/Users/List';
 import Login from './Screen/Users/Login';
 import Edit from './Screen/Users/Edit';
 import {Dark} from './Utils/';
@@ -44,8 +44,8 @@ function MyTabs(props) {
         />
       }}
       />
-      <Tab.Screen name="Search" component={Search} options={{tabBarIcon:({color})=>
-        <FontAwesome5 name="search" size={20} color={color} />}}
+      <Tab.Screen name="List" component={List} options={{tabBarIcon:({color})=>
+        <FontAwesome5 name="list" size={20} color={color} />}}
       />
       <Tab.Screen name="Library" component={Library} options={{tabBarIcon:({color})=>
        <FontAwesome5 name="paste" size={20} color={color} />}}

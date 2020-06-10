@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef, useCallback } from 'react';
 import {
     View,
     Text,
@@ -21,6 +21,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useSelector, useDispatch } from 'react-redux';
 import { CardLibrary, } from '../../Component';
 import { Dark } from '../../Utils';
+import { db } from '../../Config/config'
+
 
 
 
@@ -28,9 +30,16 @@ const Library = (props) => {
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
 
+    let date = new Date();
+    let dates = date.getDate();
+    let month = date.getMonth() + 1; //Current Month
+    let year = date.getFullYear(); //Current Year
+    let times = date.toLocaleTimeString();
+    let TimeNow = dates + '-' + month + '-' + year;
+
     const scrollValue = useRef(new Animated.Value(0)).current;
 
-    const scrollHeight = Animated.diffClamp(scrollValue,0,110).interpolate({
+    const scrollHeight = Animated.diffClamp(scrollValue, 0, 110).interpolate({
         inputRange: [0, height / 7],
         outputRange: [height / 6, height / 11],
     });
@@ -41,14 +50,18 @@ const Library = (props) => {
 
     });
     const opacityX = scrollValue.interpolate({
-        inputRange:[0,100],
-        outputRange:[1,0],
-        extrapolate:"clamp"
+        inputRange: [0, 100],
+        outputRange: [1, 0],
+        extrapolate: "clamp"
     })
 
-    const laporan = [1,2,3,4,5,6,7,87,8,8,86,]
     const dataFromState = useSelector(state => state.DataReducer.data);
+    const data = useSelector(state => state.DataReducer.data);
     const dispatch = useDispatch();
+
+    const [time, setTime] = useState([]);
+
+    const itemsRef = db.ref('/Date');
 
     const onDelete = async (id) => {
         try {
@@ -57,6 +70,14 @@ const Library = (props) => {
             alert(e)
         }
     }
+
+    let addItem = () => {
+        let  id =   date.getTime();
+        itemsRef.child(`${TimeNow}`)
+        .set({'id':id,'createdAt':TimeNow})
+        .then()
+        .catch(e=>console.warn(e))
+    };
 
     const onEdit = (value) => {
         alert(value);
@@ -77,26 +98,39 @@ const Library = (props) => {
         Clipboard.setString(finalCopy)
     }
 
+    const onInsert = async () => {
+        await dispatch({ type: "INSERT_DATA", payload: time })
+        console.log(data)
+    }
 
+    useEffect(() => {
+        const itemsRef = db.ref('/Date/');
+        itemsRef.on('value', snapshot => {
+            let data = snapshot.val();
+            if (data != null) {
+                let items = Object.values(data);
+                setTime(items)
+            }
+        });
+    }, [])
     return (
 
         <Fragment>
-            <StatusBar backgroundColor={Dark.lightOrange} barStyle='default'/>
+            <StatusBar  barStyle='default' />
             <View style={styles.container}>
                 <Animated.View style={{ width: width / 1.15, height: 40, alignSelf: "center", transform: [{ translateY: inputOffsetX }], zIndex: 300 }}>
                     <TextInput style={{ borderBottomColor: Dark.black30, borderBottomWidth: 1, textAlign: "center" }}
                         placeholder="Search"
                         placeholderTextColor={Dark.black30}
-
                     />
                 </Animated.View>
-                <Animated.View style={{ width: width, height: 90,transform:[{scaleY:opacityX,scaleX:opacityX}],marginTop:-20,paddingHorizontal:20,justifyContent:"center"}}>
-                <Text style={{fontSize:25,fontWeight:'600',}}>Library</Text>
-                <Text style={{fontSize:15,fontWeight:'600',}}>Add your activity and recent here !</Text>
+                <Animated.View style={{ width: width, height: 90, transform: [{ scaleY: opacityX, scaleX: opacityX }], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
+                    <Text style={{ fontSize: 25, fontWeight: '600', color:'grey'}}>Library</Text>
+                    <Text style={{ fontSize: 15, fontWeight: '600', color:'grey'}}>Add your activity and recent here !</Text>
                 </Animated.View>
-                <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black20, position: "absolute", borderTopRightRadius: 45, borderTopLeftRadius: 45, paddingTop: 40, transform: [{ translateY: scrollHeight }] }}>
+                <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black30, position: "absolute", borderTopRightRadius: 45, borderTopLeftRadius: 45, paddingTop: 40, transform: [{ translateY: scrollHeight }] }}>
                     <Animated.FlatList
-                    scrollEventThrottle={16}
+                        scrollEventThrottle={16}
                         onScroll={Animated.event([
                             {
                                 nativeEvent: {
@@ -106,39 +140,45 @@ const Library = (props) => {
                         ], {
                             useNativeDriver: true
                         })}
-                        style={{ alignSelf: "center" }}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
-                        data={laporan}
+                        data={time}
                         renderItem={({ item, index }) =>
-                        <View style={{width:width,height:120,marginVertical:3,justifyContent:"center",alignItems:"center",}}>
-                            <View style={{width:width/1.1,height:'90%',borderRadius:10,flexDirection:"row",elevation:4,}}>
-                                <View style={{width:"20%",height:'100%',backgroundColor:Dark.lightOrange,borderTopLeftRadius:10,borderBottomLeftRadius:10,alignItems:"center",justifyContent:"center"}}>
-                                <Text style={{fontSize:40}}>8</Text>
-                                <Text>items</Text>
+
+                            <TouchableOpacity style={{ width: width, height: 120, marginVertical: 3, justifyContent: "center", alignItems: "center",}}>
+                                <View style={{ width: width / 1.1, height: '90%', borderRadius: 10, alignItems:"center" ,justifyContent:"flex-end"}}>
+                                   
+                                    <View style={{width:'100%',height:'90%',backgroundColor:Dark.black40,borderRadius:10,flexDirection:"row"}}>
+
+                                    <View style={{width:"30%",height:'110%',backgroundColor:Dark.lightOrange,marginLeft:20,borderBottomLeftRadius:10,borderBottomRightRadius:10,top:-2,justifyContent:"center",alignItems:"center"}}>
+                                            <Text style={{fontSize:30}}>
+                                                8
+                                            </Text>
+                                            <Text>
+                                                Items
+                                            </Text>
+                                    </View>
+                                    <View style={{width:"65%",height:'100%',padding:10}}>
+                                        <Text style={{color:'grey'}}>
+                                            created At : 19 / 27 /2020
+                                        </Text>
+                                        <View style={{flexDirection:"row"}}>
+                                            <TouchableOpacity style={{width:80,height:30,backgroundColor:Dark.lightGreen,justifyContent:"center",alignItems:"center",borderRadius:3,marginTop:25,marginLeft:'30%'}}>
+                                            <Text >delete</Text>
+                                            </TouchableOpacity>
+                                           
+
+                                        </View>
+                                    </View>
+                                    </View>
+                                    
                                 </View>
-                                <View style={{width:"80%",height:'100%',backgroundColor:Dark.black30,borderTopRightRadius:10,borderBottomRightRadius:10,padding:10}}>
-                                    <Text style={{color:'grey'}}>created at : 12/20/2020</Text>
-                                </View>
-                            </View>
-                        </View>
-                          }
-                        keyExtractor={items=>items.index}
-                        key={items=>items.index}
+                            </TouchableOpacity>
+                        }
+                        keyExtractor={items => items.id.toString()}
                     />
-
                 </Animated.View>
-
-
             </View>
-            <Animated.View style={{ position: "absolute", top: height / 1.20, left: width / 1.23 }}>
-                <TouchableOpacity style={{ ...styles.add.button, }}>
-                    <Text style={styles.add.text}>+</Text>
-                </TouchableOpacity>
-            </Animated.View>
-
-
-
         </Fragment>
     )
 
@@ -151,7 +191,7 @@ const styles = {
 
     container: {
         flex: 1,
-        backgroundColor: Dark.lightOrange,
+        backgroundColor: Dark.black20,
     },
     header: {
         marginTop: 20,

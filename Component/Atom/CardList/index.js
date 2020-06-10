@@ -9,7 +9,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Dark } from '../../../Utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const CardLibrary = (props)=>{
+const CardList= (props)=>{
 
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
@@ -35,7 +35,7 @@ const CardLibrary = (props)=>{
                         nextPlan:props.nextPlan,
                         result:props.result,
                         id:props.id,
-                        time:props.time
+                        time:props.times
                     })}}>
                          <FontAwesome5 name="pen" size={14} color="white" /> 
                     </TouchableOpacity>
@@ -55,7 +55,7 @@ const CardLibrary = (props)=>{
     )
 }
 
-export default CardLibrary;
+export default CardList;
 
 const styles ={
     container :(width,height)=>{

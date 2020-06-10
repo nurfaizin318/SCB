@@ -48,7 +48,6 @@ const Edit = (props)=>{
                                 time:time
                                }
         
- 
               await  data.splice(props.route.params.index,1,newData)
                 dispatch({type:"EDIT",payload:data})
                 props.navigation.navigate('Library',{refresh:true});       }

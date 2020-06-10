@@ -16,7 +16,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {ListNotification,CardRecent} from '../../Component'
 import { Dark } from '../../Utils';
-import {useIsFocused} from '@react-navigation/native'
 import AsyncStorage from '@react-native-community/async-storage';
 
 
@@ -31,7 +30,6 @@ const Home = (props) => {
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
-    const isFocused = useIsFocused();
 
     const Alerts = () =>{
         Alert.alert(
@@ -54,7 +52,6 @@ const Home = (props) => {
        await props.navigation.navigate('Login');
     }
 
-   
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
@@ -81,7 +78,7 @@ const Home = (props) => {
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.recent.body}>
-                        {isFocused ?
+                        {
 
                         recentData.length >0 ?
 
@@ -102,10 +99,8 @@ const Home = (props) => {
                         <Text style={{color:"white",alignSelf:"center"}}>
                             Empty
                         </Text>
-                    : 
-                         <ActivityIndicator style={{alignSelf:"center"}} size={40}/>
-
-                    }
+                    
+                        }
                     {/* <ScrollView 
                     horizontal={true}>
                         {HomeData.map(data=>{
