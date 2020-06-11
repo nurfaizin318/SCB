@@ -1,13 +1,14 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, FlatList, Dimensions, Animated } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { Dark } from '../../Utils';;
 import { CardList } from '../../Component';
 import { useDispatch, useSelector } from 'react-redux';
+import { ProgressSteps } from 'react-native-progress-steps';
 
 
-const List= () => {
+const List= (props) => {
     const scrollValue = useRef(new Animated.Value(0)).current;
+    const animatedValue = useRef(new Animated.Value(0)).current;
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
@@ -33,7 +34,9 @@ const List= () => {
     const scrollHeight2 = Animated.diffClamp(scrollValue, 0, 100).interpolate({
         inputRange: [0, 130],
         outputRange: [-10, -90],
-    })
+    });
+  
+   
     return (
         <Fragment>
             <StatusBar backgroundColor={Dark.black30} translucent={false} tintColor="light" />
@@ -56,7 +59,7 @@ const List= () => {
                 </Animated.View>
 
                 {navigator ?
-                    <Animated.View style={{ ...styles.body,transform: [{ translateY: scrollHeight2 }],  }}>
+                    <Animated.View style={{ ...styles.body,transform: [{ translateY: scrollHeight2 }] }}>
                         <Animated.FlatList
                             bounces={false}
                             scrollEventThrottle={1}
@@ -74,8 +77,9 @@ const List= () => {
                             data={dataFromState}
                             renderItem={({ item, index }) =>
                                 <CardList
+                                    navigation={props.navigation}
                                     organitation={item.organitation}
-                                    actions={item.acitem}
+                                    actions={item.actions}
                                     progress={item.progress}
                                     contact1={item.contact1}
                                     contact2={item.contact2}
@@ -83,6 +87,7 @@ const List= () => {
                                     result={item.result}
                                     id={item.id}
                                     time={item.tim}
+                                    index={index}
                                     onDelete={() => { onDelete(item.id) }}
                                 />
                             }
@@ -136,7 +141,8 @@ export default List;
 
 const styles = {
     container: {
-        flex: 1, alignItems: "center", backgroundColor: Dark.black20
+        flex: 1, alignItems: "center", 
+        backgroundColor: Dark.black20,
     },
     header: {
         container: {
@@ -168,6 +174,6 @@ const styles = {
         width: '100%', 
         alignItems: "center",
         bottom: 60, 
-        paddingVertical: 20
+        paddingVertical: 30
     }
 }

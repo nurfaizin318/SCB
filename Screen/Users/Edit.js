@@ -50,7 +50,8 @@ const Edit = (props)=>{
         
               await  data.splice(props.route.params.index,1,newData)
                 dispatch({type:"EDIT",payload:data})
-                props.navigation.navigate('Library',{refresh:true});       }
+                console.log(data)
+                props.navigation.navigate('List',{refresh:true});       }
 
 
     useEffect(()=>{

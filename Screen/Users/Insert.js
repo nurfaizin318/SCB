@@ -11,13 +11,13 @@ import {
     Alert
        } from 'react-native';
 
-import {TextInputs,Modals} from '../../Component';
+import {TextInputs} from '../../Component';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Dark} from '../../Utils';
 import {useIsFocused} from '@react-navigation/native';
-
+import moment from 'moment'
 
 const Insert = (props)=>{
         
@@ -31,16 +31,11 @@ const Insert = (props)=>{
          const [nextPlan,setNextPlan] = useState("");
          const [result,setResult] = useState("");
 
-        let  date = new Date();
-        let  id =   date.getTime();
-        let  dates =  date.getDate();
-        let  month =  date.getMonth() + 1; //Current Month
-        let  year = date.getFullYear(); //Current Year
-        let  times=  date.toLocaleTimeString();
-        let  TimeNow = dates +'/'+month+'/'+year +' '+times;
+        const  date = new Date();
+        const  id =   date.getTime();
+        const timeNow = moment().format('MMM Do YYYY - h:mm:ss');
 
         const onSave = async () =>{
-
 
             let newData={
                 organitation:organitation,
@@ -51,7 +46,7 @@ const Insert = (props)=>{
                 nextPlan:nextPlan,
                 result:result,
                 id:id,
-                time:TimeNow
+                time:timeNow
                }
                  try{
                    await dispatch({type:"INSERT_DATA",payload:newData});

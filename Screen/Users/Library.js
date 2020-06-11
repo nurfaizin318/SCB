@@ -116,7 +116,7 @@ const Library = (props) => {
     return (
 
         <Fragment>
-            <StatusBar  barStyle='default' />
+            <StatusBar backgroundColor={Dark.black30}  barStyle='default' />
             <View style={styles.container}>
                 <Animated.View style={{ width: width / 1.15, height: 40, alignSelf: "center", transform: [{ translateY: inputOffsetX }], zIndex: 300 }}>
                     <TextInput style={{ borderBottomColor: Dark.black30, borderBottomWidth: 1, textAlign: "center" }}
@@ -124,11 +124,11 @@ const Library = (props) => {
                         placeholderTextColor={Dark.black30}
                     />
                 </Animated.View>
-                <Animated.View style={{ width: width, height: 90, transform: [{ scaleY: opacityX, scaleX: opacityX }], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
+                <Animated.View style={{ width: width, height: 90, transform: [{ scale:opacityX}], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
                     <Text style={{ fontSize: 25, fontWeight: '600', color:'grey'}}>Library</Text>
                     <Text style={{ fontSize: 15, fontWeight: '600', color:'grey'}}>Add your activity and recent here !</Text>
                 </Animated.View>
-                <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black30, position: "absolute", borderTopRightRadius: 45, borderTopLeftRadius: 45, paddingTop: 40, transform: [{ translateY: scrollHeight }] }}>
+                <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black20, position: "absolute", borderTopRightRadius: 45, borderTopLeftRadius: 45, paddingTop: 40, transform: [{ translateY: scrollHeight }] }}>
                     <Animated.FlatList
                         scrollEventThrottle={16}
                         onScroll={Animated.event([
@@ -148,7 +148,7 @@ const Library = (props) => {
                             <TouchableOpacity style={{ width: width, height: 120, marginVertical: 3, justifyContent: "center", alignItems: "center",}}>
                                 <View style={{ width: width / 1.1, height: '90%', borderRadius: 10, alignItems:"center" ,justifyContent:"flex-end"}}>
                                    
-                                    <View style={{width:'100%',height:'90%',backgroundColor:Dark.black40,borderRadius:10,flexDirection:"row"}}>
+                                    <View style={{width:'100%',height:'90%',backgroundColor:Dark.black30,borderRadius:10,flexDirection:"row"}}>
 
                                     <View style={{width:"30%",height:'110%',backgroundColor:Dark.lightOrange,marginLeft:20,borderBottomLeftRadius:10,borderBottomRightRadius:10,top:-2,justifyContent:"center",alignItems:"center"}}>
                                             <Text style={{fontSize:30}}>
@@ -191,7 +191,7 @@ const styles = {
 
     container: {
         flex: 1,
-        backgroundColor: Dark.black20,
+        backgroundColor: Dark.black30,
     },
     header: {
         marginTop: 20,
@@ -209,11 +209,6 @@ const styles = {
         padding: 10,
         backgroundColor: Dark.lightGreen,
         borderBottomLeftRadius: 34,
-
-
-
-
-
     },
     add: {
         text: {

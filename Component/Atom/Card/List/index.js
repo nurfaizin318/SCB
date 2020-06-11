@@ -1,22 +1,41 @@
-import React from 'react';
+import React, { useEffect,useRef } from 'react';
 import {View,
     Text,
     Dimensions,
+    Animated
     }
 
 from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Dark } from '../../../Utils';
+import { Dark } from '../../../../Utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+
 
 const CardList= (props)=>{
 
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
-
+    const animatedValue = useRef(new Animated.Value(0)).current;
+   
+    const animatedCard = animatedValue.interpolate({
+        inputRange:[0,1],
+        outputRange:[height,1]
+    })
+    useEffect(()=>{
+        Animated.sequence([
+            Animated.delay(props.index * 200),
+            Animated.spring(animatedValue,{
+                toValue:1,
+                velocity:0.1,
+                tension:20,
+                useNativeDriver:true
+            })
+        ]).start()
+    },[])
     return (
 
-        <View style={styles.container(width,height)}>
+        <Animated.View style={{...styles.container(width,height),transform:[{translateY:animatedCard}]}}>
             <View style={styles.header.container}>
                  <View style={styles.header.time}>
                         <Text>{'created at : ' +props.time}</Text>
@@ -51,7 +70,7 @@ const CardList= (props)=>{
                     <Text style={styles.body.text}>next plan      :  {props.nextPlan}</Text>
                     <Text style={styles.body.text}>result            :  {props.result}</Text>
                 </View>
-        </View>
+        </Animated.View>
     )
 }
 
@@ -63,7 +82,7 @@ const styles ={
         width: width/1.1,
         height: height/3.2,
         backgroundColor:Dark.black30,
-        marginTop:20,
+        marginTop:10,
         elevation:3,
         borderRadius:7,
         
