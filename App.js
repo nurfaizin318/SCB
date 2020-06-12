@@ -36,6 +36,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MyTabs(props) {
+  console.disableYellowBox=true
   return (
     <Tab.Navigator  tabBarOptions={{style:{backgroundColor:Dark.black30,borderTopWidth:0,elevation:10},activeTintColor:"#ee5253"}}
     >

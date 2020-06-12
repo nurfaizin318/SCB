@@ -27,8 +27,7 @@ const CardList= (props)=>{
             Animated.delay(props.index * 200),
             Animated.spring(animatedValue,{
                 toValue:1,
-                velocity:0.1,   
-                tension:20,
+               friction:8,
                 useNativeDriver:true
             })
         ]).start()
