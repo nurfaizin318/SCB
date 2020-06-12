@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {ListNotification,CardRecent} from '../../Component'
+import { ListNotification, CardRecent } from '../../Component'
 import { Dark } from '../../Utils';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -26,30 +26,31 @@ const Home = (props) => {
     const arr1 = [
         { key: 1, data: 'First Notif', hint: 'Person eek' },
         { key: 2, data: 'Secend Notif', hint: 'Filling Good' },
-        ]
+    ]
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
 
-    const Alerts = () =>{
+    const Alerts = () => {
         Alert.alert(
             "",
             "Are you sure logout ?",
             [
-              {text:"No",
-                  onPress:()=>{}
-              },
-              {
-                  text:"Yes",
-                  onPress:()=>{onLogOut()}
-              }
-           ]
+                {
+                    text: "No",
+                    onPress: () => { }
+                },
+                {
+                    text: "Yes",
+                    onPress: () => { onLogOut() }
+                }
+            ]
         )
     }
-    const onLogOut= async ()=>{
+    const onLogOut = async () => {
 
-       await dispatch({type:'LOGOUT'})
-       await props.navigation.navigate('Login');
+        await dispatch({ type: 'LOGOUT' })
+        await props.navigation.navigate('Login');
     }
 
     return (
@@ -58,87 +59,78 @@ const Home = (props) => {
                 <StatusBar backgroundColor={Dark.black20} tintColor="light" />
                 <View style={styles.container}>
                     <ScrollView>
-                    <View style={styles.userPanel}>
-                        <View style={styles.thumnail.name}>
-                            <Text style={styles.thumnail.fontThumnail1}>Jaya Saf</Text>
-                            <Text style={styles.thumnail.fontThumnail2}>Supervisor</Text>
+                        <View style={styles.userPanel}>
+                            <View style={styles.thumnail.name}>
+                                <Text style={styles.thumnail.fontThumnail1}>Jaya Saf</Text>
+                                <Text style={styles.thumnail.fontThumnail2}>Supervisor</Text>
+                            </View>
+                            <TouchableOpacity style={styles.settingIcon} onPress={() => { Alerts() }}>
+                                <FontAwesome5 name="sign-out-alt" size={18} color="gray" />
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={styles.settingIcon} onPress={()=>{Alerts()}}>
-                             <FontAwesome5 name="sign-out-alt" size={18} color="gray" />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ flex: 1, width: width }}>
-                        <View style={styles.recent.box}>
-                            <View style={styles.recent.boxheader}>
-                                <Text style={styles.text(10)}>
-                                    Recent
-                        </Text>
-                                <TouchableOpacity style={styles.viewAll}>
-                                    <Text style={{ color: "gray" }}>View all </Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.recent.body}>
-                        {
-
-                        recentData.length >0 ?
-
-                            <FlatList
-                        data={recentData}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={ ({item}) =>
-
-                                <CardRecent
-                                id={item.id}
-                                organitation={item.organitation} 
-                                progress={item.progress}                               
-                                /> }
-                        keyExtractor={item => item.id.toString()}
-                    />
-                    :
-                        <Text style={{color:"white",alignSelf:"center"}}>
-                            Empty
-                        </Text>
-                    
-                        }
-                    {/* <ScrollView 
-                    horizontal={true}>
-                        {HomeData.map(data=>{
-
-                            return <CardRecents key={ data.id } organitation={data.organitation} progress={data.progress}/>
-                        })}
-                    </ScrollView> */}
-                    
-                            </View>
-                        </View>
-                        <View style={styles.feed.box(height)}>
-                            <View style={styles.feed.header}>
-                                <Text style={styles.text(20)}>
-                                    Feed
-                        </Text>
-                                <TouchableOpacity style={styles.viewAll}>
-                                    <Text style={{ color: "gray" }}>View all </Text>
-                                </TouchableOpacity>
-                            </View>
-
-                            {arr1 ?
-                                <ScrollView style={styles.feed.scrollBody(width)}>
-                                    <View style={{ alignItems: 'center' }}>
-                                        {arr1.map(result => {
-                                            return <ListNotification
-                                                key={result.key}
-                                                text={result.data}
-                                                text2={result.hint} />
-                                        })}
-                                    </View>
-                                </ScrollView>
-                                :
-                                <View style={{ ...styles.noResult, height: height / 2.4 }}>
-                                    <Text style={{ fontSize: 15, color: '#2c3e50' }}>no notifications</Text>
+                        <View style={{ flex: 1, width: width }}>
+                            <View style={styles.recent.box}>
+                                <View style={styles.recent.boxheader}>
+                                    <Text style={styles.text(20)}>
+                                        Recent
+                                     </Text>
+                                    <TouchableOpacity style={styles.viewAll}>
+                                        <Text style={{ color: "gray" }}>View all </Text>
+                                    </TouchableOpacity>
                                 </View>
-                            }
+                                <View style={styles.recent.body}>
+                                    {
+                                        recentData.length > 0 ?
+
+                                            <FlatList
+                                                data={recentData}
+                                                horizontal={true}
+                                                showsHorizontalScrollIndicator={false}
+                                                renderItem={({ item }) =>
+
+                                                    <CardRecent
+                                                        id={item.id}
+                                                        organitation={item.organitation}
+                                                        progress={item.progress}
+                                                    />}
+                                                keyExtractor={item => item.id.toString()}
+                                            />
+                                            :
+                                            <Text style={{ color: "white", alignSelf: "center" }}>
+                                                Empty
+                                          </Text>
+
+                                    }
+                                </View>
+                            </View>
+                            <View style={styles.feed.box(height)}>
+                                <View style={styles.feed.header}>
+                                    <Text style={styles.text(20)}>
+                                        Feed
+                        </Text>
+                                    <TouchableOpacity style={styles.viewAll}>
+                                        <Text style={{ color: "gray" }}>View all </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                {arr1 ?
+                                    <ScrollView style={styles.feed.scrollBody(width)}>
+                                        <View style={{ alignItems: 'center' }}>
+                                            {arr1.map(result => {
+                                                return <ListNotification
+                                                    key={result.key}
+                                                    text={result.data}
+                                                    text2={result.hint} />
+                                            })}
+                                        </View>
+                                    </ScrollView>
+                                    :
+                                    <View style={{ ...styles.noResult, height: height / 2.4 }}>
+                                        <Text style={{ fontSize: 15, color: '#2c3e50' }}>no notifications</Text>
+                                    </View>
+                                }
+                            </View>
                         </View>
-                    </View>
                     </ScrollView>
                 </View>
             </Fragment>
@@ -155,23 +147,23 @@ const styles = {
 
     container: {
 
-        
-            flex:1,
-            backgroundColor:Dark.black20,
-            alignItems: 'center',
+
+        flex: 1,
+        backgroundColor: Dark.black20,
+        alignItems: 'center',
     },
     userPanel: {
         height: 70,
         flexDirection: 'row',
         marginTop: 10,
         padding: 10,
-        borderBottomWidth:1,
-        borderBottomColor:'rgba(0,0,0,0.3)',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(0,0,0,0.3)',
 
     },
     thumnail: {
-        name:{
-        width:'100%',
+        name: {
+            width: '100%',
 
         },
         fontThumnail1: {
@@ -189,10 +181,10 @@ const styles = {
         box: {
             height: 230,
             justifyContent: 'flex-start',
-            width: '100%', 
+            width: '100%',
             borderRadius: 5,
             alignSelf: "center",
-            borderBottomWidth:0.5
+            borderBottomWidth: 0.5
         },
         boxheader: {
             justifyContent: 'space-between',
@@ -210,13 +202,13 @@ const styles = {
             left: 5
         }
     },
-  
+
     settingIcon: {
         height: 50,
         width: 50,
         alignItems: 'center',
         justifyContent: "center",
-        right:90,
+        right: 90,
     },
     touch: {
         width: 60,
@@ -234,7 +226,7 @@ const styles = {
             color: 'white',
             fontWeight: 'bold',
             fontSize: 20,
-            left: left,
+            marginLeft:left,
         }
     },
     noResult: {
@@ -253,7 +245,7 @@ const styles = {
                 alignSelf: "center",
                 height: height / 2,
                 paddingTop: 10,
-                backgroundColor:Dark.black20,
+                backgroundColor: Dark.black20,
             }
         },
         header: {

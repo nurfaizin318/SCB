@@ -24,7 +24,6 @@ import moment from 'moment'
 const Insert = (props) => {
 
     const input = useRef();
-    const isFocus = useIsFocused();
     const dispatch = useDispatch();
     const [organitation, setOrganitation] = useState("");
     const [actions, setActions] = useState("");
@@ -32,12 +31,12 @@ const Insert = (props) => {
     const [contact2, setContact2] = useState("");
     const [progress, setProgress] = useState("");
     const [nextPlan, setNextPlan] = useState("");
-    [all, setAll] = useState([])
     const [result, setResult] = useState("");
+    [all, setAll] = useState([])
 
     const date = new Date();
     const id = date.getTime();
-    const timeNow = moment().format('MMM Do YYYY - h:mm:ss');
+    const timeNow = moment().format('dddd , MMM Do YYYY - h:mm:ss');
 
     const onSave = async () => {
         let newData = {
@@ -72,7 +71,7 @@ const Insert = (props) => {
                 }
             }
         } catch (e) {
-            console.log(e)
+            alert(e)
         }
 
 

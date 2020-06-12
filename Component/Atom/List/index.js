@@ -37,7 +37,7 @@ const CardList= (props)=>{
         <Animated.View style={{...styles.container(width,height),transform:[{translateY:animatedCard}]}}>
             <View style={styles.header.container}>
                  <View style={styles.header.time}>
-                        <Text>{'created at : ' +props.time}</Text>
+                        <Text>{  props.time}</Text>
                  </View>
                 <View style={styles.header.options}>
                     <TouchableOpacity style={styles.header.icon} onPress={props.onDelete}>
@@ -53,7 +53,7 @@ const CardList= (props)=>{
                         nextPlan:props.nextPlan,
                         result:props.result,
                         id:props.id,
-                        time:props.times
+                        time:props.time
                     })}}>
                          <FontAwesome5 name="pen" size={14} color="white" /> 
                     </TouchableOpacity>

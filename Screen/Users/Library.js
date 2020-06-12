@@ -2,24 +2,20 @@ import React, { Fragment, useState, useEffect, useRef, useCallback } from 'react
 import {
     View,
     Text,
-    StyleSheet,
     TouchableOpacity,
     StatusBar,
     Dimensions,
     Modal,
     Button,
-    ScrollView,
     Clipboard,
-    ToastAndroid,
     TextInput,
     Animated,
-    Easing,
     FlatList
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useSelector, useDispatch } from 'react-redux';
-import { CardLibrary, } from '../../Component';
+import { LibraryList } from '../../Component';
 import { Dark } from '../../Utils';
 import { db } from '../../Config/config'
 
@@ -79,25 +75,7 @@ const Library = (props) => {
         .catch(e=>console.warn(e))
     };
 
-    const onEdit = (value) => {
-        alert(value);
-    }
-
-
-    const copyToClipboard = async () => {
-        let copy = dataFromState.map(({ organitation, actions, contact1, progress, nextPlan, result }) => {
-            return ('\n' + `organitation : ${organitation}` + '\n' +
-                `actions : ${actions}` + '\n' +
-                `progress : ${progress}` + '\n' +
-                `contact   : ${contact1}` + '\n' +
-                `next plan : ${nextPlan}` + '\n' +
-                `result  : ${result}` + '\n' +
-                `================` + '\n');
-        })
-        let finalCopy = await copy.toString();
-        Clipboard.setString(finalCopy)
-    }
-
+   
     const onInsert = async () => {
         await dispatch({ type: "INSERT_DATA", payload: time })
         console.log(data)
@@ -144,36 +122,8 @@ const Library = (props) => {
                         showsVerticalScrollIndicator={false}
                         data={time}
                         renderItem={({ item, index }) =>
-
-                            <TouchableOpacity style={{ width: width, height: 120, marginVertical: 3, justifyContent: "center", alignItems: "center",}}>
-                                <View style={{ width: width / 1.1, height: '90%', borderRadius: 10, alignItems:"center" ,justifyContent:"flex-end"}}>
-                                   
-                                    <View style={{width:'100%',height:'90%',backgroundColor:Dark.black30,borderRadius:10,flexDirection:"row"}}>
-
-                                    <View style={{width:"30%",height:'110%',backgroundColor:Dark.lightOrange,marginLeft:20,borderBottomLeftRadius:10,borderBottomRightRadius:10,top:-2,justifyContent:"center",alignItems:"center"}}>
-                                            <Text style={{fontSize:30}}>
-                                                8
-                                            </Text>
-                                            <Text>
-                                                Items
-                                            </Text>
-                                    </View>
-                                    <View style={{width:"65%",height:'100%',padding:10}}>
-                                        <Text style={{color:'grey'}}>
-                                            created At : 19 / 27 /2020
-                                        </Text>
-                                        <View style={{flexDirection:"row"}}>
-                                            <TouchableOpacity style={{width:80,height:30,backgroundColor:Dark.lightGreen,justifyContent:"center",alignItems:"center",borderRadius:3,marginTop:25,marginLeft:'30%'}}>
-                                            <Text >delete</Text>
-                                            </TouchableOpacity>
-                                           
-
-                                        </View>
-                                    </View>
-                                    </View>
-                                    
-                                </View>
-                            </TouchableOpacity>
+                            <LibraryList time={item.time}/>
+                         
                         }
                         keyExtractor={items => items.id.toString()}
                     />
