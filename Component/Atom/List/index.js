@@ -6,8 +6,8 @@ import {View,
     }
 
 from 'react-native';
+import {Dark} from '../../../Utils'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Dark } from '../../../../Utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
@@ -27,7 +27,7 @@ const CardList= (props)=>{
             Animated.delay(props.index * 200),
             Animated.spring(animatedValue,{
                 toValue:1,
-                velocity:0.1,
+                velocity:0.1,   
                 tension:20,
                 useNativeDriver:true
             })

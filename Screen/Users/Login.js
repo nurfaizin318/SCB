@@ -1,56 +1,108 @@
-import React ,{Fragment,useState,useEffect}from 'react';
-import { View, Text, Button ,StatusBar} from 'react-native';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
+import {
+    View,
+    Text,
+    Button,
+    StatusBar,
+    Dimensions,
+    Animated,
+    KeyboardAvoidingView
+} from 'react-native';
 import { TextInputs } from '../../Component/';
 import { Dark } from "../../Utils/Color";
-import AsyncStorage from '@react-native-community/async-storage';
+import { useDispatch } from 'react-redux';
 
-class Login extends React.Component {
-    constructor(props){
-        super(props);
-        this.state={
-           
-            username:'',
-            password:'',
+const Login = (props) => {
+
+    const height = Dimensions.get('window').height;
+    const width = Dimensions.get('window').width;
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const animatedValue = useRef(new Animated.Value(0)).current;
+    const animatedTime = useRef(new Animated.Value(0)).current;
+    const dispatch = useDispatch();
+    
+    const translateY = animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [height,-30]
+    })
+
+    const scale = animatedTime.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1]
+    })
+
+
+    const onLogin = async () => {
+        if (username.toLocaleLowerCase() == 'admin' && password.toLocaleLowerCase() == 'admin') {
+            await dispatch({ type: 'LOGIN' });
+            await props.navigation.replace('Home')
+        }
+        else {
+            alert('wrong usernamme or password');
         }
     }
-render(){
-    const {username,password} = this.state;
 
-    const onLogin = async ()=>{
-     if(username=='Admin' && password=='Admin'){
-       await  AsyncStorage.setItem('token','isLogin')
-       await this.props.navigation.navigate('Home');
-     }
-      
-    }
+    useEffect(() => {
+        Animated.parallel([
+            Animated.spring(animatedValue, {
+                toValue: 1,
+                friction: 5,
+                useNativeDriver: true
+
+            }),
+            Animated.spring(animatedTime, {
+                delay: 1500,
+                toValue: 1,
+                friction: 5,
+                useNativeDriver: true
+            }),
+        ]).start()
+    })
+
     return (
         <Fragment >
             <StatusBar backgroundColor={Dark.black20} barStyle="light-content" />
-        <View style={styles.container}>
-            <View style={styles.box}>
-                <View style={{ height: 70 }} />
-                <View>
-                    <Text style={styles.box.text}>username</Text>
-                    <View  style={styles.box.input}>
-                        <TextInputs onChangeText={(value)=>{this.setState({username:value})}}/>
-                    </View>
+            <View style={styles.container}>
+                
+                    <Animated.View style={{ ...styles.icon.container, height: height / 5, width: width, transform: [{ scale: scale }] }}>
+                        <View style={styles.icon.body}>
+                            <Text style={styles.icon.text} >S C B</Text>
+                        </View>
+                    </Animated.View>
+                    <Animated.View style={{ ...styles.box, width: width, height: height / 1.2, transform: [{ translateY: translateY }] }}>
+                        <View style={styles.title.container}>
+                            <Text style={styles.title.text}>Login</Text>
+                        </View>
+                        <View style={styles.spacer(30)} />
+                        <View>
+                            <Text style={styles.box.text}>username</Text>
+                            <View style={styles.box.input}>
+                                <TextInputs
+                                    placeholder="username"
+                                    onChangeText={(value) => setUsername(value)} 
+                                    />
+                                    
+                            </View>
 
-                </View>
-                <View style={styles.spacer(30)} />
-                <View>
-                    <Text style={styles.box.text}>passowrd</Text>
-                    <View style={styles.box.input} >
-                        <TextInputs onChangeText={(value)=>{this.setState({password:value})}} />
-                    </View>
-                </View>
-                <View style={styles.box.button}>
-                    <Button title="Log in" color={Dark.lightOrange} onPress={()=>{onLogin()}}/>
-                </View>
+                        </View>
+                        <View style={styles.spacer(30)} />
+                        <View>
+                            <Text style={styles.box.text}>passowrd</Text>
+                            <View style={styles.box.input} >
+                                <TextInputs
+                                    placeholder="pasword"
+                                    onChangeText={(value) => setPassword(value)} />
+                            </View>
+                        </View>
+                        <View style={styles.box.button}>
+                            <Button title="Log in" color={Dark.lightOrange} onPress={() => { onLogin() }} />
+                        </View>
+                    </Animated.View>
             </View>
-        </View>
         </Fragment>
     )
-}
 }
 export default Login;
 
@@ -58,27 +110,60 @@ const styles = {
     container: {
         flex: 1,
         backgroundColor: Dark.black20,
-        justifyContent: "center",
         alignItems: "center"
     },
+    icon: {
+        container: {
+            marginTop: 20,
+            justifyContent: 'center',
+            alignItems: "center",
+        },
+        body: {
+            width: 300,
+            height: '100%',
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        text: {
+            fontSize: 70,
+            color: "red"
+        }
+    },
+    title: {
+        container: {
+            width: '100%',
+            height: 70,
+
+        },
+        text: {
+            fontSize: 30,
+            color: "grey"
+
+        }
+    },
     box: {
-        width: '80%',
-        height: '60%',
+
         backgroundColor: Dark.black30,
         padding: 20,
-
+        borderTopRightRadius: 35,
+        borderTopLeftRadius: 35,
+        backgroundColor: Dark.black30,
+        position: "absolute",
+        top: 180,
+        left: 0,
+        right: 0,
         text: {
             fontSize: 14,
-            color: Dark.black40
+            color: 'grey'
         },
-        button:{
-            marginTop:40
+        button: {
+            marginTop: 40
         }
 
     },
-    spacer:(value)=>{
-        return{
-            height:value
+    spacer: (value) => {
+        return {
+            height: value
         }
     }
 }

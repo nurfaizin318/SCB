@@ -48,7 +48,7 @@ const Home = (props) => {
     }
     const onLogOut= async ()=>{
 
-       await AsyncStorage.setItem('token','isLogOut');
+       await dispatch({type:'LOGOUT'})
        await props.navigation.navigate('Login');
     }
 

@@ -17,7 +17,11 @@ const TextInputs = (props)=>{
             <TextInput 
             style={styles.input}
             onChangeText={props.onChangeText}
-            value={props.value}/>
+            value={props.value}
+            placeholder={props.placeholder}
+            placeholderTextColor={Dark.black40}
+            onFocus={props.onFocus}
+            />
         </View>
     )
 }

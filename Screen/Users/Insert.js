@@ -55,7 +55,6 @@ const Insert = (props)=>{
                      alert(e)
                  }
 
-                console.log(newData)
        }
 
       const Alerts = () =>{

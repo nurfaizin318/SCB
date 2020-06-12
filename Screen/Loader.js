@@ -1,5 +1,5 @@
 import React,{Fragment,useEffect,useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Dark} from '../Utils'
 
@@ -15,10 +15,16 @@ import {
 
 const Loader = (props) =>
     {
-        const dispatch = useDispatch();
+        const status = useSelector(state=>state.AuthReducer.auth);
+
      useEffect(()=>{    
         getData = async()=>{
-                props.navigation.replace('Home');
+            if(status == 'isLogin'){
+                props.navigation.replace('Home')
+            }
+            else{
+                props.navigation.replace('Login')
+            }
         }
         getData();
     },[])
