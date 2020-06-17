@@ -11,8 +11,8 @@ Mobile Apps for send daily report
 * redux & redux- persist
 * firebase
 * react-navigation 5
-## install 
+## Install 
  1. delete your package.lock.json
  2. npm install
- ## screnshoot
+ ## Screnshoot
  
