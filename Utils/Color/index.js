@@ -1,4 +1,4 @@
-export const Dark={
+      export const Dark={
       black10:"#000000",
       black20:"#121212",
       black30:"#161616",

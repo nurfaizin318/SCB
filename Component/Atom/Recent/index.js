@@ -11,6 +11,7 @@ const CardRecent = (props)=>{
 
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
+    const organitation = props.organitation.split(' ')
     return (
 
         <View style={styles.container(width,height)}>
@@ -20,11 +21,16 @@ const CardRecent = (props)=>{
             <View style={styles.organitation.container}>
                 {props.organitation != null ?
                  props.organitation.trim().length < 10 ? 
-                    <Text style={styles.organitation.text}>{props.organitation.toUpperCase()}</Text>
-                   :
-                   <Text style={styles.organitation.text}>{props.organitation.slice(0,10).toUpperCase()}...</Text>
-               
-                :
+                 <View>
+                 <Text style={styles.organitation.text}>{organitation[0].toUpperCase()}.</Text>
+                 <Text style={styles.organitation.text}>{organitation[1].toUpperCase()}</Text>
+                 </View>
+                 :
+                 <View>
+                 <Text style={styles.organitation.text}>{organitation[0].toUpperCase()}.</Text>
+                 <Text style={styles.organitation.text}>{organitation[1].toUpperCase()}...</Text>
+                 </View>
+                 :
                 null
                 }
                
@@ -82,7 +88,8 @@ const styles ={
             },
             text:{
                 fontSize:15,
-                color:"white"
+                color:"white",
+                alignSelf:"center"
 
             }
 

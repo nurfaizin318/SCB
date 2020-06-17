@@ -9,12 +9,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {TouchableOpacity,View, SafeAreaView} from 'react-native'
+import { SafeAreaView} from 'react-native'
 
 // REDUX ============
 

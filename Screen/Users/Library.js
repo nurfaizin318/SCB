@@ -5,16 +5,11 @@ import {
     TouchableOpacity,
     StatusBar,
     Dimensions,
-    Modal,
-    Button,
-    Clipboard,
     TextInput,
     Animated,
     FlatList
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-community/async-storage';
-import { useSelector, useDispatch } from 'react-redux';
 import { LibraryList } from '../../Component';
 import { Dark } from '../../Utils';
 import { db } from '../../Config/config'
@@ -26,12 +21,8 @@ const Library = (props) => {
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
 
-    let date = new Date();
-    let dates = date.getDate();
-    let month = date.getMonth() + 1; //Current Month
-    let year = date.getFullYear(); //Current Year
-    let times = date.toLocaleTimeString();
-    let TimeNow = dates + '-' + month + '-' + year;
+    
+   
 
     const scrollValue = useRef(new Animated.Value(0)).current;
 
@@ -50,36 +41,8 @@ const Library = (props) => {
         outputRange: [1, 0],
         extrapolate: "clamp"
     })
-
-    const dataFromState = useSelector(state => state.DataReducer.data);
-    const data = useSelector(state => state.DataReducer.data);
-    const dispatch = useDispatch();
-
-    const [time, setTime] = useState([]);
-
-    const itemsRef = db.ref('/Date');
-
-    const onDelete = async (id) => {
-        try {
-            await dispatch({ type: "ON_DELETE", payload: id })
-        } catch (e) {
-            alert(e)
-        }
-    }
-
-    let addItem = () => {
-        let  id =   date.getTime();
-        itemsRef.child(`${TimeNow}`)
-        .set({'id':id,'createdAt':TimeNow})
-        .then()
-        .catch(e=>console.warn(e))
-    };
-
-   
-    const onInsert = async () => {
-        await dispatch({ type: "INSERT_DATA", payload: time })
-        console.log(data)
-    }
+    
+    const [time, setTime] = useState([])
 
     useEffect(() => {
         const itemsRef = db.ref('/Date/');
@@ -90,16 +53,18 @@ const Library = (props) => {
                 setTime(items)
             }
         });
+        console.log(time)
     }, [])
     return (
 
         <Fragment>
             <StatusBar backgroundColor={Dark.black30}  barStyle='default' />
             <View style={styles.container}>
-                <Animated.View style={{ width: width / 1.15, height: 40, alignSelf: "center", transform: [{ translateY: inputOffsetX }], zIndex: 300 }}>
-                    <TextInput style={{ borderBottomColor: Dark.black30, borderBottomWidth: 1, textAlign: "center" }}
+                <Animated.View style={{ width: width / 1.15, height: 40, alignSelf: "center", transform: [{ translateY: inputOffsetX }], zIndex: 700 }}>
+                    <TextInput style={{ borderBottomColor: 'grey', borderBottomWidth: 1, textAlign: "center",
+                     }}
                         placeholder="Search"
-                        placeholderTextColor={Dark.black30}
+                        placeholderTextColor="grey"
                     />
                 </Animated.View>
                 <Animated.View style={{ width: width, height: 90, transform: [{ scale:opacityX}], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
@@ -122,7 +87,11 @@ const Library = (props) => {
                         showsVerticalScrollIndicator={false}
                         data={time}
                         renderItem={({ item, index }) =>
-                            <LibraryList time={item.time}/>
+                            <LibraryList 
+                            time={item.createdAt}
+                            data={item.data}
+                            index={index}
+                                />
                          
                         }
                         keyExtractor={items => items.id.toString()}

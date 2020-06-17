@@ -36,7 +36,7 @@ const Insert = (props) => {
 
     const date = new Date();
     const id = date.getTime();
-    const timeNow = moment().format('dddd , MMM Do YYYY - h:mm:ss');
+    const timeNow = moment().format('dddd , MMM Do YYYY - h:mm');
 
     const onSave = async () => {
         let newData = {
@@ -48,7 +48,8 @@ const Insert = (props) => {
             nextPlan: nextPlan,
             result: result,
             id: id,
-            time: timeNow
+            time: timeNow,
+            status:'Un Closing'
         }
         try {
             let j = 0;
