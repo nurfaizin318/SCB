@@ -5,9 +5,9 @@ Mobile Apps for send daily report
 
 ## Features 
 
-- [ ] CRUD report
-- [ ] Rraltime report
-- [x] Notifications
+- [x] CRUD report
+- [x] Rraltime report
+- [ ] Notifications
 ## Tools
 * react- native 
 * redux & redux- persist
