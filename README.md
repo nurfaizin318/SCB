@@ -6,7 +6,7 @@ Mobile Apps for send daily report
 ## Features 
 
 - [x] CRUD report
-- [x] Rraltime report
+- [x] Realtime report
 - [ ] Notifications
 ## Tools
 * react- native 
