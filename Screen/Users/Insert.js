@@ -18,7 +18,6 @@ import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Dark } from '../../Utils';
-import { useIsFocused } from '@react-navigation/native';
 import moment from 'moment'
 
 const Insert = (props) => {
@@ -74,7 +73,7 @@ const Insert = (props) => {
         } catch (e) {
             alert(e)
         }
-
+        
 
     }
     const alerts = () => {

@@ -33,10 +33,10 @@ const LibraryList = (props) => {
                     <View style={styles.child.left}>
                         <Text style={{ ...styles.text, marginTop: 10,fontSize:40 }}> {fullTime[0]}</Text>
                         <Text style={{...styles.text }} >{fullTime[1]}</Text>
-                        <Text style={{...styles.text,marginTop:10}}> {props.data.length} items</Text>
+                        <Text style={{...styles.text,marginTop:10}}> {props.count.length} items</Text>
                     </View>
                     <View style={styles.child.right}>
-                        <TouchableOpacity style={styles.buttonDelete}>
+                        <TouchableOpacity style={styles.buttonDelete} onPress={props.onDelete}>
                             <Text>
                                 delete
                             </Text>

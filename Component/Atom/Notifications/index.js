@@ -20,8 +20,8 @@ const ListNotification = (props)=>{
                  <FontAwesome5 name="bell" size={25} color="gray" />
             </View>
             <View style={styles.center.container}>
-                <Text style={styles.center.textName}>Name</Text>
-                <Text style={styles.center.textNotif}>Notifications</Text>
+    <Text style={styles.center.textName}>{props.name}</Text>
+    <Text style={styles.center.textNotif}>{props.type}</Text>
             </View>
             <View style={styles.right}>
                 {/* <FontAwesome5 name="times" size={25} color="white" /> */}

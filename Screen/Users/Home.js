@@ -11,25 +11,26 @@ import {
     FlatList,
     Alert
 } from 'react-native';
+import {db} from '../../Config/config'
 import { useSelector, useDispatch } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { ListNotification, CardRecent } from '../../Component'
 import { Dark } from '../../Utils';
-import AsyncStorage from '@react-native-community/async-storage';
-
+import moment from 'moment';
+import {useIsFocused} from '@react-navigation/native'
 
 
 const Home = (props) => {
+
+    const ifFocused = useIsFocused();
     const dispatch = useDispatch();
+    const time = moment().format('MMM Do YYYY')
+
     const recentData = useSelector(state => state.DataReducer.data)
-    const arr1 = [
-        { key: 1, data: 'First Notif', hint: 'Person eek' },
-        { key: 2, data: 'Secend Notif', hint: 'Filling Good' },
-    ]
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
-
+    [data,setData] = useState({})
     const Alerts = () => {
         Alert.alert(
             "",
@@ -51,7 +52,22 @@ const Home = (props) => {
         await dispatch({ type: 'LOGOUT' })
         await props.navigation.navigate('Login');
     }
+    useEffect(() => {
+        const itemsRef = db.ref(`/Notifications/`)
+        itemsRef.on('value', snapshot => {
+            let database = snapshot.val();
+            if (data != null) {
+                let items = Object.values(data);
+                // dispatch({ type: "INSERT_FEED", payload: items })
 
+            }
+            //    if(database==null){
+            //        setData()
+            //    }else{
+            //        setData(Object.values(database))
+            //    }
+        });
+    }, [])
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
@@ -78,7 +94,8 @@ const Home = (props) => {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.recent.body}>
-                                    {
+                                    {ifFocused ? 
+                                    (
                                         recentData.length > 0 ?
 
                                             <FlatList
@@ -98,36 +115,38 @@ const Home = (props) => {
                                             <Text style={{ color: "white", alignSelf: "center" }}>
                                                 Empty
                                           </Text>
-
-                                    }
+                                    )
+                                    :
+                                    null }
                                 </View>
                             </View>
                             <View style={styles.feed.box(height)}>
-                                <View style={styles.feed.header}>
+                                <View style={{...styles.feed.header,width:width}}>
                                     <Text style={styles.text(20)}>
                                         Feed
-                        </Text>
+                                     </Text>
                                     <TouchableOpacity style={styles.viewAll}>
                                         <Text style={{ color: "gray" }}>View all </Text>
                                     </TouchableOpacity>
                                 </View>
 
-                                {arr1 ?
-                                    <ScrollView style={styles.feed.scrollBody(width)}>
-                                        <View style={{ alignItems: 'center' }}>
-                                            {arr1.map(result => {
-                                                return <ListNotification
-                                                    key={result.key}
-                                                    text={result.data}
-                                                    text2={result.hint} />
-                                            })}
-                                        </View>
-                                    </ScrollView>
-                                    :
-                                    <View style={{ ...styles.noResult, height: height / 2.4 }}>
-                                        <Text style={{ fontSize: 15, color: '#2c3e50' }}>no notifications</Text>
-                                    </View>
-                                }
+
+                                {/* <FlatList
+                                    data={Object.values(data)}
+                                    showsHorizontalScrollIndicator={false}
+                                    renderItem={({ item }) =>
+                                        item != null ?
+                                            <ListNotification
+                                                name={item.name}
+                                                type={item.type}
+                                                
+                                            />
+                                            :
+                                            <View style={{ ...styles.noResult, height: height / 2.4 }}>
+                                                <Text style={{ fontSize: 15, color: '#2c3e50' }}>no notifications</Text>
+                                            </View>
+                                    }
+                                /> */}
                             </View>
                         </View>
                     </ScrollView>
@@ -145,8 +164,6 @@ export default Home;
 const styles = {
 
     container: {
-
-
         flex: 1,
         backgroundColor: Dark.black20,
         alignItems: 'center',
@@ -225,7 +242,7 @@ const styles = {
             color: 'white',
             fontWeight: 'bold',
             fontSize: 20,
-            marginLeft:left,
+            marginLeft: left,
         }
     },
     noResult: {

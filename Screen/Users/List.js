@@ -5,7 +5,7 @@ import { CardList } from '../../Component';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../../Config/config';
-import moment from 'moment'
+import moment from 'moment';
 
 
 
@@ -16,6 +16,7 @@ const List = (props) => {
     const time = moment().format('MMM Do YYYY')
     const fullTime = moment().format('dddd , MMM Do YYYY , h:mm');
     const dataFromState = useSelector(state=>state.DataReducer.data)
+    const feedData = useSelector(state=>state.FeedReducer.feed)
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
     const dispatch = useDispatch();
@@ -44,34 +45,38 @@ const List = (props) => {
     });
 
     const copyToClipboard = async () => {
-        let copy = dataFromState.map(({ organitation, actions, contact1, progress, nextPlan, result }) => {
+        let copy = dataFromState.map(({ organitation, actions, contact1, progress, nextPlan, result ,status}) => {
             return ('\n' + `organitation : ${organitation}` + '\n' +
                 `actions : ${actions}` + '\n' +
                 `progress : ${progress}` + '\n' +
                 `contact   : ${contact1}` + '\n' +
                 `next plan : ${nextPlan}` + '\n' +
                 `result  : ${result}` + '\n' +
+                `status  : ${status}` + '\n' +
                 `================` + '\n');
         })
         let finalCopy = await copy.toString();
         Clipboard.setString(finalCopy)
-        console.log(dataFromState)
     }
 
 
-    let addItem = () => {
-    // const itemsRef = db.ref('/Date');
-    //     let  id =   date.getTime();
-    //     itemsRef.child(`Jun 16th 2020`)
-    //     .set({'id':id,'createdAt':fullTime,'data':dataFromState})
-    //     .then()
-    //     .catch(e=>console.warn(e))
+    let addItem = async () => {
 
-    const itemsRef = db.ref('/Users')
-    itemsRef.child(``)
-    .set({'id':id,'createdAt':fullTime,'data':dataFromState})
-    .then()
-    .catch(e=>console.warn(e))
+        await dispatch({type:"INSERT_FEED",payload:{'id':date.getTime(),'name':'jon','createdAt':fullTime,'data':dataFromState}})
+        console.log(feedData)
+        // let name = 'jon';
+        // const itemsData = db.ref(`/Data/${time}`)
+        // let  id =   date.getTime();
+        // itemsData.child(name)
+        // .set({'name':name,'createdAt':fullTime,'data':dataFromState})
+        // .then()
+        // .catch(e=>alert(e))
+
+        // const itemsNotif = db.ref('/Notifications')
+        // itemsNotif.child(moment().format('dddd , MMM Do YYYY , h:mm:ss'))
+        // .set({'name':'jaya','type':'add report'})
+        // .then()
+        // .catch(error=>console.log(error))
     };
     
     
@@ -94,7 +99,7 @@ const List = (props) => {
                         <View style={{width:"40%",height:"80%",alignItems:"center"}}>
                             
                             <TouchableOpacity 
-                            onPress={()=>addItem()}
+                            onPress={addItem}
                             style={styles.modal.btn}>
                               <FontAwesome5 name="location-arrow" size={20} color="grey" />
                             </TouchableOpacity>
@@ -104,7 +109,7 @@ const List = (props) => {
                         </View>
                         <View style={{width:"40%",height:"80%",alignItems:"center"}}>
                             <TouchableOpacity 
-                        onPress={()=>copyToClipboard()}
+                        onPress={copyToClipboard}
                             style={styles.modal.btn}>
                               <FontAwesome5 name="copy" size={20} color="grey" />
                             </TouchableOpacity>
@@ -123,27 +128,15 @@ const List = (props) => {
 
                 <Animated.View style={{ ...styles.header.container, width: width, height: height / 5, transform: [{ translateY: scrollHeight }], }}>
                     <View style={{...styles.header.content,width:width}}>
-                        <Text style={styles.header.title}>{navigator ? 'Recent ' : 'All Recent'}</Text>
+                        <Text style={styles.header.title}>Recent today</Text>
                         <TouchableOpacity onPress={()=>setVisible(true)} style={{width:50,height:50,justifyContent:"center",alignItems:"center"}}>
                             <FontAwesome5 name="ellipsis-v" size={24} color="gray" />
 
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.header.btnContainer}>
-                        <TouchableOpacity style={{ ...styles.header.btn, borderBottomColor: navigator ? Dark.lightOrange : 'transparent' }} onPress={() => setNavigator(true)}>
-                            <Text style={{ color: "grey", }}>
-                                today
-                        </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ ...styles.header.btn, borderBottomColor: navigator ? 'transparent' : Dark.lightOrange }} onPress={() => setNavigator(false)}>
-                            <Text style={{ color: "grey" }}>
-                                all
-                        </Text>
-                        </TouchableOpacity>
-                    </View>
                 </Animated.View>
 
-                {navigator ?
+               
                     <Animated.View style={{ ...styles.body, transform: [{ translateY: scrollHeight2 }] }}>
 
                         <Animated.FlatList
@@ -182,42 +175,7 @@ const List = (props) => {
                         />
 
                     </Animated.View>
-                    :
-
-                    <Animated.View style={{ ...styles.body, transform: [{ translateY: scrollHeight2 }], }}>
-                        <Animated.FlatList
-                            bounces={false}
-                            scrollEventThrottle={1}
-                            onScroll={Animated.event([
-                                {
-                                    nativeEvent: {
-                                        contentOffset: { y: scrollValue }
-                                    }
-                                }
-                            ], {
-                                useNativeDriver: true
-                            })}
-                            showsHorizontalScrollIndicator={false}
-                            showsVerticalScrollIndicator={false}
-                            data={dataFromState}
-                            renderItem={({ item, index }) =>
-                                <CardList
-                                    organitation={item.organitation}
-                                    actions={item.acitem}
-                                    progress={item.progress}
-                                    contact1={item.contact1}
-                                    contact2={item.contact2}
-                                    nextPlan={item.nextPlan}
-                                    result={item.result}
-                                    id={item.id}
-                                    time={item.tim}
-                                    onDelete={() => { onDelete(item.id) }}
-                                />
-                            }
-                            keyExtractor={items => items.id.toString()}
-                        />
-                    </Animated.View>
-                }
+                   
             </View>
 
         </Fragment>
@@ -243,7 +201,7 @@ const styles = {
             height: "100%",
             justifyContent: 'space-between',
             alignItems: "center",
-            paddingTop: 80
+            paddingTop: 70
         },
         title: {
             fontSize: 23,

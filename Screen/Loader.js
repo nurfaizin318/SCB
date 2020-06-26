@@ -1,6 +1,5 @@
 import React,{Fragment,useEffect,useState} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
 import {Dark} from '../Utils'
 
 import {
@@ -16,8 +15,9 @@ import {
 const Loader = (props) =>
     {
         const status = useSelector(state=>state.AuthReducer.auth);
-
+        const dispatch = useDispatch()
      useEffect(()=>{    
+
         getData = async()=>{
             if(status == 'isLogin'){
                 props.navigation.replace('Home')

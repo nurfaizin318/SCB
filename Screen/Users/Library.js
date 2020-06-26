@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef, useCallback } from 'react';
+import {useSelector,useDispatch} from "react-redux"
 import {
     View,
     Text,
@@ -15,14 +16,11 @@ import { Dark } from '../../Utils';
 import { db } from '../../Config/config'
 
 
-
-
 const Library = (props) => {
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
-
-    
-   
+    const feedData = useSelector(state=>state.FeedReducer.feed)
+    const dispatch = useDispatch();
 
     const scrollValue = useRef(new Animated.Value(0)).current;
 
@@ -41,19 +39,23 @@ const Library = (props) => {
         outputRange: [1, 0],
         extrapolate: "clamp"
     })
-    
-    const [time, setTime] = useState([])
+    onDelete = (id) =>{
+        dispatch({type:"DELETE_FEED",payload:id})
+    }
+    const [data, setData] = useState([])
 
     useEffect(() => {
-        const itemsRef = db.ref('/Date/');
+        const itemsRef = db.ref('/Data/');
         itemsRef.on('value', snapshot => {
             let data = snapshot.val();
             if (data != null) {
-                let items = Object.values(data);
-                setTime(items)
+                // let items = Object.val();
+                // setTime(items)
+                console.log(Object.keys(data))
+        console.log(feedData)
+
             }
         });
-        console.log(time)
     }, [])
     return (
 
@@ -69,7 +71,7 @@ const Library = (props) => {
                 </Animated.View>
                 <Animated.View style={{ width: width, height: 90, transform: [{ scale:opacityX}], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
                     <Text style={{ fontSize: 25, fontWeight: '600', color:'grey'}}>Library</Text>
-                    <Text style={{ fontSize: 15, fontWeight: '600', color:'grey'}}>Add your activity and recent here !</Text>
+                    <Text style={{ fontSize: 15, fontWeight: '600', color:'grey'}}>all report here !</Text>
                 </Animated.View>
                 <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black20, position: "absolute", borderTopRightRadius: 45, borderTopLeftRadius: 45, paddingTop: 40, transform: [{ translateY: scrollHeight }] }}>
                     <Animated.FlatList
@@ -85,16 +87,16 @@ const Library = (props) => {
                         })}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
-                        data={time}
+                        data={ feedData.length != null ? feedData : null }
                         renderItem={({ item, index }) =>
                             <LibraryList 
                             time={item.createdAt}
-                            data={item.data}
                             index={index}
+                            count={item.data}
+                            onDelete={()=>onDelete(item.id)}
                                 />
-                         
                         }
-                        keyExtractor={items => items.id.toString()}
+                        keyExtractor={items => items.id}
                     />
                 </Animated.View>
             </View>

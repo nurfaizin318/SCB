@@ -31,6 +31,7 @@ const Edit = (props)=>{
                 const [result,setResult] = useState("");
                 const [id,setId]= useState("");
                 const [time,setTime] = useState("");
+                const [status,setStatus]= useState("")
           [data,setData] = useState([])
 
 
@@ -45,7 +46,8 @@ const Edit = (props)=>{
                                 nextPlan:nextPlan,
                                 result:result,
                                 id:id,
-                                time:time
+                                time:time,
+                                status:status
                                }
         
               await  data.splice(props.route.params.index,1,newData)
@@ -65,6 +67,7 @@ const Edit = (props)=>{
             setId(props.route.params.id);
             setTime(props.route.params.time)
             setData(dataFromState)
+            setStatus(props.route.params.status)
         
     },[])
 
@@ -215,7 +218,7 @@ const Edit = (props)=>{
                     <View style={styles.buttomButton}>
                         <View style={styles.buttomButton.container}>
                             <Button title="Clear"  color={Dark.lightOrange} onPress={()=>alert(organitation)}/>
-                            <Button title="Submit"  color={Dark.lightGreen} onPress={()=>{onSave()}}/>
+                            <Button title="Submit"  color={Dark.lightGreen} onPress={()=>{Alerts()}}/>
                         </View>
                      </View>
             </ScrollView>
