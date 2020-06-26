@@ -4,8 +4,10 @@
 Mobile Apps for send daily report
 
 ## Features 
-* realtime report
-* Notifications
+
+- [x] CRUD report
+- [x] Realtime report
+- [ ] Notifications
 ## Tools
 * react- native 
 * redux & redux- persist
@@ -15,4 +17,5 @@ Mobile Apps for send daily report
  1. delete your package.lock.json
  2. npm install
  ## Screnshoot
+ ![image](Screenshoot/ss.jpg "Title")
  
