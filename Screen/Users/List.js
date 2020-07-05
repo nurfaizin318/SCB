@@ -23,8 +23,6 @@ const List = (props) => {
 
 
     const [visible,setVisible]=useState(false)
-    const [navigator, setNavigator] = useState(true);
-    const [loaded, setLoaded] = useState(true)
     const date = new Date();
     const onDelete = async (id) => {
         try {
@@ -62,21 +60,17 @@ const List = (props) => {
 
     let addItem = async () => {
 
+       try {
         await dispatch({type:"INSERT_FEED",payload:{'id':date.getTime(),'name':'jon','createdAt':fullTime,'data':dataFromState}})
-        console.log(feedData)
-        // let name = 'jon';
-        // const itemsData = db.ref(`/Data/${time}`)
-        // let  id =   date.getTime();
-        // itemsData.child(name)
-        // .set({'name':name,'createdAt':fullTime,'data':dataFromState})
-        // .then()
-        // .catch(e=>alert(e))
-
-        // const itemsNotif = db.ref('/Notifications')
-        // itemsNotif.child(moment().format('dddd , MMM Do YYYY , h:mm:ss'))
-        // .set({'name':'jaya','type':'add report'})
-        // .then()
-        // .catch(error=>console.log(error))
+        
+        let name = 'paijan';
+        const itemsData =  await db.ref(`/Data/${time}`)
+        itemsData.child(name)
+        .set({'name':name,'createdAt':fullTime,'data':dataFromState})
+        .catch(e=>alert(e))
+       }catch(e){
+        alert(e)
+       }
     };
     
     

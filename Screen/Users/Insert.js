@@ -1,6 +1,7 @@
 import React, { useState, createRef, useRef, useCallback, useEffect, } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import RadioGroup, { Radio } from "react-native-radio-input";
+import {db} from '../../Config/config';
 
 import {
     View,
@@ -65,10 +66,16 @@ const Insert = (props) => {
             else {
                 try {
                     await dispatch({ type: "INSERT_DATA", payload: newData });
-                    await props.navigation.replace('Home');
-                } catch (e) {
-                    alert(e)
-                }
+                    await db.ref(`/allRecents/${newData.organitation}`)
+                        .set({
+                            data:newData
+                          })
+                          .catch(error => console.log(error));
+                        await props.navigation.replace('Home');
+                    } catch (e) {
+                        alert(e)
+                    }
+              
             }
         } catch (e) {
             alert(e)

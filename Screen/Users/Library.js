@@ -42,21 +42,9 @@ const Library = (props) => {
     onDelete = (id) =>{
         dispatch({type:"DELETE_FEED",payload:id})
     }
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-        const itemsRef = db.ref('/Data/');
-        itemsRef.on('value', snapshot => {
-            let data = snapshot.val();
-            if (data != null) {
-                // let items = Object.val();
-                // setTime(items)
-                console.log(Object.keys(data))
-        console.log(feedData)
-
-            }
-        });
-    }, [])
+useEffect(()=>{
+    console.log(feedData)
+},[])
     return (
 
         <Fragment>

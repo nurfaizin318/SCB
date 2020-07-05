@@ -30,7 +30,9 @@ import Loader from './Screen/Loader';
 import List from './Screen/Users/List';
 import Login from './Screen/Users/Login';
 import Edit from './Screen/Users/Edit';
+import InsertOrganitation from './Screen/Users/insertOrganitation'
 import {Dark} from './Utils/';
+import insertOrganitaion from './Screen/Users/insertOrganitation';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -51,7 +53,7 @@ function MyTabs(props) {
       <Tab.Screen name="Library" component={Library} options={{tabBarIcon:({color})=>
        <FontAwesome5 name="paste" size={20} color={color} />}}
        />
-      <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color}) =>
+      <Tab.Screen name="Insert" component={InsertOrganitation}  options={{tabBarIcon:({color}) =>
         
         <FontAwesome5 name="location-arrow" size={20} color={color} />
       }}
@@ -74,6 +76,7 @@ const App = () => {
                 <Stack.Screen name="Loader" component={Loader} 
                   options={{headerShown:false}}
                   />
+                  
 
                   <Stack.Screen name="Home" component={MyTabs} 
                   options={{headerShown:false}}

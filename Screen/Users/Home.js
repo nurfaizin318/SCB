@@ -27,6 +27,7 @@ const Home = (props) => {
     const time = moment().format('MMM Do YYYY')
 
     const recentData = useSelector(state => state.DataReducer.data)
+    const feedData = useSelector(state => state.DataReducer.feed)
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
@@ -56,17 +57,18 @@ const Home = (props) => {
         const itemsRef = db.ref(`/Notifications/`)
         itemsRef.on('value', snapshot => {
             let database = snapshot.val();
-            if (data != null) {
-                let items = Object.values(data);
-                // dispatch({ type: "INSERT_FEED", payload: items })
+        //     // if (data != null) {
+        //     //     let items = Object.values(data);
+        //     //     // dispatch({ type: "INSERT_FEED", payload: items })
 
-            }
-            //    if(database==null){
-            //        setData()
-            //    }else{
-            //        setData(Object.values(database))
-            //    }
+        //     // }
+               if(database==null){
+                   setData()
+               }else{
+                   setData(database)
+               }
         });
+        console.log(feedData)
     }, [])
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
@@ -200,7 +202,7 @@ const styles = {
             width: '100%',
             borderRadius: 5,
             alignSelf: "center",
-            borderBottomWidth: 0.5
+            borderBottomWidth: 0.5,
         },
         boxheader: {
             justifyContent: 'space-between',
