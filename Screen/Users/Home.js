@@ -17,7 +17,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { ListNotification, CardRecent } from '../../Component'
 import { Dark } from '../../Utils';
 import moment from 'moment';
-import {useIsFocused} from '@react-navigation/native'
+import {useIsFocused} from '@react-navigation/native';
+import app from "../../Config/config";
 
 
 const Home = (props) => {
@@ -25,9 +26,12 @@ const Home = (props) => {
     const ifFocused = useIsFocused();
     const dispatch = useDispatch();
     const time = moment().format('MMM Do YYYY')
+    const db = app.database();
 
     const recentData = useSelector(state => state.DataReducer.data)
     const feedData = useSelector(state => state.DataReducer.feed)
+    const name = useSelector(state=>state.AuthReducer.name)
+    const position = useSelector(state=>state.AuthReducer.position)
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
@@ -49,7 +53,7 @@ const Home = (props) => {
         )
     }
     const onLogOut = async () => {
-
+        await app.auth().signOut();
         await dispatch({ type: 'LOGOUT' })
         await props.navigation.navigate('Login');
     }
@@ -68,7 +72,6 @@ const Home = (props) => {
                    setData(database)
                }
         });
-        console.log(feedData)
     }, [])
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
@@ -78,8 +81,8 @@ const Home = (props) => {
                     <ScrollView>
                         <View style={styles.userPanel}>
                             <View style={styles.thumnail.name}>
-                                <Text style={styles.thumnail.fontThumnail1}>Jaya Saf</Text>
-                                <Text style={styles.thumnail.fontThumnail2}>Supervisor</Text>
+                                <Text style={styles.thumnail.fontThumnail1}>{name}</Text>
+                                <Text style={styles.thumnail.fontThumnail2}>{position}</Text>
                             </View>
                             <TouchableOpacity style={styles.settingIcon} onPress={() => { Alerts() }}>
                                 <FontAwesome5 name="sign-out-alt" size={18} color="gray" />
@@ -188,11 +191,15 @@ const styles = {
             fontSize: 22,
             color: 'white',
             left: 10,
+            letterSpacing:4
+
         },
         fontThumnail2: {
             fontSize: 15,
             color: 'gray',
-            left: 10
+            left: 10,
+            marginTop:2,
+            letterSpacing:2
         }
     },
     recent: {

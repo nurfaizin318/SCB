@@ -62,7 +62,6 @@ const List = (props) => {
 
        try {
         await dispatch({type:"INSERT_FEED",payload:{'id':date.getTime(),'name':'jon','createdAt':fullTime,'data':dataFromState}})
-        
         let name = 'paijan';
         const itemsData =  await db.ref(`/Data/${time}`)
         itemsData.child(name)

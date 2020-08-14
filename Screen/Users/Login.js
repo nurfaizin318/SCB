@@ -11,6 +11,9 @@ import {
 import { TextInputs } from '../../Component/';
 import { Dark } from "../../Utils/Color";
 import { useDispatch } from 'react-redux';
+import  db  from "../../Config/config";
+import "firebase/firestore"
+
 
 const Login = (props) => {
 
@@ -23,6 +26,7 @@ const Login = (props) => {
     const animatedTime = useRef(new Animated.Value(0)).current;
     const dispatch = useDispatch();
     
+    
     const translateY = animatedValue.interpolate({
         inputRange: [0, 1],
         outputRange: [height,-30]
@@ -33,15 +37,26 @@ const Login = (props) => {
         outputRange: [0, 1]
     })
 
-
     const onLogin = async () => {
-        if (username.toLocaleLowerCase() == 'admin' && password.toLocaleLowerCase() == 'admin') {
-            await dispatch({ type: 'LOGIN' });
-            await props.navigation.replace('Home')
-        }
-        else {
-            alert('wrong usernamme or password');
-        }
+        
+    db.auth()
+      .signInWithEmailAndPassword(username, password)
+      .then( async(data) =>{ 
+          
+        db.firestore().collection('user').doc(`${data.user.uid}`)
+          .onSnapshot( async (docs)=>{
+              await dispatch({type:"LOGIN",
+              name:docs.data().name,
+              address:docs.data().address,
+              position:docs.data().position,
+              email:docs.data().email,
+              number:docs.data().number})
+            await docs.data().status == "user"? props.navigation.navigate("Home") : null;
+          })
+        
+    })
+      .catch(error => alert(error))
+        
     }
 
     useEffect(() => {
@@ -61,6 +76,8 @@ const Login = (props) => {
         ]).start()
     })
 
+
+    
     return (
         <Fragment >
             <StatusBar backgroundColor={Dark.black20} barStyle="light-content" />

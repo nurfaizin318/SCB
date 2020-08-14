@@ -8,12 +8,11 @@
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-
+import {decode, encode} from 'base-64';
 import { SafeAreaView} from 'react-native'
 
 // REDUX ============
@@ -30,16 +29,19 @@ import Loader from './Screen/Loader';
 import List from './Screen/Users/List';
 import Login from './Screen/Users/Login';
 import Edit from './Screen/Users/Edit';
-import InsertOrganitation from './Screen/Users/insertOrganitation'
+// import InsertOrganitation from './Screen/Users/insertOrganitation'
 import {Dark} from './Utils/';
-import insertOrganitaion from './Screen/Users/insertOrganitation';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+if (!global.btoa) {  global.btoa = encode }
 
+if (!global.atob) { global.atob = decode } 
+console.disableYellowBox=true;
 function MyTabs(props) {
-  console.disableYellowBox=true
+
   return (
+    
     <Tab.Navigator  tabBarOptions={{style:{backgroundColor:Dark.black30,borderTopWidth:0,elevation:10},activeTintColor:"#ee5253"}}
     >
       <Tab.Screen name="Home" component={Home}  options={{tabBarIcon:({color})=>
@@ -53,7 +55,7 @@ function MyTabs(props) {
       <Tab.Screen name="Library" component={Library} options={{tabBarIcon:({color})=>
        <FontAwesome5 name="paste" size={20} color={color} />}}
        />
-      <Tab.Screen name="Insert" component={InsertOrganitation}  options={{tabBarIcon:({color}) =>
+      <Tab.Screen name="Insert" component={Insert}  options={{tabBarIcon:({color}) =>
         
         <FontAwesome5 name="location-arrow" size={20} color={color} />
       }}

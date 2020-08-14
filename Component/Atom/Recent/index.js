@@ -22,13 +22,14 @@ const CardRecent = (props)=>{
                 {props.organitation != null ?
                  props.organitation.trim().length < 10 ? 
                  <View>
-                 <Text style={styles.organitation.text}>{organitation[0]}.</Text>
+                <Text style={styles.organitation.text}>PT</Text>
+                 <Text style={styles.organitation.text}>{organitation[0]}</Text>
                  <Text style={styles.organitation.text}>{organitation[1]}</Text>
                  </View>
                  :
                  <View>
-                 <Text style={styles.organitation.text}>{organitation[0]}.</Text>
-                 <Text style={styles.organitation.text}>{organitation[1]}...</Text>
+                <Text style={styles.organitation.text}>PT</Text>
+                 <Text style={styles.organitation.text}>{organitation[0]}..</Text>
                  </View>
                  :
                 null
