@@ -29,6 +29,7 @@ import Loader from './Screen/Loader';
 import List from './Screen/Users/List';
 import Login from './Screen/Users/Login';
 import Edit from './Screen/Users/Edit';
+import HomeAdmin from "./Screen/Admin/HomeAdmin"
 // import InsertOrganitation from './Screen/Users/insertOrganitation'
 import {Dark} from './Utils/';
 
@@ -91,6 +92,10 @@ const App = () => {
                   />
 
                 <Stack.Screen name="Login" component={Login} 
+                  options={{headerShown:false}}
+                  />
+
+                  <Stack.Screen name="HomeAdmin" component={HomeAdmin} 
                   options={{headerShown:false}}
                   />
 

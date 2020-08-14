@@ -14,15 +14,24 @@ import {
 
 const Loader = (props) =>
     {
-        const status = useSelector(state=>state.AuthReducer.auth);
+        const isLogin = useSelector(state=>state.AuthReducer.auth);
+        const status = useSelector(state=>state.AuthReducer.status);
         const dispatch = useDispatch()
      useEffect(()=>{    
 
         getData = async()=>{
-            if(status == 'isLogin'){
-                props.navigation.replace('Home')
+            if(isLogin == 'isLogin'){
+                if(status == "user"){
+                    props.navigation.replace("Home")
+                    console.log("user")
+                }
+                if(status == "admin"){
+                    props.navigation.replace("HomeAdmin")
+                    console.log("admin")
+                }
             }
             else{
+                
                 props.navigation.replace('Login')
             }
         }
@@ -34,7 +43,8 @@ const Loader = (props) =>
             <View style={styles.container}>
                 <ActivityIndicator  color={Dark.lightGreen} size={60}/>
                  <View style={styles.text}>
-                <Text style={{color:'gray'}}>from :</Text>
+                 <Text style={{color:'gray'}}>from :</Text>
+       <Text style={{color:'gray'}}>{status}</Text>
                 <Text style={{fontSize:20,color:'#eb4d4b',letterSpacing:10}}>SCB</Text>
            </View>
             </View>

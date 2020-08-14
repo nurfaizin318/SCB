@@ -50,8 +50,10 @@ const Login = (props) => {
               address:docs.data().address,
               position:docs.data().position,
               email:docs.data().email,
-              number:docs.data().number})
-            await docs.data().status == "user"? props.navigation.navigate("Home") : null;
+              number:docs.data().number,
+              status:docs.data().status,
+            }),
+            await docs.data().status == "user"? props.navigation.replace("Home") : props.navigation.replace("HomeAdmin");
           })
         
     })
