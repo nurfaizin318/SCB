@@ -29,7 +29,7 @@ const Insert = (props) => {
     const [actions, setActions] = useState("");
     const [contact1, setContact1] = useState("");
     const [contact2, setContact2] = useState("");
-    const [progress, setProgress] = useState("");
+    const [progress, setProgress] = useState(0);
     const [nextPlan, setNextPlan] = useState("");
     const [result, setResult] = useState("");
     [all, setAll] = useState([])
@@ -39,6 +39,7 @@ const Insert = (props) => {
     const timeNow = moment().format('dddd , MMM Do YYYY - h:mm');
 
     const onSave = async () => {
+        const score = parseInt(progress);
         let newData = {
             organitation: organitation,
             actions: actions,
@@ -49,7 +50,8 @@ const Insert = (props) => {
             result: result,
             id: id,
             time: timeNow,
-            status:'Un Closing'
+            status:'Un Closing',
+            score:score*2
         }
         try {
             let j = 0;
@@ -63,13 +65,17 @@ const Insert = (props) => {
                 alertSave();
             }
             else {
-                const firebase = db.database();
+                const firebase = db.firestore();
                 try {
-                    await firebase.ref(`/allRecents/${newData.organitation}`)
-                        .set({
-                            data:newData
-                          })
-                          .catch(error => console.log(error));
+                    await firebase.collection("recents").doc(`${organitation}`).set({
+                       data:newData
+                    })
+                    .then(function() {
+                        alert("berhasil")
+                    })
+                    .catch(function(error) {
+                        alert("gagal")
+                    });
                     await dispatch({ type: "INSERT_DATA", payload: newData });
                     await props.navigation.replace('Home');
                     } catch (e) {
@@ -80,8 +86,6 @@ const Insert = (props) => {
         } catch (e) {
             alert(e)
         }
-        
-
     }
     const alerts = () => {
         Alert.alert(
@@ -114,8 +118,6 @@ const Insert = (props) => {
             ]
         )
     }
-
-
     return (
         <View style={styles.container}>
             <KeyboardAvoidingView behavior="padding">
@@ -182,7 +184,6 @@ const Insert = (props) => {
                             onChangeText={(value) => { setContact2(value) }}
                             placeholder="Jabatan"
                         />
-
                     </View>
                     <View style={styles.progress.container}>
                         <View style={styles.title.container}>
@@ -203,31 +204,31 @@ const Insert = (props) => {
                                 <ProgressStep label="20%"
                                     nextBtnTextStyle={styles.stepsNext}
                                     previousBtnTextStyle={styles.stepsPrev}
-                                    onNext={() => { setProgress('20%') }}
+                                    onNext={() => { setProgress(20) }}
                                 />
                                 <ProgressStep label="40%"
                                     nextBtnTextStyle={styles.stepsNext}
                                     previousBtnTextStyle={styles.stepsPrev}
-                                    onNext={() => { setProgress('40%') }}
-                                    onPrevious={() => { setProgress('0%') }}
+                                    onNext={() => { setProgress('40') }}
+                                    onPrevious={() => { setProgress('0') }}
                                 />
                                 <ProgressStep label="60%"
                                     nextBtnTextStyle={styles.stepsNext}
                                     previousBtnTextStyle={styles.stepsPrev}
-                                    onNext={() => { setProgress('60%') }}
-                                    onPrevious={() => { setProgress('20%') }}
+                                    onNext={() => { setProgress('60') }}
+                                    onPrevious={() => { setProgress('20') }}
                                 />
                                 <ProgressStep label="80%"
                                     nextBtnTextStyle={styles.stepsNext}
                                     previousBtnTextStyle={styles.stepsPrev}
-                                    onNext={() => { setProgress('80%') }}
-                                    onPrevious={() => { setProgress('40%') }}
+                                    onNext={() => { setProgress('80') }}
+                                    onPrevious={() => { setProgress('40') }}
                                 />
                                 <ProgressStep label="100%"
                                     nextBtnTextStyle={styles.stepsNext}
                                     previousBtnTextStyle={styles.stepsPrev}
-                                    onSubmit={() => { setProgress('100%') }}
-                                    onPrevious={() => { setProgress('60%') }}
+                                    onSubmit={() => { setProgress('100') }}
+                                    onPrevious={() => { setProgress('60') }}
                                 />
                             </ProgressSteps>
                         </View>

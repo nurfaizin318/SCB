@@ -10,7 +10,7 @@ const FeedReducer = (state=initialState,action) =>{
                 return { feed:[...state.feed,action.payload]}   
             case "EDIT_FEED":
                 return {...state,feed:action.payload}
-                case "RESET_FEED":
+            case "RESET_FEED":
                 return {...state,feed:[]}
         default : return state;
         }

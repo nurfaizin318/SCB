@@ -69,7 +69,7 @@ const CardList = (props) => {
                 <Text style={styles.body.text}>organitation :  {props.organitation} </Text>
                 <Text style={styles.body.text}>actions         :  {props.actions}</Text>
                 <Text style={styles.body.text}>contact         :  {props.contact1}</Text>
-                <Text style={styles.body.text}>progress       :  {props.progress}</Text>
+                <Text style={styles.body.text}>progress       :  {props.progress}%</Text>
                 <Text style={styles.body.text}>next plan      :  {props.nextPlan}</Text>
                 <Text style={styles.body.text}>result            :  {props.result}</Text>
                 <Text style={styles.body.text}>status            :  {props.status}</Text>

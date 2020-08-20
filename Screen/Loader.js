@@ -23,11 +23,9 @@ const Loader = (props) =>
             if(isLogin == 'isLogin'){
                 if(status == "user"){
                     props.navigation.replace("Home")
-                    console.log("user")
                 }
                 if(status == "admin"){
                     props.navigation.replace("HomeAdmin")
-                    console.log("admin")
                 }
             }
             else{

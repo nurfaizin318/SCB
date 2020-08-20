@@ -4,7 +4,7 @@ import { Dark } from '../../Utils';;
 import { CardList } from '../../Component';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { db } from '../../Config/config';
+import  db  from '../../Config/config';
 import moment from 'moment';
 
 
@@ -20,8 +20,8 @@ const List = (props) => {
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
     const dispatch = useDispatch();
-
-
+    const firebase = db.database();
+    const name = useSelector(state=>state.AuthReducer.name)
     const [visible,setVisible]=useState(false)
     const date = new Date();
     const onDelete = async (id) => {
@@ -61,12 +61,14 @@ const List = (props) => {
     let addItem = async () => {
 
        try {
-        await dispatch({type:"INSERT_FEED",payload:{'id':date.getTime(),'name':'jon','createdAt':fullTime,'data':dataFromState}})
-        let name = 'paijan';
-        const itemsData =  await db.ref(`/Data/${time}`)
-        itemsData.child(name)
+        await dispatch({type:"INSERT_FEED",payload:{'id':date.getTime(),'name':name,'created':fullTime,'data':dataFromState}})
+        await firebase.ref(`/Data/${time}`)
+        .child(name)
         .set({'name':name,'createdAt':fullTime,'data':dataFromState})
-        .catch(e=>alert(e))
+        .then(()=>{
+            alert("berhasil")
+        })
+        .catch(e=>alert("failed add to database"))
        }catch(e){
         alert(e)
        }

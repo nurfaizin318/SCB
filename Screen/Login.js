@@ -8,10 +8,10 @@ import {
     Animated,
     KeyboardAvoidingView
 } from 'react-native';
-import { TextInputs } from '../../Component/';
-import { Dark } from "../../Utils/Color";
+import { TextInputs } from '../Component';
+import { Dark } from "../Utils/Color";
 import { useDispatch } from 'react-redux';
-import  db  from "../../Config/config";
+import  db  from "../Config/config";
 import "firebase/firestore"
 
 
@@ -43,7 +43,7 @@ const Login = (props) => {
       .signInWithEmailAndPassword(username, password)
       .then( async(data) =>{ 
           
-        db.firestore().collection('user').doc(`${data.user.uid}`)
+        db.firestore().collection('users').doc(`${data.user.uid}`)
           .onSnapshot( async (docs)=>{
               await dispatch({type:"LOGIN",
               name:docs.data().name,

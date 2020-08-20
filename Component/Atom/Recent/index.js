@@ -16,7 +16,7 @@ const CardRecent = (props)=>{
 
         <View style={styles.container(width,height)}>
             <View style={styles.progress.container}>
-                 <Text style={styles.progress.text}>{props.progress}</Text>
+                 <Text style={styles.progress.text}>{props.progress}%</Text>
             </View>
             <View style={styles.organitation.container}>
                 {props.organitation != null ?

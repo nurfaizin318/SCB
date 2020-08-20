@@ -61,7 +61,7 @@ useEffect(()=>{
                     <Text style={{ fontSize: 25, fontWeight: '600', color:'grey'}}>Library</Text>
                     <Text style={{ fontSize: 15, fontWeight: '600', color:'grey'}}>all report here !</Text>
                 </Animated.View>
-                <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black20, position: "absolute", borderTopRightRadius: 45, borderTopLeftRadius: 45, paddingTop: 40, transform: [{ translateY: scrollHeight }] }}>
+                <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black20, position: "absolute",paddingTop: 40, transform: [{ translateY: scrollHeight }] }}>
                     <Animated.FlatList
                         scrollEventThrottle={16}
                         onScroll={Animated.event([
@@ -78,7 +78,7 @@ useEffect(()=>{
                         data={ feedData.length != null ? feedData : null }
                         renderItem={({ item, index }) =>
                             <LibraryList 
-                            time={item.createdAt}
+                            time={item.created}
                             index={index}
                             count={item.data}
                             onDelete={()=>onDelete(item.id)}
