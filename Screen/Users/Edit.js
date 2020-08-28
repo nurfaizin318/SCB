@@ -36,7 +36,7 @@ const Edit = (props)=>{
 
 
         const onSave = async () =>{
-         
+                    let score = parseInt(progress)
                     let newData={
                                 organitation:organitation,
                                 actions:actions,
@@ -47,7 +47,8 @@ const Edit = (props)=>{
                                 result:result,
                                 id:id,
                                 time:time,
-                                status:status
+                                status:status,
+                                score:score*2
                                }
         
               await  data.splice(props.route.params.index,1,newData)
@@ -163,31 +164,31 @@ const Edit = (props)=>{
                         <ProgressStep label="20%" 
                         nextBtnTextStyle={styles.stepsNext}
                         previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setProgress('20 %')}
+                         onNext={()=>setProgress('20')}
                          />
                         <ProgressStep label="40%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setProgress('40%')}
-                         onPrevious={()=>setProgress('0%')}
+                         onNext={()=>setProgress('40')}
+                         onPrevious={()=>setProgress('0')}
                          />
                         <ProgressStep label="60%"
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setProgress('60%')}
-                         onPrevious={()=>setProgress('20%')}
+                         onNext={()=>setProgress('60')}
+                         onPrevious={()=>setProgress('20')}
                          />
                         <ProgressStep label="80%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setProgress('80%')}
-                         onPrevious={()=>setProgress('40%')}
+                         onNext={()=>setProgress('80')}
+                         onPrevious={()=>setProgress('40')}
                          />
                         <ProgressStep label="100%" 
                          nextBtnTextStyle={styles.stepsNext}
                          previousBtnTextStyle={styles.stepsPrev}
-                         onSubmit={()=>setProgress('100%')}
-                         onPrevious={()=>setProgress('60%')}
+                         onSubmit={()=>setProgress('100')}
+                         onPrevious={()=>setProgress('60')}
                          />
                     </ProgressSteps>
                     </View>

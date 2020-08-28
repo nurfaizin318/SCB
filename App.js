@@ -34,6 +34,10 @@ import HomeAdmin from "./Screen/Admin/HomeAdmin"
 import AddUser from "./Screen/Admin/AddUser";
 import UserList from "./Screen/Admin/UserList"
 import AddDataUser from "./Screen/Admin/AddDataUser";
+import Report from "./Screen/Admin/Report";
+import UserProfil from "./Screen/Admin/UserProfile";
+import ReportList from "./Screen/Admin/ReportList"
+import ReportDetail from "./Screen/Admin/ReportDetail"
 // import InsertOrganitation from './Screen/Users/insertOrganitation'
 import { Dark } from './Utils/';
 
@@ -133,6 +137,36 @@ const App = () => {
                   headerTintColor: "white"
                 }}
               />
+                <Stack.Screen name="Riport" component={Report}
+                options={{
+                  headerShown: true, headerTitleAlign: "center",headerTitle:"Report",
+                  headerStyle: { backgroundColor:"grey", },
+                  headerTintColor: "white"
+                }}
+              />
+               <Stack.Screen name="UserProfile" component={UserProfil}
+                options={{
+                  headerShown: true, headerTitleAlign: "center",headerTitle:"User Profile",
+                  headerStyle: { backgroundColor:"grey", },
+                  headerTintColor: "white"
+                }}
+              />
+              <Stack.Screen name="ReportList" component={ReportList}
+                options={{
+                  headerShown: true, headerTitleAlign: "center",headerTitle:"Report List",
+                  headerStyle: { backgroundColor:"grey", },
+                  headerTintColor: "white"
+                }}
+              />
+                <Stack.Screen name="ReportDetail" component={ReportDetail}
+                options={{
+                  headerShown: true, headerTitleAlign: "center",headerTitle:"Report Detail",
+                  headerStyle: { backgroundColor:"grey", },
+                  headerTintColor: "white"
+                }}
+              />
+
+
 
             </Stack.Navigator>
           </NavigationContainer>

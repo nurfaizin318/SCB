@@ -11,7 +11,7 @@ import {
     FlatList,
     Alert
 } from 'react-native';
-import {db} from '../../Config/config'
+
 import { useSelector, useDispatch } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { ListNotification, CardRecent } from '../../Component'
@@ -104,7 +104,7 @@ const Home = (props) => {
                                         recentData.length > 0 ?
 
                                             <FlatList
-                                                data={recentData}
+                                                data={recentData.reverse()}
                                                 horizontal={true}
                                                 showsHorizontalScrollIndicator={false}
                                                 renderItem={({ item }) =>
@@ -191,7 +191,7 @@ const styles = {
             fontSize: 22,
             color: 'white',
             left: 10,
-            letterSpacing:4
+            letterSpacing:1
 
         },
         fontThumnail2: {

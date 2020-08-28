@@ -1,6 +1,5 @@
 const initialState ={
     data:[],
-    feed:['data','data']
 }
 const InsertReducer = (state=initialState,action) =>
     {
@@ -12,6 +11,8 @@ const InsertReducer = (state=initialState,action) =>
                 return { data:[...state.data,action.payload]}   
             case "EDIT":
                 return {...state,data:action.payload}
+            case "ON_RESET" : 
+                return {...state,data:[]}
         default : return state;
         }
     }

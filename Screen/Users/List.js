@@ -1,11 +1,12 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, FlatList, Dimensions, Animated, Clipboard ,Modal} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, FlatList, Dimensions, Animated, Clipboard, Modal,Alert } from 'react-native';
 import { Dark } from '../../Utils';;
 import { CardList } from '../../Component';
 import { useDispatch, useSelector } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import  db  from '../../Config/config';
+import db from '../../Config/config';
 import moment from 'moment';
+import NetInfo from "@react-native-community/netinfo";
 
 
 
@@ -15,21 +16,43 @@ const List = (props) => {
     const scrollValue = useRef(new Animated.Value(0)).current;
     const time = moment().format('MMM Do YYYY')
     const fullTime = moment().format('dddd , MMM Do YYYY , h:mm');
-    const dataFromState = useSelector(state=>state.DataReducer.data)
-    const feedData = useSelector(state=>state.FeedReducer.feed)
+    const dataFromState = useSelector(state => state.DataReducer.data)
+    const feedData = useSelector(state => state.FeedReducer.feed)
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
     const dispatch = useDispatch();
     const firebase = db.database();
-    const name = useSelector(state=>state.AuthReducer.name)
-    const [visible,setVisible]=useState(false)
+    const uid = useSelector(state => state.AuthReducer.uid)
+    const name = useSelector(state => state.AuthReducer.name)
+    const [visible, setVisible] = useState(false)
     const date = new Date();
-    const onDelete = async (id) => {
-        try {
-            await dispatch({ type: "ON_DELETE", payload: id })
-        } catch (e) {
-            alert(e)
-        }
+
+
+
+
+    const onDelete =  (id) => {
+
+        Alert.alert(
+            "",
+            "Are you sure  ?",
+            [
+                {
+                    text: "No",
+                    onPress: () => { }
+                },
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        try {
+                            dispatch({ type: "ON_DELETE", payload: id })
+                        } catch (e) {
+                            alert(e)
+                        }
+                    }
+                }
+            ]
+        )
+
     }
 
     const scrollHeight = Animated.diffClamp(scrollValue, 0, 100).interpolate({
@@ -43,7 +66,7 @@ const List = (props) => {
     });
 
     const copyToClipboard = async () => {
-        let copy = dataFromState.map(({ organitation, actions, contact1, progress, nextPlan, result ,status}) => {
+        let copy = dataFromState.map(({ organitation, actions, contact1, progress, nextPlan, result, status }) => {
             return ('\n' + `organitation : ${organitation}` + '\n' +
                 `actions : ${actions}` + '\n' +
                 `progress : ${progress}` + '\n' +
@@ -59,118 +82,145 @@ const List = (props) => {
 
 
     let addItem = async () => {
+        NetInfo.fetch().then(state => {
+            if (state.isConnected === false) {
+                alert("network error")
+            } else {
 
-       try {
-        await dispatch({type:"INSERT_FEED",payload:{'id':date.getTime(),'name':name,'created':fullTime,'data':dataFromState}})
-        await firebase.ref(`/Data/${time}`)
-        .child(name)
-        .set({'name':name,'createdAt':fullTime,'data':dataFromState})
-        .then(()=>{
-            alert("berhasil")
+                firebase.ref(`Data/${time}`).once("value", snapshoot => {
+                    if (snapshoot.exists()) {
+                        alert("data is exist")
+                    } else {
+                        firebase.ref(`/Data/${time}`)
+                            .child(`${uid}`)
+                            .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
+                            .then(() => {
+                                setVisible(false)
+                                try {
+                                    dispatch({ type: "INSERT_FEED", payload: { 'id': date.getTime(), 'name': name, 'created': fullTime, 'data': dataFromState } })
+                                } catch (e) {
+                                    alert(e)
+                                }
+                                alert("berhasil")
+
+                            })
+                            .catch(e => alert("failed add to database"))
+                    }
+                })
+
+            }
         })
-        .catch(e=>alert("failed add to database"))
-       }catch(e){
-        alert(e)
-       }
+
+
     };
-    
-    
+
+
     return (
         <Fragment>
             <Modal
-            visible={visible}
-            transparent
-            animationType="slide"
+                visible={visible}
+                transparent
+                animationType="slide"
             >
-                <View style={styles.modal.container}>
-                    <View style={{width:width/1.1,height:height/4,backgroundColor:Dark.black40,borderRadius:10}}>
+                <View style={{...styles.modal.container,marginTop:height/1.8}}>
+                    <View style={{ width: width / 1.1, height: height / 4, backgroundColor: Dark.black40, borderRadius: 10 }}>
                         <View style={styles.modal.header}>
-                        <TouchableOpacity onPress={()=>setVisible(false)} style={styles.btnClose}>
-                           <Text style={{color:'white'}}>close</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setVisible(false)} style={styles.btnClose}>
+                                <Text style={{ color: 'white' }}>close</Text>
+                            </TouchableOpacity>
                         </View>
 
                         <View style={styles.modal.body}>
-                        <View style={{width:"40%",height:"80%",alignItems:"center"}}>
-                            
-                            <TouchableOpacity 
-                            onPress={addItem}
-                            style={styles.modal.btn}>
-                              <FontAwesome5 name="location-arrow" size={20} color="grey" />
-                            </TouchableOpacity>
-                            <Text style={styles.modal.text}>
-                                Report
+                            <View style={{ width: "40%", height: "80%", alignItems: "center" }}>
+
+                                <TouchableOpacity
+                                    onPress={addItem}
+                                    style={styles.modal.btn}>
+                                    <FontAwesome5 name="location-arrow" size={20} color="grey" />
+                                </TouchableOpacity>
+                                <Text style={styles.modal.text}>
+                                    Report
                             </Text>
-                        </View>
-                        <View style={{width:"40%",height:"80%",alignItems:"center"}}>
-                            <TouchableOpacity 
-                        onPress={copyToClipboard}
-                            style={styles.modal.btn}>
-                              <FontAwesome5 name="copy" size={20} color="grey" />
-                            </TouchableOpacity>
-                            <Text style={styles.modal.text}>
-                                copy
+                            </View>
+                            <View style={{ width: "40%", height: "80%", alignItems: "center" }}>
+                                <TouchableOpacity
+                                    onPress={copyToClipboard}
+                                    style={styles.modal.btn}>
+                                    <FontAwesome5 name="copy" size={20} color="grey" />
+                                </TouchableOpacity>
+                                <Text style={styles.modal.text}>
+                                    copy
                             </Text>
-                        </View>
+                            </View>
+                            <View style={{ width: "40%", height: "80%", alignItems: "center" }}>
+                                <TouchableOpacity
+                                    onPress={()=>dispatch({type:"ON_RESET"})}
+                                    style={styles.modal.btn}>
+                                    <FontAwesome5 name="trash" size={20} color="grey" />
+                                </TouchableOpacity>
+                                <Text style={styles.modal.text}>
+                                    clear all 
+                            </Text>
+                            </View>
 
                         </View>
                     </View>
-                    
+
                 </View>
             </Modal>
             <StatusBar backgroundColor={Dark.black30} translucent={false} tintColor="light" />
             <View style={styles.container}>
 
                 <Animated.View style={{ ...styles.header.container, width: width, height: height / 5, transform: [{ translateY: scrollHeight }], }}>
-                    <View style={{...styles.header.content,width:width}}>
+                    <View style={{ ...styles.header.content, width: width }}>
                         <Text style={styles.header.title}>Recent today</Text>
-                        <TouchableOpacity onPress={()=>setVisible(true)} style={{width:50,height:50,justifyContent:"center",alignItems:"center"}}>
+                        <TouchableOpacity onPress={() => setVisible(true)} style={{ width: 50, height: 50, justifyContent: "center", alignItems: "center" }}>
                             <FontAwesome5 name="ellipsis-v" size={24} color="gray" />
 
                         </TouchableOpacity>
                     </View>
                 </Animated.View>
 
-               
-                    <Animated.View style={{ ...styles.body, transform: [{ translateY: scrollHeight2 }] }}>
 
-                        <Animated.FlatList
-                            bounces={false}
-                            scrollEventThrottle={1}
-                            onScroll={Animated.event([
-                                {
-                                    nativeEvent: {
-                                        contentOffset: { y: scrollValue }
-                                    }
+                <Animated.View style={{ ...styles.body, transform: [{ translateY: scrollHeight2 }] }}>
+
+                    <Animated.FlatList
+                        bounces={false}
+                        scrollEventThrottle={1}
+                        onScroll={Animated.event([
+                            {
+                                nativeEvent: {
+                                    contentOffset: { y: scrollValue }
                                 }
-                            ], {
-                                useNativeDriver: true
-                            })}
-                            showsHorizontalScrollIndicator={false}
-                            showsVerticalScrollIndicator={false}
-                            data={dataFromState}
-                            renderItem={({ item, index }) =>
-                                <CardList
-                                    navigation={props.navigation}
-                                    organitation={item.organitation}
-                                    actions={item.actions}
-                                    progress={item.progress}
-                                    contact1={item.contact1}
-                                    contact2={item.contact2}
-                                    nextPlan={item.nextPlan}
-                                    result={item.result}
-                                    id={item.id}
-                                    status={item.status}
-                                    time={item.time}
-                                    index={index}
-                                    onDelete={() => { onDelete(item.id) }}
-                                />
                             }
-                            keyExtractor={items => items.id.toString()}
-                        />
+                        ], {
+                            useNativeDriver: true
+                        })}
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}
+                        data={dataFromState}
+                        renderItem={({ item, index }) =>
+                            <CardList
+                                navigation={props.navigation}
+                                organitation={item.organitation}
+                                actions={item.actions}
+                                progress={item.progress}
+                                contact1={item.contact1}
+                                contact2={item.contact2}
+                                nextPlan={item.nextPlan}
+                                result={item.result}
+                                id={item.id}
+                                status={item.status}
+                                time={item.time}
+                                index={index}
+                                onDelete={() => { onDelete(item.id) }}
+                            />
+                        }
+                        keyExtractor={items => items.id.toString()}
+                    />
 
-                    </Animated.View>
-                   
+                </Animated.View>
+
             </View>
 
         </Fragment>
@@ -233,43 +283,44 @@ const styles = {
         alignItems: "center",
         elevation: 4
     },
-    modal:{
-        container:{
-            flex:1,
-        backgroundColor:'transparent',
-        justifyContent:"center",
-        alignItems:"center"
+    modal: {
+        container: {
+            flex: 1,
+            backgroundColor: 'transparent',
+            justifyContent: "center",
+            alignItems: "center",
+            
         },
-        header:{
-        height:40,
-        width:'100%',
-        alignItems:"flex-end"
+        header: {
+            height: 40,
+            width: '100%',
+            alignItems: "flex-end"
 
         },
-        body:{
-            width:'100%',
-            height:"70%",
-            justifyContent:"space-around",
-            alignItems:"center",
-            flexDirection:"row",
+        body: {
+            width: '100%',
+            height: "70%",
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "row",
         },
-        btn:{
-            width:90,
-            height:90,
-            backgroundColor:Dark.black20,
-            justifyContent:"center",
-            alignItems:"center",
-            borderRadius:10
+        btn: {
+            width: 90,
+            height: 90,
+            backgroundColor: Dark.black20,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 10
         },
-        text:{
-            color:"white",
-            marginTop:10
+        text: {
+            color: "white",
+            marginTop: 10
         }
     },
-    btnClose:{
-        width:80,
-        height:40,
-        justifyContent:"center",
-        alignItems:"center"
+    btnClose: {
+        width: 80,
+        height: 40,
+        justifyContent: "center",
+        alignItems: "center"
     }
 }

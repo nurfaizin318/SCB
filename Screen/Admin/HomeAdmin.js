@@ -38,7 +38,9 @@ const HomeAdmin = (props) => {
                 <FontAwesome5 name="users" size={50} color="gray" />
                      <Text style={styles.menuButton.text}>User List</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.menuButton.container} >
+                <TouchableOpacity style={styles.menuButton.container} 
+                onPress={()=>props.navigation.navigate("Riport")}
+                >
                 <FontAwesome5 name="server" size={50} color="gray" />
                      <Text style={styles.menuButton.text}>report</Text>
                 </TouchableOpacity>

@@ -40,11 +40,13 @@ const Login = (props) => {
     const onLogin = async () => {
         
     db.auth()
-      .signInWithEmailAndPassword(username, password)
+      .signInWithEmailAndPassword(username, password.toLowerCase())
       .then( async(data) =>{ 
           
-        db.firestore().collection('users').doc(`${data.user.uid}`)
-          .onSnapshot( async (docs)=>{
+        db.firestore()
+          .collection('users')
+          .doc(`${data.user.uid}`)
+          .onSnapshot( async (docs,)=>{
               await dispatch({type:"LOGIN",
               name:docs.data().name,
               address:docs.data().address,
@@ -52,6 +54,7 @@ const Login = (props) => {
               email:docs.data().email,
               number:docs.data().number,
               status:docs.data().status,
+              uid:data.user.uid,
             }),
             await docs.data().status == "user"? props.navigation.replace("Home") : props.navigation.replace("HomeAdmin");
           })

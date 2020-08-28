@@ -72,10 +72,6 @@ const AddUser = (props) => {
                 onChangeText={(text)=>{setRepeatPassword(text)}}
                 />
             </View>
-            <View style={{padding:10}}>
-           <Text style={{color:"white"}}>verifikasi email akan dikirimkan ke user baru  </Text>
-            <Text style={{color:"white"}}>klik submit untuk melanjutkan  </Text>
-           </View>
             <View style={{width:"100%",alignItems:"center",marginTop:10}}>
            
             <Button  title="submit" onPress={createUser}/>

@@ -56,7 +56,7 @@ const CardList = (props) => {
                             result: props.result,
                             id: props.id,
                             time: props.time,
-                            status:props.status
+                            status:props.status,
                         })
                     }}>
                         <FontAwesome5 name="pen" size={14} color="white" />

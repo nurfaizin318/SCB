@@ -31,7 +31,7 @@ const LibraryList = (props) => {
                 <View style={styles.circle.litle} />
                 <View style={styles.child.container}>
                     <View style={styles.child.left}>
-                        <Text style={{ ...styles.text, marginTop: 10,fontSize:40 }}> {fullTime[0]}</Text>
+                        <Text style={{ ...styles.text, marginTop: 10,fontSize:38 }}> {fullTime[0]}</Text>
                         <Text style={{...styles.text }} >{fullTime[1]}</Text>
                         <Text style={{...styles.text,marginTop:10}}> {props.count.length} items</Text>
                     </View>

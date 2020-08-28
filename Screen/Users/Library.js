@@ -30,7 +30,7 @@ const Library = (props) => {
     });
     const inputOffsetX = scrollValue.interpolate({
         inputRange: [0, 100],
-        outputRange: [-40, 20],
+        outputRange: [50, 0],
         extrapolate: 'clamp',
 
     });
@@ -50,18 +50,12 @@ useEffect(()=>{
         <Fragment>
             <StatusBar backgroundColor={Dark.black30}  barStyle='default' />
             <View style={styles.container}>
-                <Animated.View style={{ width: width / 1.15, height: 40, alignSelf: "center", transform: [{ translateY: inputOffsetX }], zIndex: 700 }}>
-                    <TextInput style={{ borderBottomColor: 'grey', borderBottomWidth: 1, textAlign: "center",
-                     }}
-                        placeholder="Search"
-                        placeholderTextColor="grey"
-                    />
-                </Animated.View>
-                <Animated.View style={{ width: width, height: 90, transform: [{ scale:opacityX}], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
+               
+                <Animated.View style={{ width: width, height: 90, transform: [{ translateY:inputOffsetX}], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
                     <Text style={{ fontSize: 25, fontWeight: '600', color:'grey'}}>Library</Text>
                     <Text style={{ fontSize: 15, fontWeight: '600', color:'grey'}}>all report here !</Text>
                 </Animated.View>
-                <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black20, position: "absolute",paddingTop: 40, transform: [{ translateY: scrollHeight }] }}>
+                <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black20, position: "absolute",paddingTop: 20,paddingBottom:100, transform: [{ translateY: scrollHeight }] }}>
                     <Animated.FlatList
                         scrollEventThrottle={16}
                         onScroll={Animated.event([
