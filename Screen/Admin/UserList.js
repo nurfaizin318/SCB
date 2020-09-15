@@ -2,6 +2,8 @@ import React,{useEffect,useState} from 'react';
 import {View,Text,FlatList,TouchableOpacity,Dimensions,ActivityIndicator,} from "react-native";
 import db from "../../Config/config";
 import NetInfo from "@react-native-community/netinfo";
+import {Dark} from "../../Utils/Color";
+
 
 
 
@@ -21,11 +23,11 @@ useEffect(()=>{
         }
         else{
             db.firestore()
-            .collection("users")
+            .collection("User_data")
             .get()
             .then( (docs)=>{
                 docs.forEach(async (response)=>{
-                    await  setData(prevState=>[...prevState,response.data()])
+                    await  setData(prevState=>[...prevState,response.data().profile])
                     await setLoading(false)
                 })
             
@@ -41,7 +43,7 @@ useEffect(()=>{
 
 },[])
     return ( 
-        <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+        <View style={{flex:1,justifyContent:"center",alignItems:"center",backgroundColor:Dark.black20}}>
 
             {loading? 
             <ActivityIndicator />

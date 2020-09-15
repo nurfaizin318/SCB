@@ -10,20 +10,28 @@ const HomeAdmin = (props) => {
 
     const dispatch = useDispatch();
     const name = useSelector(state => state.AuthReducer.name);
-    const position = useSelector(state => state.AuthReducer.position);
 
 
     const onLogOut = async () => {
-        await app.auth().signOut();
+        await app.auth().signOut()
         await dispatch({ type: 'LOGOUT' })
         await props.navigation.replace('Login');
     }
+
+
+    
     return (
         <View style={styles.container}>
             <View style={styles.header.container}>
+                <View style={{width:"100%",height:80}}>
+                    <TouchableOpacity style={{width:100,height:80,justifyContent:"center",marginLeft:"70%",
+                justifyContent:"center",alignItems:"center",}}
+                onPress={onLogOut}>
+                        <Text style={{color:"white"}}>Log out</Text>
+                    </TouchableOpacity>
+                </View>
                 <Text style={styles.header.textWelcome}>Welcome</Text>
                 <Text style={styles.header.textName}>{name}</Text>
-                <Button title="log out" onPress={onLogOut}></Button>
             </View>
             <View style={styles.buttonContainer1}>
                 <TouchableOpacity style={styles.menuButton.container}
@@ -70,7 +78,6 @@ const styles = {
             width: "100%",
             height: "40%",
             backgroundColor: Dark.black30,
-            justifyContent: "center",
             alignItems: "center"
         },
         textWelcome: {

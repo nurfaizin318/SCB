@@ -22,6 +22,7 @@ const TextInputs = (props)=>{
             placeholderTextColor={Dark.black40}
             onFocus={props.onFocus}
             ref={props.forwardedRef}
+            secureTextEntry={props.secureTextEntry}
             
             />
         </View>

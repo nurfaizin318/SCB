@@ -10,10 +10,8 @@ import {
     Animated,
     FlatList
 } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { LibraryList } from '../../Component';
 import { Dark } from '../../Utils';
-import { db } from '../../Config/config'
 
 
 const Library = (props) => {
@@ -21,7 +19,7 @@ const Library = (props) => {
     const width = Dimensions.get('window').width;
     const feedData = useSelector(state=>state.FeedReducer.feed)
     const dispatch = useDispatch();
-
+    const reserveFeed = feedData.reverse();
     const scrollValue = useRef(new Animated.Value(0)).current;
 
     const scrollHeight = Animated.diffClamp(scrollValue, 0, 110).interpolate({
@@ -34,16 +32,13 @@ const Library = (props) => {
         extrapolate: 'clamp',
 
     });
-    const opacityX = scrollValue.interpolate({
-        inputRange: [0, 100],
-        outputRange: [1, 0],
-        extrapolate: "clamp"
-    })
-    onDelete = (id) =>{
+    
+    const onDelete = (id) =>{
         dispatch({type:"DELETE_FEED",payload:id})
     }
+
+    const LibraryMemo = React.memo(LibraryList)
 useEffect(()=>{
-    console.log(feedData)
 },[])
     return (
 
@@ -69,9 +64,9 @@ useEffect(()=>{
                         })}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
-                        data={ feedData.length != null ? feedData : null }
+                        data={ feedData.length != null ? reserveFeed : null }
                         renderItem={({ item, index }) =>
-                            <LibraryList 
+                            <LibraryMemo 
                             time={item.created}
                             index={index}
                             count={item.data}

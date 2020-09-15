@@ -39,7 +39,6 @@ const Insert = (props) => {
     const timeNow = moment().format('dddd , MMM Do YYYY - h:mm');
 
     const onSave = async () => {
-        const score = parseInt(progress);
         let newData = {
             organitation: organitation,
             actions: actions,
@@ -50,38 +49,39 @@ const Insert = (props) => {
             result: result,
             id: id,
             time: timeNow,
-            status:'Un Closing',
-            score:score*2
+            status: 'Un Closing',
+            score: progress < 20 ? 0 : progress / 20
         }
+
         try {
             let j = 0;
-            setAll([organitation, actions, contact1, contact2, progress, nextPlan, result])
+            setAll([organitation, actions, contact1, contact2, nextPlan, result])
             for (var i = 0; i < all.length; i++) {
                 if (all[i].trim() == "" > 0) {
                     j++
                 }
             }
-            if (j > 0) {
-                alertSave();
+            if (j > 0 ) {
+                alert("data tidak valid")
             }
             else {
                 const firebase = db.firestore();
                 try {
                     await firebase.collection("recents").doc(`${organitation}`).set({
-                       data:newData
+                        data: newData
                     })
-                    .then(function() {
-                        alert("berhasil")
-                    })
-                    .catch(function(error) {
-                        alert("gagal")
-                    });
+                        .then(function () {
+                            alert("berhasil")
+                        })
+                        .catch(function (error) {
+                            alert("gagal")
+                        });
                     await dispatch({ type: "INSERT_DATA", payload: newData });
                     await props.navigation.replace('Home');
-                    } catch (e) {
-                        alert(e)
-                    }
-              
+                } catch (e) {
+                    alert(e)
+                }
+
             }
         } catch (e) {
             alert(e)
@@ -103,21 +103,7 @@ const Insert = (props) => {
             ]
         )
     }
-    const alertSave = () => {
-        Alert.alert(
-            "Gagal",
-            "data tidak lengkap ",
-            [
-                {
-
-                },
-                {
-                    text: "Yes",
-                    onPress: () => { null }
-                }
-            ]
-        )
-    }
+  
     return (
         <View style={styles.container}>
             <KeyboardAvoidingView behavior="padding">
@@ -162,7 +148,7 @@ const Insert = (props) => {
                             >
                                 <Radio iconName={"lens"} label={"Visit "} value={"Visit"} />
                                 <Radio iconName={"lens"} label={"Phone Call"} value={"Phone Call"} />
-                                <Radio iconName={"lens"} label={"Interview"} value={"InterView"} />
+                                <Radio iconName={"lens"} label={"Interview"} value={"Interview"} />
                             </RadioGroup>
                         </View>
                     </View>
@@ -193,44 +179,15 @@ const Insert = (props) => {
                             <Text style={styles.title.text}>progress</Text>
                         </View>
                         <View style={styles.progress.body}>
-                            <ProgressSteps progressBarColor="#7f8c8d"
-                                disabledStepIconColor="#7f8c8d"
-                                borderWidth={1}
-                                activeStepIconBorderColor="#1abc9c"
-                                completedProgressBarColor="#1abc9c"
-                                activeStepIconColor="gray"
-                                completedStepIconColor="#1abc9c"
-                                activeLabelColor="#1abc9c"                   >
-                                <ProgressStep label="20%"
-                                    nextBtnTextStyle={styles.stepsNext}
-                                    previousBtnTextStyle={styles.stepsPrev}
-                                    onNext={() => { setProgress(20) }}
-                                />
-                                <ProgressStep label="40%"
-                                    nextBtnTextStyle={styles.stepsNext}
-                                    previousBtnTextStyle={styles.stepsPrev}
-                                    onNext={() => { setProgress('40') }}
-                                    onPrevious={() => { setProgress('0') }}
-                                />
-                                <ProgressStep label="60%"
-                                    nextBtnTextStyle={styles.stepsNext}
-                                    previousBtnTextStyle={styles.stepsPrev}
-                                    onNext={() => { setProgress('60') }}
-                                    onPrevious={() => { setProgress('20') }}
-                                />
-                                <ProgressStep label="80%"
-                                    nextBtnTextStyle={styles.stepsNext}
-                                    previousBtnTextStyle={styles.stepsPrev}
-                                    onNext={() => { setProgress('80') }}
-                                    onPrevious={() => { setProgress('40') }}
-                                />
-                                <ProgressStep label="100%"
-                                    nextBtnTextStyle={styles.stepsNext}
-                                    previousBtnTextStyle={styles.stepsPrev}
-                                    onSubmit={() => { setProgress('100') }}
-                                    onPrevious={() => { setProgress('60') }}
-                                />
-                            </ProgressSteps>
+                                <View style={styles.progress.body}>
+
+                                    <Button title="-" onPress={() => { setProgress(prev => prev < 10 ? prev : prev - 20) }} />
+                                    <View style={{ width: 70, height: 50, justifyContent: "center", alignItems: "center" }}>
+                                        <Text style={{ color: "grey", fontSize: 20 }}>{progress} % </Text>
+                                    </View>
+                                    <Button title="+" onPress={() => { setProgress(prev => prev > 90 ? prev : prev + 20) }} />
+
+                            </View>
                         </View>
                     </View>
                     <View style={styles.nextPlan.container}>
@@ -325,7 +282,7 @@ const styles = {
         container: {
             padding: 15,
             width: "100%",
-            height: 190,
+            height: 180,
             borderBottomWidth: 0.5,
             borderBottomColor: 'black',
             marginTop: 10
@@ -337,14 +294,18 @@ const styles = {
             width: "100%",
             borderBottomWidth: 0.5,
             borderBottomColor: 'black',
-            height: 230,
+            height: 160,
             marginTop: 10,
-            padding: 10
+            padding: 10,
         },
         body: {
             width: '80%',
-            height: '100%',
-            alignSelf: "center"
+            alignSelf: "center",
+            marginTop: 20,
+            flexDirection:"row",
+            justifyContent: "space-around",
+            alignItems:"center",
+
         }
     },
     nextPlan: {

@@ -11,7 +11,7 @@ import {
 import { TextInputs } from '../Component';
 import { Dark } from "../Utils/Color";
 import { useDispatch } from 'react-redux';
-import  db  from "../Config/config";
+import  app  from "../Config/config";
 import "firebase/firestore"
 
 
@@ -38,25 +38,31 @@ const Login = (props) => {
     })
 
     const onLogin = async () => {
-        
-    db.auth()
+    app.auth()
       .signInWithEmailAndPassword(username, password.toLowerCase())
       .then( async(data) =>{ 
           
-        db.firestore()
-          .collection('users')
+        app.firestore()
+          .collection('User_data')
           .doc(`${data.user.uid}`)
           .onSnapshot( async (docs,)=>{
               await dispatch({type:"LOGIN",
-              name:docs.data().name,
-              address:docs.data().address,
-              position:docs.data().position,
-              email:docs.data().email,
-              number:docs.data().number,
-              status:docs.data().status,
+              name:docs.data().profile.name,
+              address:docs.data().profile.address,
+              position:docs.data().profile.position,
+              email:docs.data().profile.email,
+              number:docs.data().profile.number,
+              status:docs.data().profile.status,
               uid:data.user.uid,
-            }),
-            await docs.data().status == "user"? props.navigation.replace("Home") : props.navigation.replace("HomeAdmin");
+            })
+
+            if(docs.data().profile.status === "user"){
+                props.navigation.replace("Home")
+            }
+            else if(docs.data().profile.status === "admin"){
+                props.navigation.replace("HomeAdmin")
+            }
+            
           })
         
     })
@@ -115,7 +121,10 @@ const Login = (props) => {
                             <View style={styles.box.input} >
                                 <TextInputs
                                     placeholder="pasword"
-                                    onChangeText={(value) => setPassword(value)} />
+                                    onChangeText={(value) => setPassword(value)} 
+                                    secureTextEntry={true}
+                                    />
+                                    
                             </View>
                         </View>
                         <View style={styles.box.button}>

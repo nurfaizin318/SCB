@@ -16,22 +16,25 @@ const LibraryList = (props) => {
     })
     useEffect(()=>{
         Animated.sequence([
-            Animated.delay(props.index * 200),
+            Animated.delay(props.index * 30),
             Animated.spring(animatedValue,{
                 toValue:1,
                friction:8,
                 useNativeDriver:true
             })
         ]).start()
+
     },[])
+
     return (
+        
         <TouchableOpacity style={{ ...styles.container, width: width, height: height / 5,transform:[{translateY:animatedCard}] }}>
             <View style={{ ...styles.subContainer, width: width / 1.1, }}>
                 <View style={styles.circle.big} />
                 <View style={styles.circle.litle} />
                 <View style={styles.child.container}>
                     <View style={styles.child.left}>
-                        <Text style={{ ...styles.text, marginTop: 10,fontSize:38 }}> {fullTime[0]}</Text>
+                        <Text style={{ ...styles.text, marginTop: 10,fontSize:30 }}> {fullTime[0]}</Text>
                         <Text style={{...styles.text }} >{fullTime[1]}</Text>
                         <Text style={{...styles.text,marginTop:10}}> {props.count.length} items</Text>
                     </View>

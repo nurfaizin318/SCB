@@ -48,7 +48,7 @@ const Edit = (props)=>{
                                 id:id,
                                 time:time,
                                 status:status,
-                                score:score*2
+                                score:score/20
                                }
         
               await  data.splice(props.route.params.index,1,newData)
@@ -120,7 +120,7 @@ const Edit = (props)=>{
                         >
                             <Radio iconName={"lens"} label={"Visit "} value={"Visit"} />
                             <Radio iconName={"lens"} label={"Phone Call"} value={"Phone Call"}/>
-                            <Radio iconName={"lens"} label={"Interview"} value={"InterView"}/>
+                            <Radio iconName={"lens"} label={"Interview"} value={"Interview"}/>
                         </RadioGroup>   
                     </View>
               </View>
@@ -150,48 +150,15 @@ const Edit = (props)=>{
                          </Text>
                          <Text style={styles.title.text}>progress</Text>
                      </View>
-                     <View style={styles.progress.body}>
-                        <ProgressSteps 
-                        progressBarColor="#7f8c8d" 
-                        disabledStepIconColor="#7f8c8d" 
-                        borderWidth={1}
-                        activeStepIconBorderColor="#1abc9c"
-                        completedProgressBarColor="#1abc9c"
-                        activeStepIconColor="gray"
-                        completedStepIconColor="#1abc9c"
-                        activeLabelColor="#1abc9c"               
-                        > 
-                        <ProgressStep label="20%" 
-                        nextBtnTextStyle={styles.stepsNext}
-                        previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setProgress('20')}
-                         />
-                        <ProgressStep label="40%" 
-                         nextBtnTextStyle={styles.stepsNext}
-                         previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setProgress('40')}
-                         onPrevious={()=>setProgress('0')}
-                         />
-                        <ProgressStep label="60%"
-                         nextBtnTextStyle={styles.stepsNext}
-                         previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setProgress('60')}
-                         onPrevious={()=>setProgress('20')}
-                         />
-                        <ProgressStep label="80%" 
-                         nextBtnTextStyle={styles.stepsNext}
-                         previousBtnTextStyle={styles.stepsPrev}
-                         onNext={()=>setProgress('80')}
-                         onPrevious={()=>setProgress('40')}
-                         />
-                        <ProgressStep label="100%" 
-                         nextBtnTextStyle={styles.stepsNext}
-                         previousBtnTextStyle={styles.stepsPrev}
-                         onSubmit={()=>setProgress('100')}
-                         onPrevious={()=>setProgress('60')}
-                         />
-                    </ProgressSteps>
-                    </View>
+                                <View style={styles.progress.body}>
+
+                                    <Button title="-" onPress={() => { setProgress(prev => prev < 10 ? prev : prev - 20) }} />
+                                    <View style={{ width: 70, height: 50, justifyContent: "center", alignItems: "center" }}>
+                                        <Text style={{ color: "grey", fontSize: 20 }}>{progress} % </Text>
+                                    </View>
+                                    <Button title="+" onPress={() => { setProgress(prev => prev > 90 ? prev : prev + 20) }} />
+
+                        </View>
                     </View>
                     <View style={styles.nextPlan.container}>
                     <View style={styles.title.container}>
@@ -218,7 +185,6 @@ const Edit = (props)=>{
                     </View>
                     <View style={styles.buttomButton}>
                         <View style={styles.buttomButton.container}>
-                            <Button title="Clear"  color={Dark.lightOrange} onPress={()=>alert(organitation)}/>
                             <Button title="Submit"  color={Dark.lightGreen} onPress={()=>{Alerts()}}/>
                         </View>
                      </View>
@@ -295,18 +261,22 @@ const Edit = (props)=>{
             }
         },
         progress:{
-            container:{
-                width:"100%",
-               borderBottomWidth:0.5,
-                borderBottomColor:'black',
-                height:230,
-                marginTop:10,
-                padding:10,
+            container: {
+                width: "100%",
+                borderBottomWidth: 0.5,
+                borderBottomColor: 'black',
+                height: 160,
+                marginTop: 10,
+                padding: 10,
             },
-            body:{
-              width:'80%',
-              height:'100%',
-              alignSelf:"center"
+            body: {
+                width: '80%',
+                alignSelf: "center",
+                marginTop: 20,
+                flexDirection:"row",
+                justifyContent: "space-around",
+                alignItems:"center",
+    
             }
         },
         nextPlan:{
@@ -339,17 +309,14 @@ const Edit = (props)=>{
            
         },
         buttomButton:{
-            height:120,
-            width:'100%',
-            alignItems:"center",
-            flexDirection:'row',
-            paddingHorizontal:40,
 
             container:{
                 width:"100%",
-                flexDirection:'row',
-                justifyContent:'space-between',
-                top:-25
+                paddingHorizontal:20,
+                height:100,
+                top:-25,
+                alignItems:"flex-end",
+                justifyContent:"center"
             }
         },
         title:{

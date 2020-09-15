@@ -1,7 +1,7 @@
 import React, { useEffect ,useState} from 'react';
 import {View,Text,FlatList,TouchableOpacity,Dimensions} from 'react-native';
-import db from "../../Config/config";
-import NetInfo from "@react-native-community/netinfo";
+import {Dark} from "../../Utils/Color";
+
 
 
 const ReportDetail = (props) => {
@@ -19,7 +19,7 @@ React.useEffect(()=>{
 },[])
 
     return ( 
-        <View style={{flex:1,}}>
+        <View style={{flex:1,backgroundColor:Dark.black20}}>
           
             <FlatList 
             data={report}

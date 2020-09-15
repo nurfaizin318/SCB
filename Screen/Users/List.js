@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, FlatList, Dimensions, Animated, Clipboard, Modal,Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, FlatList, Dimensions, Animated, Clipboard, Modal, Alert } from 'react-native';
 import { Dark } from '../../Utils';;
 import { CardList } from '../../Component';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ const List = (props) => {
 
 
 
-    const onDelete =  (id) => {
+    const onDelete = (id) => {
 
         Alert.alert(
             "",
@@ -87,11 +87,36 @@ const List = (props) => {
                 alert("network error")
             } else {
 
-                firebase.ref(`Data/${time}`).once("value", snapshoot => {
-                    if (snapshoot.exists()) {
-                        alert("data is exist")
-                    } else {
-                        firebase.ref(`/Data/${time}`)
+                firebase.ref().child(`Customer_data`).child(`${time}`)
+                    .once("value", snaps => {
+                        if(snaps.exists()){
+                            snaps.forEach(data=>{
+                                if(data.val().name === name){
+                                    alert("data exixt")
+                                }
+                                else{
+
+                          
+                            firebase.ref(`/Customer_data/${time}`)
+                                        .child(`${uid}`)
+                                        .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
+                                        .then(() => {
+                                            setVisible(false)
+                                            try {
+                                                dispatch({ type: "INSERT_FEED", payload: { 'id': date.getTime(), 'name': name, 'created': fullTime, 'data': dataFromState } })
+                                            } catch (e) {
+                                                alert(e)
+                                            }
+                                            alert("berhasil")
+            
+                                        })
+                                        .catch(e => alert("failed add to database"))
+                          
+                                }
+                            })
+                        }
+                        else{
+                            firebase.ref(`/Customer_data/${time}`)
                             .child(`${uid}`)
                             .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
                             .then(() => {
@@ -105,16 +130,15 @@ const List = (props) => {
 
                             })
                             .catch(e => alert("failed add to database"))
-                    }
-                })
-
+                        }
+                    
+                      
+                      
+                    })
+             
             }
         })
-
-
     };
-
-
     return (
         <Fragment>
             <Modal
@@ -122,7 +146,7 @@ const List = (props) => {
                 transparent
                 animationType="slide"
             >
-                <View style={{...styles.modal.container,marginTop:height/1.8}}>
+                <View style={{ ...styles.modal.container, marginTop: height / 1.8 }}>
                     <View style={{ width: width / 1.1, height: height / 4, backgroundColor: Dark.black40, borderRadius: 10 }}>
                         <View style={styles.modal.header}>
                             <TouchableOpacity onPress={() => setVisible(false)} style={styles.btnClose}>
@@ -154,12 +178,12 @@ const List = (props) => {
                             </View>
                             <View style={{ width: "40%", height: "80%", alignItems: "center" }}>
                                 <TouchableOpacity
-                                    onPress={()=>dispatch({type:"ON_RESET"})}
+                                    onPress={() => dispatch({ type: "ON_RESET" })}
                                     style={styles.modal.btn}>
                                     <FontAwesome5 name="trash" size={20} color="grey" />
                                 </TouchableOpacity>
                                 <Text style={styles.modal.text}>
-                                    clear all 
+                                    clear all
                             </Text>
                             </View>
 
@@ -289,7 +313,7 @@ const styles = {
             backgroundColor: 'transparent',
             justifyContent: "center",
             alignItems: "center",
-            
+
         },
         header: {
             height: 40,

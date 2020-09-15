@@ -9,7 +9,8 @@ import {
     Keyboard,
     ActivityIndicator,
     FlatList,
-    Alert
+    Alert,
+    BackHandler
 } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,8 +18,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { ListNotification, CardRecent } from '../../Component'
 import { Dark } from '../../Utils';
 import moment from 'moment';
-import {useIsFocused} from '@react-navigation/native';
-import app from "../../Config/config";
+import { useIsFocused } from '@react-navigation/native';
+import db from "../../Config/config";
+import { functions } from 'firebase';
 
 
 const Home = (props) => {
@@ -26,16 +28,18 @@ const Home = (props) => {
     const ifFocused = useIsFocused();
     const dispatch = useDispatch();
     const time = moment().format('MMM Do YYYY')
-    const db = app.database();
+    const firebase = db.database();
+    const [feed, setFeed] = useState({ created: "", name: "" })
 
     const recentData = useSelector(state => state.DataReducer.data)
     const feedData = useSelector(state => state.DataReducer.feed)
-    const name = useSelector(state=>state.AuthReducer.name)
-    const position = useSelector(state=>state.AuthReducer.position)
+    const name = useSelector(state => state.AuthReducer.name)
+    const position = useSelector(state => state.AuthReducer.position)
+    const [update, setUpdate] = useState({ created: "", name: "" })
 
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
-    [data,setData] = useState({})
+    [data, setData] = useState({})
     const Alerts = () => {
         Alert.alert(
             "",
@@ -52,32 +56,43 @@ const Home = (props) => {
             ]
         )
     }
+
+
     const onLogOut = async () => {
         await app.auth().signOut();
         await dispatch({ type: 'LOGOUT' })
         await props.navigation.navigate('Login');
     }
-    useEffect(() => {
-        const itemsRef = db.ref(`/Notifications/`)
-        itemsRef.on('value', snapshot => {
-            let database = snapshot.val();
-        //     // if (data != null) {
-        //     //     let items = Object.values(data);
-        //     //     // dispatch({ type: "INSERT_FEED", payload: items })
 
-        //     // }
-               if(database==null){
-                   setData()
-               }else{
-                   setData(database)
-               }
+
+
+    const fire = firebase.ref().child("Customer_data").child(`${time}`)
+        .on("child_added", snapshot => {
+
+            if (typeof snapshot !== null || typeof snapshot !== undefined) {
+                // setUpdate({name:snapshot.val().name,created:snapshot.val().createdAt})
+
+            }
         });
-    }, [])
+
+
+
+
+
+
+
+    useEffect(() => {
+        if (fire) {
+            alert("a")
+        }
+
+    }, [update])
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
                 <StatusBar backgroundColor={Dark.black20} tintColor="light" />
                 <View style={styles.container}>
+                    <Text>{feed.created}{feed.name}</Text>
                     <ScrollView>
                         <View style={styles.userPanel}>
                             <View style={styles.thumnail.name}>
@@ -99,34 +114,34 @@ const Home = (props) => {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.recent.body}>
-                                    {ifFocused ? 
-                                    (
-                                        recentData.length > 0 ?
+                                    {ifFocused ?
+                                        (
+                                            recentData.length > 0 ?
 
-                                            <FlatList
-                                                data={recentData.reverse()}
-                                                horizontal={true}
-                                                showsHorizontalScrollIndicator={false}
-                                                renderItem={({ item }) =>
+                                                <FlatList
+                                                    data={recentData.reverse()}
+                                                    horizontal={true}
+                                                    showsHorizontalScrollIndicator={false}
+                                                    renderItem={({ item }) =>
 
-                                                    <CardRecent
-                                                        id={item.id}
-                                                        organitation={item.organitation}
-                                                        progress={item.progress}
-                                                    />}
-                                                keyExtractor={item => item.id.toString()}
-                                            />
-                                            :
-                                            <Text style={{ color: "white", alignSelf: "center" }}>
-                                                Empty
+                                                        <CardRecent
+                                                            id={item.id}
+                                                            organitation={item.organitation}
+                                                            progress={item.progress}
+                                                        />}
+                                                    keyExtractor={item => item.id.toString()}
+                                                />
+                                                :
+                                                <Text style={{ color: "white", alignSelf: "center" }}>
+                                                    Empty
                                           </Text>
-                                    )
-                                    :
-                                    null }
+                                        )
+                                        :
+                                        null}
                                 </View>
                             </View>
                             <View style={styles.feed.box(height)}>
-                                <View style={{...styles.feed.header,width:width}}>
+                                <View style={{ ...styles.feed.header, width: width }}>
                                     <Text style={styles.text(20)}>
                                         Feed
                                      </Text>
@@ -191,15 +206,15 @@ const styles = {
             fontSize: 22,
             color: 'white',
             left: 10,
-            letterSpacing:1
+            letterSpacing: 1
 
         },
         fontThumnail2: {
             fontSize: 15,
             color: 'gray',
             left: 10,
-            marginTop:2,
-            letterSpacing:2
+            marginTop: 2,
+            letterSpacing: 2
         }
     },
     recent: {

@@ -1,12 +1,16 @@
 import React, { useEffect ,useState} from 'react';
-import {View,Text,FlatList,TouchableOpacity,Dimensions} from 'react-native';
+import {View,Text,FlatList,TouchableOpacity,Dimensions,ActivityIndicator} from 'react-native';
 import db from "../../Config/config";
 import NetInfo from "@react-native-community/netinfo";
+import {Dark} from "../../Utils/Color";
+
 
 
 const ReportList = (props) => {
 
 const [report,setReport]= useState([]);
+const [loading,setLoading] = useState(true);
+
 const width = Dimensions.get("window").width;
 
 React.useEffect(()=>{
@@ -16,10 +20,10 @@ React.useEffect(()=>{
         }else{
             const ref = db.database()
             .ref()
-            .child("Data")
+            .child("Customer_data")
             .child(props.route.params.date)
             ref
-            .once("value",(snapshot)=>{
+            .on("value",(snapshot)=>{
                 const data = snapshot.val();
                 const translateData = Object.values(data);
                 if(data !== null){
@@ -28,18 +32,17 @@ React.useEffect(()=>{
                 else{
                     setReport([])
                 }
-                setReport(translateData)
+                setLoading(false)
                 
             })
              
         }
     })
-   
     
 },[])
 
     return ( 
-        <View style={{flex:1,}}>
+        <View style={{flex:1,backgroundColor:Dark.black20}}>
             <FlatList 
             data={report}
             renderItem={({item,index})=>(
