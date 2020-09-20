@@ -3,15 +3,14 @@ import {useSelector,useDispatch} from "react-redux"
 import {
     View,
     Text,
-    TouchableOpacity,
     StatusBar,
     Dimensions,
-    TextInput,
     Animated,
-    FlatList
+    Button
 } from 'react-native';
 import { LibraryList } from '../../Component';
 import { Dark } from '../../Utils';
+import db from "../../Config/config"
 
 
 const Library = (props) => {
@@ -21,6 +20,11 @@ const Library = (props) => {
     const dispatch = useDispatch();
     const reserveFeed = feedData.reverse();
     const scrollValue = useRef(new Animated.Value(0)).current;
+    const firebase = db.database();
+    const uid = useSelector(state => state.AuthReducer.uid);
+    const [data,setData] = useState([])
+
+
 
     const scrollHeight = Animated.diffClamp(scrollValue, 0, 110).interpolate({
         inputRange: [0, height / 7],
@@ -28,17 +32,34 @@ const Library = (props) => {
     });
     const inputOffsetX = scrollValue.interpolate({
         inputRange: [0, 100],
-        outputRange: [50, 0],
+        outputRange: [40, 0],
         extrapolate: 'clamp',
 
     });
     
-    const onDelete = (id) =>{
-        dispatch({type:"DELETE_FEED",payload:id})
+    const onDelete = (createdAt,index) =>{
+        firebase.ref().child("Feed").child(`${uid}`).child(`${createdAt}`).remove()
+        setData(data.filter(index => index !== index));
     }
 
     const LibraryMemo = React.memo(LibraryList)
+
+
+    
 useEffect(()=>{
+    firebase.ref().child('Feed').child(`${uid}`)
+    .on("value", snapshot => {
+        if ( snapshot.val() !== null ) {
+        let  value = Object.values(snapshot.val())
+           value.reverse().forEach(data=>{
+               setData(prevState=>[...prevState,data])
+            
+           })
+    
+            
+        }
+    });
+    
 },[])
     return (
 
@@ -48,7 +69,7 @@ useEffect(()=>{
                
                 <Animated.View style={{ width: width, height: 90, transform: [{ translateY:inputOffsetX}], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
                     <Text style={{ fontSize: 25, fontWeight: '600', color:'grey'}}>Library</Text>
-                    <Text style={{ fontSize: 15, fontWeight: '600', color:'grey'}}>all report here !</Text>
+                    <Text style={{ fontSize: 15, fontWeight: '600', color:'grey',marginBottom:5}}>all report here !</Text>
                 </Animated.View>
                 <Animated.View style={{ height: height / 1.1, width: width / 1, backgroundColor: Dark.black20, position: "absolute",paddingTop: 20,paddingBottom:100, transform: [{ translateY: scrollHeight }] }}>
                     <Animated.FlatList
@@ -64,13 +85,13 @@ useEffect(()=>{
                         })}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
-                        data={ feedData.length != null ? reserveFeed : null }
+                        data={ data }
                         renderItem={({ item, index }) =>
                             <LibraryMemo 
-                            time={item.created}
+                            time={item.createdAt}
                             index={index}
                             count={item.data}
-                            onDelete={()=>onDelete(item.id)}
+                            onDelete={()=>onDelete(item.createdAt,index)}
                                 />
                         }
                         keyExtractor={items => items.id}

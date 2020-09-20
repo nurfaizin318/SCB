@@ -7,10 +7,10 @@ import {
     StatusBar, Dimensions,
     TouchableWithoutFeedback,
     Keyboard,
-    ActivityIndicator,
     FlatList,
     Alert,
-    BackHandler
+    BackHandler,
+    ActivityIndicator
 } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -20,7 +20,6 @@ import { Dark } from '../../Utils';
 import moment from 'moment';
 import { useIsFocused } from '@react-navigation/native';
 import db from "../../Config/config";
-import { functions } from 'firebase';
 
 
 const Home = (props) => {
@@ -29,17 +28,19 @@ const Home = (props) => {
     const dispatch = useDispatch();
     const time = moment().format('MMM Do YYYY')
     const firebase = db.database();
-    const [feed, setFeed] = useState({ created: "", name: "" })
+    const [feed, setFeed] = useState([])
 
     const recentData = useSelector(state => state.DataReducer.data)
     const feedData = useSelector(state => state.DataReducer.feed)
     const name = useSelector(state => state.AuthReducer.name)
     const position = useSelector(state => state.AuthReducer.position)
-    const [update, setUpdate] = useState({ created: "", name: "" })
-
+    const [load, setLoad] = useState({});
+    const reverseFeed = feed.reverse();
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
-    [data, setData] = useState({})
+    const uid = useSelector(state => state.AuthReducer.uid)
+
+   const  [data, setData] = useState(false)
     const Alerts = () => {
         Alert.alert(
             "",
@@ -59,42 +60,32 @@ const Home = (props) => {
 
 
     const onLogOut = async () => {
-        await app.auth().signOut();
+        await db.auth().signOut();
         await dispatch({ type: 'LOGOUT' })
         await props.navigation.navigate('Login');
     }
 
-
-
-    const fire = firebase.ref().child("Customer_data").child(`${time}`)
-        .on("child_added", snapshot => {
-
-            if (typeof snapshot !== null || typeof snapshot !== undefined) {
-                // setUpdate({name:snapshot.val().name,created:snapshot.val().createdAt})
-
-            }
-        });
-
-
-
-
-
-
-
     useEffect(() => {
-        if (fire) {
-            alert("a")
-        }
-
-    }, [update])
+        firebase.ref().child('Customer_data').limitToLast(10)
+            .on("child_added", snapshot => {
+                const value = Object.values(snapshot.val())
+                if (typeof snapshot !== null || typeof snapshot !== undefined) {
+                   value.reverse().forEach(data=>{
+                       setFeed(prevState=>[...prevState,data])
+                    
+                   })
+            
+                    
+                }
+            });
+    }, [])
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
                 <StatusBar backgroundColor={Dark.black20} tintColor="light" />
                 <View style={styles.container}>
                     <Text>{feed.created}{feed.name}</Text>
-                    <ScrollView>
-                        <View style={styles.userPanel}>
+                        <View style={{...styles.userPanel}}>
                             <View style={styles.thumnail.name}>
                                 <Text style={styles.thumnail.fontThumnail1}>{name}</Text>
                                 <Text style={styles.thumnail.fontThumnail2}>{position}</Text>
@@ -104,7 +95,7 @@ const Home = (props) => {
                             </TouchableOpacity>
                         </View>
                         <View style={{ flex: 1, width: width }}>
-                            <View style={styles.recent.box}>
+                            <View style={{...styles.recent.box,height:height/3.2}}>
                                 <View style={styles.recent.boxheader}>
                                     <Text style={styles.text(20)}>
                                         Recent
@@ -145,31 +136,30 @@ const Home = (props) => {
                                     <Text style={styles.text(20)}>
                                         Feed
                                      </Text>
-                                    <TouchableOpacity style={styles.viewAll}>
-                                        <Text style={{ color: "gray" }}>View all </Text>
-                                    </TouchableOpacity>
+                                   
                                 </View>
 
+                               
+                                    <FlatList
+                                        data={feed}
+                                        showsHorizontalScrollIndicator={false}
+                                        renderItem={({ item }) =>
+                                            item != null ?
+                                                <ListNotification
+                                                    name={item.name}
+                                                    type={item.createdAt}
 
-                                {/* <FlatList
-                                    data={Object.values(data)}
-                                    showsHorizontalScrollIndicator={false}
-                                    renderItem={({ item }) =>
-                                        item != null ?
-                                            <ListNotification
-                                                name={item.name}
-                                                type={item.type}
-                                                
-                                            />
-                                            :
-                                            <View style={{ ...styles.noResult, height: height / 2.4 }}>
-                                                <Text style={{ fontSize: 15, color: '#2c3e50' }}>no notifications</Text>
-                                            </View>
-                                    }
-                                /> */}
+                                                />
+                                                :
+                                                <View style={{ ...styles.noResult, height: height / 2.4 }}>
+                                                    <Text style={{ fontSize: 15, color: '#2c3e50' }}>no notifications</Text>
+                                                </View>
+                                        }
+                                        keyExtractor={item=>item.id}
+                                    />
+                                
                             </View>
                         </View>
-                    </ScrollView>
                 </View>
             </Fragment>
         </TouchableWithoutFeedback >
@@ -189,9 +179,9 @@ const styles = {
         alignItems: 'center',
     },
     userPanel: {
+        width:"100%",
         height: 70,
         flexDirection: 'row',
-        marginTop: 10,
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(0,0,0,0.3)',
@@ -219,7 +209,6 @@ const styles = {
     },
     recent: {
         box: {
-            height: 230,
             justifyContent: 'flex-start',
             width: '100%',
             borderRadius: 5,
@@ -248,7 +237,7 @@ const styles = {
         width: 50,
         alignItems: 'center',
         justifyContent: "center",
-        right: 90,
+        right: 50,
     },
     touch: {
         width: 60,
@@ -281,11 +270,13 @@ const styles = {
     feed: {
         box: (height) => {
             return {
+                backgroundColor:"red",
                 flex: 1,
                 alignSelf: "center",
                 height: height / 2,
                 paddingTop: 10,
                 backgroundColor: Dark.black20,
+                alignItems: "center"
             }
         },
         header: {

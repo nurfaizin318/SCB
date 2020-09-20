@@ -17,7 +17,6 @@ const List = (props) => {
     const time = moment().format('MMM Do YYYY')
     const fullTime = moment().format('dddd , MMM Do YYYY , h:mm');
     const dataFromState = useSelector(state => state.DataReducer.data)
-    const feedData = useSelector(state => state.FeedReducer.feed)
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
     const dispatch = useDispatch();
@@ -87,56 +86,21 @@ const List = (props) => {
                 alert("network error")
             } else {
 
-                firebase.ref().child(`Customer_data`).child(`${time}`)
-                    .once("value", snaps => {
-                        if(snaps.exists()){
-                            snaps.forEach(data=>{
-                                if(data.val().name === name){
-                                    alert("data exixt")
-                                }
-                                else{
-
-                          
-                            firebase.ref(`/Customer_data/${time}`)
-                                        .child(`${uid}`)
-                                        .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
-                                        .then(() => {
-                                            setVisible(false)
-                                            try {
-                                                dispatch({ type: "INSERT_FEED", payload: { 'id': date.getTime(), 'name': name, 'created': fullTime, 'data': dataFromState } })
-                                            } catch (e) {
-                                                alert(e)
-                                            }
-                                            alert("berhasil")
-            
-                                        })
-                                        .catch(e => alert("failed add to database"))
-                          
-                                }
-                            })
-                        }
-                        else{
-                            firebase.ref(`/Customer_data/${time}`)
-                            .child(`${uid}`)
-                            .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
-                            .then(() => {
-                                setVisible(false)
-                                try {
-                                    dispatch({ type: "INSERT_FEED", payload: { 'id': date.getTime(), 'name': name, 'created': fullTime, 'data': dataFromState } })
-                                } catch (e) {
-                                    alert(e)
-                                }
-                                alert("berhasil")
-
-                            })
-                            .catch(e => alert("failed add to database"))
-                        }
-                    
-                      
-                      
+                firebase.ref(`Customer_data/${time}`)
+                    .child(`${uid}`)
+                    .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
+                    .then(() => {
+                        firebase.ref(`Feed`).child(`${uid}`)
+                        .child(`${fullTime}`)
+                        .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
+                       
+                    }).then(()=>{
+                        alert("berhasil")
                     })
-             
+
             }
+        }).catch((e)=>{
+            alert(e)
         })
     };
     return (

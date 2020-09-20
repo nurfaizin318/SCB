@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Dimensions ,ActivityIndicator} from 'react-native';
 import db from "../../Config/config";
 import NetInfo from "@react-native-community/netinfo";
-import {Dark} from "../../Utils/Color"
+import {Dark} from "../../Utils/Color";
 
 const Report = (props) => {
 
