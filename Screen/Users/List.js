@@ -12,10 +12,9 @@ import NetInfo from "@react-native-community/netinfo";
 
 const List = (props) => {
 
-
     const scrollValue = useRef(new Animated.Value(0)).current;
     const time = moment().format('MMM Do YYYY')
-    const fullTime = moment().format('dddd , MMM Do YYYY , h:mm');
+    const fullTime = moment().format('dddd ,MMM Do YYYY');
     const dataFromState = useSelector(state => state.DataReducer.data)
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
@@ -86,20 +85,34 @@ const List = (props) => {
                 alert("network error")
             } else {
 
-                firebase.ref(`Customer_data/${time}`)
-                    .child(`${uid}`)
-                    .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
-                    .then(() => {
-                        firebase.ref(`Feed`).child(`${uid}`)
-                        .child(`${fullTime}`)
-                        .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
-                       
-                    }).then(()=>{
-                        alert("berhasil")
+                if (dataFromState.length == 0) {
+                    alert("data is empty")
+                }
+                else {
+                    firebase.ref().child("Feed").child(`${uid}`).orderByChild("createdAt").equalTo(`${fullTime}`)
+                    .once("value", snap => {
+                        if (snap.exists()) {
+                            alert("data has uploaded")
+                        }
+                        if (!snap.exists()) {
+                            firebase.ref(`Customer_data/${time}`)
+                                .child(`${uid}`)
+                                .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
+                                .then(() => {
+                                    firebase.ref(`Feed`).child(`${uid}`)
+                                        .child(`${time}`)
+                                        .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
+                                    alert("berhasil")
+                                })
+                        dispatch({type:"ON_RESET"})
+                        }
+                    }).catch(e=>{
+                        alert(e)
                     })
-
+                }
+              
             }
-        }).catch((e)=>{
+        }).catch((e) => {
             alert(e)
         })
     };

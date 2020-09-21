@@ -28,7 +28,9 @@ const LibraryList = (props) => {
 
     return (
         
-        <TouchableOpacity style={{ ...styles.container, width: width, height: height / 5,transform:[{translateY:animatedCard}] }}>
+        <TouchableOpacity style={{ ...styles.container, width: width, height: height / 5,transform:[{translateY:animatedCard}] }}
+        onPress={props.onPress}
+        >
             <View style={{ ...styles.subContainer, width: width / 1.1, }}>
                 <View style={styles.circle.big} />
                 <View style={styles.circle.litle} />

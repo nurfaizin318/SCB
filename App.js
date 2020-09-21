@@ -30,6 +30,9 @@ import Loader from './Screen/Loader';
 import List from './Screen/Users/List';
 import Login from './Screen/Login';
 import Edit from './Screen/Users/Edit';
+import LibraryDetail from "./Screen/Users/LibraryDetail"
+
+
 import HomeAdmin from "./Screen/Admin/HomeAdmin"
 import AddUser from "./Screen/Admin/AddUser";
 import UserList from "./Screen/Admin/UserList"
@@ -38,6 +41,7 @@ import Report from "./Screen/Admin/Report";
 import UserProfil from "./Screen/Admin/UserProfile";
 import ReportList from "./Screen/Admin/ReportList"
 import ReportDetail from "./Screen/Admin/ReportDetail"
+
 // import InsertOrganitation from './Screen/Users/insertOrganitation'
 import { Dark } from './Utils/';
 
@@ -104,6 +108,13 @@ const App = () => {
                 options={{
                   headerShown: true, headerTitleAlign: "center",
                   headerStyle: { backgroundColor: Dark.black30, },
+                  headerTintColor: "white"
+                }}
+              />
+                <Stack.Screen name="LibraryDetail" component={LibraryDetail}
+                options={{
+                  headerShown: true, headerTitleAlign: "center",headerTitle:"Library Detail",
+                  headerStyle: { backgroundColor: "grey", },
                   headerTintColor: "white"
                 }}
               />

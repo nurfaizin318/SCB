@@ -179,7 +179,6 @@ const Insert = (props) => {
                             <Text style={styles.title.text}>progress</Text>
                         </View>
                         <View style={styles.progress.body}>
-                                <View style={styles.progress.body}>
 
                                     <Button title="-" onPress={() => { setProgress(prev => prev < 10 ? prev : prev - 20) }} />
                                     <View style={{ width: 70, height: 50, justifyContent: "center", alignItems: "center" }}>
@@ -187,7 +186,6 @@ const Insert = (props) => {
                                     </View>
                                     <Button title="+" onPress={() => { setProgress(prev => prev > 90 ? prev : prev + 20) }} />
 
-                            </View>
                         </View>
                     </View>
                     <View style={styles.nextPlan.container}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { View, Text, Button, TouchableOpacity ,BackHandler,Alert} from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import app from "../../Config/config";
 import { Dark } from "../../Utils";
@@ -13,20 +13,59 @@ const HomeAdmin = (props) => {
 
 
     const onLogOut = async () => {
+
+
+
         await app.auth().signOut()
         await dispatch({ type: 'LOGOUT' })
         await props.navigation.replace('Login');
     }
 
+    const Alerts = () => {
+        Alert.alert(
+            "",
+            "Are you sure logout ?",
+            [
+                {
+                    text: "No",
+                    onPress: () => { }
+                },
+                {
+                    text: "Yes",
+                    onPress: () => { onLogOut() }
+                }
+            ]
+        )
+    }
 
-    
+
+    React.useEffect(()=>{
+        const backAction = () => {
+            Alert.alert("Hold on!", "Are you sure you want to exit ?", [
+              {
+                text: "Cancel",
+                onPress: () => null,
+                style: "cancel"
+              },
+              { text: "YES", onPress: () => BackHandler.exitApp() }
+            ]);
+            return true;
+          };
+      
+          const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+          );
+      
+          return () => backHandler.remove();
+    })
     return (
         <View style={styles.container}>
             <View style={styles.header.container}>
                 <View style={{width:"100%",height:80}}>
                     <TouchableOpacity style={{width:100,height:80,justifyContent:"center",marginLeft:"70%",
-                justifyContent:"center",alignItems:"center",}}
-                onPress={onLogOut}>
+                justifyContent:"center",alignItems:"center",marginTop:10}}
+                onPress={Alerts}>
                         <Text style={{color:"white"}}>Log out</Text>
                     </TouchableOpacity>
                 </View>
@@ -50,7 +89,7 @@ const HomeAdmin = (props) => {
                 onPress={()=>props.navigation.navigate("Riport")}
                 >
                 <FontAwesome5 name="server" size={50} color="gray" />
-                     <Text style={styles.menuButton.text}>report</Text>
+                     <Text style={styles.menuButton.text}>Data</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.menuButton.container} >
 

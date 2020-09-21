@@ -38,23 +38,21 @@ const Library = (props) => {
     });
     
     const onDelete = (createdAt,index) =>{
-        firebase.ref().child("Feed").child(`${uid}`).child(`${createdAt}`).remove()
-        setData(data.filter(index => index !== index));
+        let date = createdAt.split(',');
+        firebase.ref().child("Feed").child(`${uid}`).child(`${date[1]}`).remove()
+        setData()
     }
 
     const LibraryMemo = React.memo(LibraryList)
 
 
-    
+   
 useEffect(()=>{
-    firebase.ref().child('Feed').child(`${uid}`)
+    firebase.ref('Feed').child(`${uid}`)
     .on("value", snapshot => {
         if ( snapshot.val() !== null ) {
-        let  value = Object.values(snapshot.val())
-           value.reverse().forEach(data=>{
-               setData(prevState=>[...prevState,data])
-            
-           })
+            const value = Object.values(snapshot.val())
+       setData(value)
     
             
         }
@@ -92,6 +90,7 @@ useEffect(()=>{
                             index={index}
                             count={item.data}
                             onDelete={()=>onDelete(item.createdAt,index)}
+                            onPress={()=>props.navigation.navigate("LibraryDetail",{data:item.data})}
                                 />
                         }
                         keyExtractor={items => items.id}

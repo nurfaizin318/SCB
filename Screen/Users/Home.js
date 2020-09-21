@@ -9,8 +9,7 @@ import {
     Keyboard,
     FlatList,
     Alert,
-    BackHandler,
-    ActivityIndicator
+    BackHandler
 } from 'react-native';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -78,11 +77,29 @@ const Home = (props) => {
                     
                 }
             });
+            const backAction = () => {
+                Alert.alert("Hold on!", "Are you sure you want to exit ?", [
+                  {
+                    text: "Cancel",
+                    onPress: () => null,
+                    style: "cancel"
+                  },
+                  { text: "YES", onPress: () => BackHandler.exitApp() }
+                ]);
+                return true;
+              };
+          
+              const backHandler = BackHandler.addEventListener(
+                "hardwareBackPress",
+                backAction
+              );
+          
+              return () => backHandler.remove();
     }, [])
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss()}  >
             <Fragment>
-                <StatusBar backgroundColor={Dark.black20} tintColor="light" />
+                <StatusBar backgroundColor={Dark.black20} tintColor="light"/>
                 <View style={styles.container}>
                     <Text>{feed.created}{feed.name}</Text>
                         <View style={{...styles.userPanel}}>

@@ -48,7 +48,7 @@ const CardList = (props) => {
                         props.navigation.navigate('Edit', {
                             index: props.index,
                             organitation: props.organitation,
-                            actions: props.actions,
+                            actions : props.actions,
                             progress: props.progress,
                             contact1: props.contact1,
                             contact2: props.contact2,
@@ -56,7 +56,7 @@ const CardList = (props) => {
                             result: props.result,
                             id: props.id,
                             time: props.time,
-                            status:props.status,
+                        status:props.status,
                         })
                     }}>
                         <FontAwesome5 name="pen" size={14} color="white" />

@@ -22,10 +22,10 @@ const Loader = (props) =>
         getData = async()=>{
             if(isLogin == 'isLogin'){
                 if(status == "user"){
-                    props.navigation.replace("Home")
+                    props.navigation.navigate("Home")
                 }
                 if(status == "admin"){
-                    props.navigation.replace("HomeAdmin")
+                    props.navigation.navigate("HomeAdmin")
                 }
             }
             else{
@@ -39,7 +39,7 @@ const Loader = (props) =>
         <Fragment >         
            <StatusBar backgroundColor={Dark.black20} />
             <View style={styles.container}>
-                <ActivityIndicator  color={Dark.lightGreen} size={60}/>
+                <ActivityIndicator  color={Dark.lightGreen} size={40}/>
                  <View style={styles.text}>
                  <Text style={{color:'gray'}}>from :</Text>
        <Text style={{color:'gray'}}>{status}</Text>
