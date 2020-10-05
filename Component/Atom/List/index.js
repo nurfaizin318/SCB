@@ -57,6 +57,8 @@ const CardList = (props) => {
                             id: props.id,
                             time: props.time,
                         status:props.status,
+                        number:props.number,
+                        budget:props.budget
                         })
                     }}>
                         <FontAwesome5 name="pen" size={14} color="white" />
@@ -72,7 +74,8 @@ const CardList = (props) => {
                 <Text style={styles.body.text}>progress       :  {props.progress}%</Text>
                 <Text style={styles.body.text}>next plan      :  {props.nextPlan}</Text>
                 <Text style={styles.body.text}>result            :  {props.result}</Text>
-                <Text style={styles.body.text}>status            :  {props.status}</Text>
+                <Text style={styles.body.text}>budget          :  {props.budget}</Text>
+                <Text style={styles.body.text}>number         :  {props.number}</Text>
             </View>
         </Animated.View>
     )
@@ -84,7 +87,7 @@ const styles = {
     container: (width, height) => {
         return {
             width: width / 1.1,
-            height: height / 3.2,
+            height: height / 2.9,
             backgroundColor: Dark.black30,
             marginTop: 10,
             elevation: 3,

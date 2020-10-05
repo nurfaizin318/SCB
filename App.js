@@ -36,11 +36,14 @@ import LibraryDetail from "./Screen/Users/LibraryDetail"
 import HomeAdmin from "./Screen/Admin/HomeAdmin"
 import AddUser from "./Screen/Admin/AddUser";
 import UserList from "./Screen/Admin/UserList"
-import AddDataUser from "./Screen/Admin/AddDataUser";
 import Report from "./Screen/Admin/Report";
 import UserProfil from "./Screen/Admin/UserProfile";
-import ReportList from "./Screen/Admin/ReportList"
-import ReportDetail from "./Screen/Admin/ReportDetail"
+import ReportList from "./Screen/Admin/ReportList";
+import ReportDetail from "./Screen/Admin/ReportDetail";
+import Profile from "./Screen/Admin/Profile";
+
+import validate from "./Screen/Client/Validation"
+import validateId from "./Screen/Client/ValidationId"
 
 // import InsertOrganitation from './Screen/Users/insertOrganitation'
 import { Dark } from './Utils/';
@@ -141,13 +144,7 @@ const App = () => {
                   headerTintColor: "white"
                 }}
               />
-              <Stack.Screen name="AddDataUser" component={AddDataUser}
-                options={{
-                  headerShown: true, headerTitleAlign: "center",headerTitle:"Add Data User",
-                  headerStyle: { backgroundColor:"grey", },
-                  headerTintColor: "white"
-                }}
-              />
+             
                 <Stack.Screen name="Riport" component={Report}
                 options={{
                   headerShown: true, headerTitleAlign: "center",headerTitle:"Report",
@@ -176,6 +173,28 @@ const App = () => {
                   headerTintColor: "white"
                 }}
               />
+               <Stack.Screen name="Profile" component={Profile}
+                options={{
+                  headerShown: true, headerTitleAlign: "center",headerTitle:"Profile",
+                  headerStyle: { backgroundColor:"grey", },
+                  headerTintColor: "white"
+                }}
+              />
+               <Stack.Screen name="validate" component={validate}
+                options={{
+                  headerShown: true, headerTitleAlign: "center",headerTitle:"Select  Name",
+                  headerStyle: { backgroundColor:"grey", },
+                  headerTintColor: "white"
+                }}
+              />
+                <Stack.Screen name="validateId" component={validateId}
+                options={{
+                  headerShown: true, headerTitleAlign: "center",headerTitle:"Select  Name",
+                  headerStyle: { backgroundColor:"grey", },
+                  headerTintColor: "white"
+                }}
+              />
+
 
 
 

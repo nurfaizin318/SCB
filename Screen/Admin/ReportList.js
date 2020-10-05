@@ -26,8 +26,10 @@ React.useEffect(()=>{
             .on("value",(snapshot)=>{
                 const data = snapshot.val();
                 const translateData = Object.values(data);
+                console.log(translateData)
                 if(data !== null){
                     setReport(translateData)
+
                 }
                 else{
                     setReport([])

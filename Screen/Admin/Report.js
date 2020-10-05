@@ -25,7 +25,7 @@ const time = moment().format('MMM Do YYYY')
                     .on("value", (snapshot) => {
                         const data = snapshot.val();
                         if(data !== null){
-                            const translateData = Object.keys(data).reverse()
+                            const translateData = Object.keys(data)
                              setReport(translateData)
                         }else{
                             setReport([])

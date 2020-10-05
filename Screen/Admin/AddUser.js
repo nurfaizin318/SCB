@@ -1,5 +1,5 @@
 import React ,{useState} from 'react';
-import { View, Text, Button ,Alert,ScrollView} from "react-native";
+import { View, Text, Button ,Alert,ScrollView,ActivityIndicator} from "react-native";
 import { TextInputs } from "../../Component/";
 import { Dark } from "../../Utils";
 import db from "../../Config/config"
@@ -10,7 +10,7 @@ const AddUser = (props) => {
     const [password,setPassword]= useState("");
     const [repeatPassword,setRepeatPassword] = useState("");
     const [profile,setProfile] = useState({name:"",number:"",position:"",email:email,address:"",status:"user"})
-
+    const [load,setLoad] = useState(false)
     const auth = db.auth();
 
     const createUser = async () =>{
@@ -20,6 +20,7 @@ const AddUser = (props) => {
 
         }
         else{
+            setLoad(true)
             auth.createUserWithEmailAndPassword(email,password)
             .then((user)=>{
                 const firebase = db.firestore();
@@ -28,10 +29,12 @@ const AddUser = (props) => {
                     })
                     .then(function() {
                         alert("berhasil")
+                        props.navigation.navigate("UserList")
                     })
                     .catch(function(error) {
                         alert("gagal")
                     });
+                setLoad(false)
             })
             .catch(eror=>{
                 alert(eror)
@@ -40,10 +43,6 @@ const AddUser = (props) => {
             }
         }
       
-
-    const alerts = () => {
-        
-    }
     return (
         <View style={{ flex: 1, backgroundColor: Dark.black20 }}>
             <ScrollView>
@@ -61,6 +60,7 @@ const AddUser = (props) => {
             </Text>
                 <TextInputs 
                 onChangeText={(text)=>setPassword(text)}
+                secureTextEntry={true}
                 
                 />
             </View>
@@ -70,6 +70,8 @@ const AddUser = (props) => {
             </Text>
                 <TextInputs 
                 onChangeText={(text)=>{setRepeatPassword(text)}}
+                secureTextEntry={true}
+                
                 />
             </View>
             <View style={styles.input.container}>
@@ -110,9 +112,9 @@ const AddUser = (props) => {
             </View>
          
             <View style={{width:"100%",alignItems:"center",marginTop:20,paddingBottom:20}}>
-           
+           {load? <ActivityIndicator /> :
             <Button  title="submit" onPress={createUser}/>
-
+           }
             </View>
             </ScrollView>
         </View>

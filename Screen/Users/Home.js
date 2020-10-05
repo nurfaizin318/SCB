@@ -30,16 +30,11 @@ const Home = (props) => {
     const [feed, setFeed] = useState([])
 
     const recentData = useSelector(state => state.DataReducer.data)
-    const feedData = useSelector(state => state.DataReducer.feed)
     const name = useSelector(state => state.AuthReducer.name)
     const position = useSelector(state => state.AuthReducer.position)
-    const [load, setLoad] = useState({});
-    const reverseFeed = feed.reverse();
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
-    const uid = useSelector(state => state.AuthReducer.uid)
-
-   const  [data, setData] = useState(false)
+    const SplitName = name.split(" ");
     const Alerts = () => {
         Alert.alert(
             "",
@@ -61,7 +56,7 @@ const Home = (props) => {
     const onLogOut = async () => {
         await db.auth().signOut();
         await dispatch({ type: 'LOGOUT' })
-        await props.navigation.navigate('Login');
+        await props.navigation.replace('Login');
     }
 
     useEffect(() => {
@@ -69,7 +64,7 @@ const Home = (props) => {
             .on("child_added", snapshot => {
                 const value = Object.values(snapshot.val())
                 if (typeof snapshot !== null || typeof snapshot !== undefined) {
-                   value.reverse().forEach(data=>{
+                   value.forEach(data=>{
                        setFeed(prevState=>[...prevState,data])
                     
                    })
@@ -104,7 +99,7 @@ const Home = (props) => {
                     <Text>{feed.created}{feed.name}</Text>
                         <View style={{...styles.userPanel}}>
                             <View style={styles.thumnail.name}>
-                                <Text style={styles.thumnail.fontThumnail1}>{name}</Text>
+                                <Text style={styles.thumnail.fontThumnail1}>Hy, {SplitName[0]}</Text>
                                 <Text style={styles.thumnail.fontThumnail2}>{position}</Text>
                             </View>
                             <TouchableOpacity style={styles.settingIcon} onPress={() => { Alerts() }}>
@@ -117,9 +112,6 @@ const Home = (props) => {
                                     <Text style={styles.text(20)}>
                                         Recent
                                      </Text>
-                                    <TouchableOpacity style={styles.viewAll}>
-                                        <Text style={{ color: "gray" }}>View all </Text>
-                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.recent.body}>
                                     {ifFocused ?

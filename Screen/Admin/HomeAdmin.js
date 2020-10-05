@@ -69,8 +69,9 @@ const HomeAdmin = (props) => {
                         <Text style={{color:"white"}}>Log out</Text>
                     </TouchableOpacity>
                 </View>
+                <Text style={{fontSize:40,color:Dark.black40}}>Solusi Cipta Budaya</Text>
                 <Text style={styles.header.textWelcome}>Welcome</Text>
-                <Text style={styles.header.textName}>{name}</Text>
+                <Text style={styles.header.textName}>Admin</Text>
             </View>
             <View style={styles.buttonContainer1}>
                 <TouchableOpacity style={styles.menuButton.container}
@@ -91,8 +92,11 @@ const HomeAdmin = (props) => {
                 <FontAwesome5 name="server" size={50} color="gray" />
                      <Text style={styles.menuButton.text}>Data</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.menuButton.container} >
-
+                <TouchableOpacity style={styles.menuButton.container}
+                onPress={()=>props.navigation.navigate("Profile")}
+                >
+                <FontAwesome5 name="user-cog" size={50} color="gray" />
+                     <Text style={styles.menuButton.text}>Profile</Text>
                 </TouchableOpacity>
                 
                 

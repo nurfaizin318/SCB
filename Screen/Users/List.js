@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, FlatList, Dimensions, Animated, Clipboard, Modal, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar, FlatList, Dimensions, Animated, Clipboard, Modal, Alert, ActivityIndicator } from 'react-native';
 import { Dark } from '../../Utils';;
 import { CardList } from '../../Component';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,6 +24,7 @@ const List = (props) => {
     const name = useSelector(state => state.AuthReducer.name)
     const [visible, setVisible] = useState(false)
     const date = new Date();
+    const [load, setLoad] = useState(false);
 
 
 
@@ -80,40 +81,47 @@ const List = (props) => {
 
 
     let addItem = async () => {
+        setLoad(true)
         NetInfo.fetch().then(state => {
             if (state.isConnected === false) {
                 alert("network error")
+                setLoad(false)
             } else {
 
                 if (dataFromState.length == 0) {
                     alert("data is empty")
+                    setLoad(false)
                 }
                 else {
                     firebase.ref().child("Feed").child(`${uid}`).orderByChild("createdAt").equalTo(`${fullTime}`)
-                    .once("value", snap => {
-                        if (snap.exists()) {
-                            alert("data has uploaded")
-                        }
-                        if (!snap.exists()) {
-                            firebase.ref(`Customer_data/${time}`)
-                                .child(`${uid}`)
-                                .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
-                                .then(() => {
-                                    firebase.ref(`Feed`).child(`${uid}`)
-                                        .child(`${time}`)
-                                        .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
-                                    alert("berhasil")
-                                })
-                        dispatch({type:"ON_RESET"})
-                        }
-                    }).catch(e=>{
-                        alert(e)
-                    })
+                        .once("value", snap => {
+                            if (snap.exists()) {
+                                alert("data has uploaded")
+                                setLoad(false)
+                            }
+                            if (!snap.exists()) {
+                                firebase.ref(`Customer_data/${time}`)
+                                    .child(`${uid}`)
+                                    .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
+                                    .then(() => {
+                                        firebase.ref(`Feed`).child(`${uid}`)
+                                            .child(`${time}`)
+                                            .set({ 'name': name, 'createdAt': fullTime, 'data': dataFromState })
+                                        alert("berhasil")
+                                        setLoad(false)
+                                    })
+                                dispatch({ type: "ON_RESET" })
+                            }
+                        }).catch(e => {
+                            alert(e)
+                            setLoad(false)
+                        })
                 }
-              
+
             }
         }).catch((e) => {
             alert(e)
+            setLoad(false)
         })
     };
     return (
@@ -137,8 +145,13 @@ const List = (props) => {
                                 <TouchableOpacity
                                     onPress={addItem}
                                     style={styles.modal.btn}>
-                                    <FontAwesome5 name="location-arrow" size={20} color="grey" />
+                                    {load ?
+                                     <ActivityIndicator /> :
+
+                                        <FontAwesome5 name="location-arrow" size={20} color="grey" />
+                                    }
                                 </TouchableOpacity>
+
                                 <Text style={styles.modal.text}>
                                     Report
                             </Text>
@@ -214,6 +227,8 @@ const List = (props) => {
                                 status={item.status}
                                 time={item.time}
                                 index={index}
+                                budget={item.budget}
+                                number={item.number}
                                 onDelete={() => { onDelete(item.id) }}
                             />
                         }

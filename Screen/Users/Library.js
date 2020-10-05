@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef, useCallback } from 'react';
-import {useSelector,useDispatch} from "react-redux"
+import {useSelector,useDispatch} from "react-redux";
 import {
     View,
     Text,
@@ -16,9 +16,7 @@ import db from "../../Config/config"
 const Library = (props) => {
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
-    const feedData = useSelector(state=>state.FeedReducer.feed)
     const dispatch = useDispatch();
-    const reserveFeed = feedData.reverse();
     const scrollValue = useRef(new Animated.Value(0)).current;
     const firebase = db.database();
     const uid = useSelector(state => state.AuthReducer.uid);
@@ -37,24 +35,23 @@ const Library = (props) => {
 
     });
     
-    const onDelete = (createdAt,index) =>{
-        let date = createdAt.split(',');
-        firebase.ref().child("Feed").child(`${uid}`).child(`${date[1]}`).remove()
-        setData()
-    }
+    // const onDelete = (createdAt,indexof) =>{
+    //     let date = createdAt.split(',');
+    //     firebase.ref().child("Feed").child(`${uid}`).child(`${date[1]}`).remove()
+    //    const filtered = data.filter(index =>index !== indexof);
+    //    setData(filtered)
+    // }
 
     const LibraryMemo = React.memo(LibraryList)
 
 
    
 useEffect(()=>{
-    firebase.ref('Feed').child(`${uid}`)
+    firebase.ref('Feed').child(`${uid}`).limitToLast(7)
     .on("value", snapshot => {
         if ( snapshot.val() !== null ) {
             const value = Object.values(snapshot.val())
-       setData(value)
-    
-            
+       setData(value.reverse())
         }
     });
     
@@ -64,7 +61,6 @@ useEffect(()=>{
         <Fragment>
             <StatusBar backgroundColor={Dark.black30}  barStyle='default' />
             <View style={styles.container}>
-               
                 <Animated.View style={{ width: width, height: 90, transform: [{ translateY:inputOffsetX}], marginTop: -20, paddingHorizontal: 20, justifyContent: "center" }}>
                     <Text style={{ fontSize: 25, fontWeight: '600', color:'grey'}}>Library</Text>
                     <Text style={{ fontSize: 15, fontWeight: '600', color:'grey',marginBottom:5}}>all report here !</Text>
@@ -89,7 +85,6 @@ useEffect(()=>{
                             time={item.createdAt}
                             index={index}
                             count={item.data}
-                            onDelete={()=>onDelete(item.createdAt,index)}
                             onPress={()=>props.navigation.navigate("LibraryDetail",{data:item.data})}
                                 />
                         }

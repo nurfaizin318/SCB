@@ -64,15 +64,15 @@ const Login = (props) => {
                 })
 
                 if(docs.data().profile.status === "user"){
-                    props.navigation.push("Home")
+                    props.navigation.navigate("Home")
                 }
                 else if(docs.data().profile.status === "admin"){
-                    props.navigation.push("HomeAdmin")
+                    props.navigation.navigate("HomeAdmin")
                 }
                
 
               })
-setLoad(false)
+                setLoad(false)
         })
           .catch(error => {alert(error),setLoad(false)})
 
@@ -132,10 +132,10 @@ setLoad(false)
                     </View>
                     <View style={styles.spacer(30)} />
                     <View>
-                        <Text style={styles.box.text}>username</Text>
+                        <Text style={styles.box.text}>Email</Text>
                         <View style={styles.box.input}>
                             <TextInputs
-                                placeholder="username"
+                                placeholder="Email"
                                 onChangeText={(value) => setUsername(value)}
                             />
 
@@ -159,6 +159,12 @@ setLoad(false)
                             <Button title="login" color={Dark.lightOrange} onPress={() => { onLogin() }} />
                         }
                     </View>
+                    <View style={styles.box.button}>
+                        {load ? <ActivityIndicator /> :
+                            <Button title="guest" color={Dark.lightGreen} onPress={() => props.navigation.navigate("validate")} />
+                        }
+                    </View>
+                    
                 </Animated.View>
             </View>
         </Fragment>

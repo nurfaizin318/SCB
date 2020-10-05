@@ -32,6 +32,10 @@ const Insert = (props) => {
     const [progress, setProgress] = useState(0);
     const [nextPlan, setNextPlan] = useState("");
     const [result, setResult] = useState("");
+    const [number,setNumber] = useState("");
+    const [budget,setbudget] = useState("");
+
+
     [all, setAll] = useState([])
 
     const date = new Date();
@@ -50,12 +54,15 @@ const Insert = (props) => {
             id: id,
             time: timeNow,
             status: 'Un Closing',
+            budget:budget,
+            number:number,
+            validate:false,
             score: progress < 20 ? 0 : progress / 20
         }
 
         try {
             let j = 0;
-            setAll([organitation, actions, contact1, contact2, nextPlan, result])
+            setAll([organitation, actions, contact1, contact2, nextPlan, result,budget,number])
             for (var i = 0; i < all.length; i++) {
                 if (all[i].trim() == "" > 0) {
                     j++
@@ -208,6 +215,27 @@ const Insert = (props) => {
                         </View>
                         <TextInputs
                             onChangeText={(value) => { setResult(value) }} />
+                    </View>
+                    <View style={styles.result.container}>
+                        <View style={styles.title.container}>
+                            <Text style={styles.title.important}>
+                                *
+                         </Text>
+                            <Text style={styles.title.text 
+                            }>Phone Number</Text>
+                        </View>
+                        <TextInputs
+                            onChangeText={(value) => { setNumber(value) }} />
+                    </View>
+                    <View style={styles.result.container}>
+                        <View style={styles.title.container}>
+                            <Text style={styles.title.important}>
+                                *
+                         </Text>
+                            <Text style={styles.title.text}>Budget</Text>
+                        </View>
+                        <TextInputs
+                            onChangeText={(value) => { setbudget(value) }} />
                     </View>
                     <View style={styles.buttomButton}>
                         <View style={styles.buttomButton.container}>

@@ -1,6 +1,7 @@
 import React,{useRef,useEffect} from 'react';
 import { View, Text, TouchableOpacity, Dimensions,Animated } from 'react-native';
-import { Dark } from '../../../Utils'
+import { Dark } from '../../../Utils';
+import moment from 'moment';
 
 const LibraryList = (props) => {
 
@@ -9,6 +10,8 @@ const LibraryList = (props) => {
     const height = Dimensions.get('window').height;
     const width = Dimensions.get('window').width;
     const animatedValue = useRef(new Animated.Value(0)).current;
+    const time = moment().format('MMM Do YYYY');
+
    
     const animatedCard = animatedValue.interpolate({
         inputRange:[0,1],
@@ -31,21 +34,17 @@ const LibraryList = (props) => {
         <TouchableOpacity style={{ ...styles.container, width: width, height: height / 5,transform:[{translateY:animatedCard}] }}
         onPress={props.onPress}
         >
-            <View style={{ ...styles.subContainer, width: width / 1.1, }}>
+            <View style={{ ...styles.subContainer, width: width / 1.1,backgroundColor:fullTime[1] == time ?Dark.lightGreen: Dark.lightOrange }}>
                 <View style={styles.circle.big} />
                 <View style={styles.circle.litle} />
                 <View style={styles.child.container}>
                     <View style={styles.child.left}>
                         <Text style={{ ...styles.text, marginTop: 10,fontSize:30 }}> {fullTime[0]}</Text>
-                        <Text style={{...styles.text }} >{fullTime[1]}</Text>
-                        <Text style={{...styles.text,marginTop:10}}> {props.count.length} items</Text>
+                        <Text style={{...styles.text,marginLeft:10 }} >{fullTime[1]}</Text>
+                        <Text style={{...styles.text,marginTop:10,marginLeft:4}}> {props.count.length} items</Text>
                     </View>
                     <View style={styles.child.right}>
-                        <TouchableOpacity style={styles.buttonDelete} onPress={props.onDelete}>
-                            <Text>
-                                delete
-                            </Text>
-                        </TouchableOpacity>
+                      
                     </View>
                 </View>
 
@@ -63,7 +62,6 @@ const styles = {
     subContainer: {
         height: '90%',
         borderRadius: 10,
-        backgroundColor:'#FF7043',
         borderRadius: 10,
         overflow: "hidden"
     },
@@ -100,12 +98,7 @@ const styles = {
             height: "100%", 
             alignItems: "flex-end" }
     },
-    buttonDelete:{
-        width: 80, 
-        height: 50, 
-        justifyContent: "center", 
-        alignItems: "center" 
-    },
+  
     text:{
         fontSize: 20, 
         color: Dark.black30,
